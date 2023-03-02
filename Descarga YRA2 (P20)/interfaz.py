@@ -21,7 +21,7 @@ class InputForm:
         self.username_input = tk.Entry(master)
         self.username_input.insert(0, self.login_info['username'])
         self.username_input.grid(row=0, column=1, padx=5, pady=5)
-        
+        print("soy miguel el pana 1!!")
         self.password_label = tk.Label(master, text='Password:')
         self.password_label.grid(row=1, column=0, padx=5, pady=5)
         self.password_input = tk.Entry(master, show='*')
