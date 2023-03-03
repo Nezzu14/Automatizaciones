@@ -25,7 +25,7 @@ def Descargar_GIC():
     driver.find_element(By.LINK_TEXT, "Export Excel").click()
     
     # wait for the download
-    time.sleep(2)
+    time.sleep(15)
 
     #   En teoria deberia permitir la descarga del archivo "corrupto"
     # time.sleep(20)

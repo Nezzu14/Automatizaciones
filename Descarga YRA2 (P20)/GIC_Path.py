@@ -10,7 +10,7 @@ class Archivo_GIC:
         
         self.master = master
 
-        master.title('Confirmar la Descarga') #Titulo en el Pop up de ingresar Usuario y contraeña
+        master.title('Confirmar la Descarga del Archivo GIC') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # Load saved Path if they exist
         try:
@@ -20,12 +20,28 @@ class Archivo_GIC:
             self.Path_GIC = {'Path': '', 'Nombre_GIC': ''}
 
         # Create labels and input fields
-        self.Path_label = tk.Label(master, text='Click a "Conservar" en la ventana de descarga, si no esta abierta abrirla y "Conservar el archivo"')
+        self.Path_label = tk.Label(master, text='SEGUIR LAS SIGUIENTES INDICACIONES (Si Edge te solicita conservar o eliminar el archivo GIC):')
         self.Path_label.grid(row=0, column=0, padx=30, pady=10)
+
+        self.Path_label = tk.Label(master, text='1. Abrir la Ventana de Edge de "DataQ Production" que se acaba de ejecutar')
+        self.Path_label.grid(row=2, column=0, padx=30, pady=10)
+
+        self.Path_label = tk.Label(master, text='2. Click a "Conservar" en la ventana de descarga de Edge, si no esta abierta, abrirla y clickear "Conservar el archivo"')
+        self.Path_label.grid(row=3, column=0, padx=30, pady=10)
+
+        self.Path_label = tk.Label(master, text='3. Una vez "Conservado el archivo" darle click a SUBMIT para continuar el proceso')
+        self.Path_label.grid(row=4, column=0, padx=30, pady=10)
+
+        self.Path_label = tk.Label(master, text='NOTA. Si no hay Ventana de Edge de "DataQ Production" abierta, entonces clickear SUBMIT')
+        self.Path_label.grid(row=6, column=0, padx=30, pady=10)
+
 
         # Create submit button
         self.submit_button = tk.Button(master, text='Submit', command=self.submit)
-        self.submit_button.grid(row=6, column=1, padx=5, pady=5)
+        self.submit_button.grid(row=7, column=0, padx=5, pady=5)
+
+        # Lift the window to the front
+        self.master.attributes('-topmost', True)
 
     def submit(self):
        
@@ -40,6 +56,7 @@ class Archivo_GIC:
             pickle.dump(self.Path_GIC, f)
 
         #   Esto permte que se cierre la ventana emergente con self.master.destroy() pero que las variables no se borren
+
         return
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
