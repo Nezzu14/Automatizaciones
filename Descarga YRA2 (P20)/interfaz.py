@@ -2,6 +2,7 @@ import tkinter as tk
 import open_sap
 import pickle
 
+print("Hola mundo")
 
 class InputForm:
     def __init__(self, master):
