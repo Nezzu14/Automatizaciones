@@ -2,8 +2,8 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-#import shutil    
-import os
+#import shutil
+#import os
 import time
 from GIC_Path import Archivo_GIC
 import tkinter as tk
@@ -23,18 +23,6 @@ def Descargar_GIC():
     driver.switch_to.frame(0)
     driver.find_element(By.CSS_SELECTOR, "td:nth-child(2) tr:nth-child(3) span").click()
     driver.find_element(By.LINK_TEXT, "Export Excel").click()
-
-   
-
-    
-    directorio_destino = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2', filename)
-
-
-    dlg = pywinauto.Desktop(backend="uia").EdgeSaveAsDialog
-    dlg.wait('visible')
-    dlg['Edit'].type_keys(directorio_destino)
-    dlg['Save'].click()
-
     
     # wait for the download
     time.sleep(2)

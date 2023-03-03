@@ -10,11 +10,13 @@ def Mover_GIC():
         ruta_archivo = download_directory + filename + ".slk"
         directorio_destino = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
 
+        print("========================================================================")
         print("=====================================download directory: " + download_directory)
         print("=====================================filename: " + filename)
         print("=====================================ruta archivo: " + ruta_archivo)
         print("=====================================directorio destino: " + directorio_destino)
-
+        print("========================================================================")
+        
         # Cortar el archivo al directorio de destino
         shutil.move(ruta_archivo, directorio_destino)
         print("=====================================ruta archivo pegado: " + ruta_archivo)

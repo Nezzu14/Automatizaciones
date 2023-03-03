@@ -10,7 +10,7 @@ class Archivo_GIC:
         
         self.master = master
 
-        master.title('Path del Archivo de GIC') #Titulo en el Pop up de ingresar Usuario y contraeña
+        master.title('Confirmar la Descarga') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # Load saved Path if they exist
         try:
@@ -20,46 +20,21 @@ class Archivo_GIC:
             self.Path_GIC = {'Path': '', 'Nombre_GIC': ''}
 
         # Create labels and input fields
-        self.Path_label = tk.Label(master, text='Click a "Conservar" en el Pop up de la descarga')
+        self.Path_label = tk.Label(master, text='Click a "Conservar" en la ventana de descarga, si no esta abierta abrirla y "Conservar el archivo"')
         self.Path_label.grid(row=0, column=0, padx=30, pady=10)
-        
-
-        self.Path_label = tk.Label(master, text='Path - Direccion del archivo (Downloads o Descargas):      ')
-        self.Path_label.grid(row=2, column=0, padx=30, pady=10)
-        self.Path_input = tk.Entry(master)
-        self.Path_input.insert(0, self.Path_GIC['Path'])
-        self.Path_input.grid(row=2, column=1, padx=30, pady=10)
-
-        self.Nombre_GIC_label = tk.Label(master, text='Nombre_GIC:      ')
-        self.Nombre_GIC_label.grid(row=4, column=0, padx=30, pady=10)
-        self.Nombre_GIC_input = tk.Entry(master)
-        self.Nombre_GIC_input.insert(0, self.Path_GIC['Nombre_GIC'])
-        self.Nombre_GIC_input.grid(row=4, column=1, padx=30, pady=10)
 
         # Create submit button
         self.submit_button = tk.Button(master, text='Submit', command=self.submit)
         self.submit_button.grid(row=6, column=1, padx=5, pady=5)
 
     def submit(self):
-        # Get the values of the input fields and do something with them
-        Path = self.Path_input.get()
-        Nombre_GIC = self.Nombre_GIC_input.get()
-        print("========================================================================")
-        print("--------- path: " + Path) 
-        print("--------- Nombre GIC: " + Nombre_GIC)
-        print("========================================================================")
-
+       
         #   Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
         self.master.destroy()
 
 
         #   SE EJECUTA MOVER EL GIC
-        #GIC_Mover.Mover_GIC(Nombre_GIC)
-
-
-        # Save the login information
-        self.Path_GIC['Path'] = Path
-        self.Path_GIC['Nombre_GIC'] = Nombre_GIC
+        GIC_Mover.Mover_GIC()
        
         with open('Path_GIC.bin', 'wb') as f:
             pickle.dump(self.Path_GIC, f)
