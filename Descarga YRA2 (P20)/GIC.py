@@ -11,12 +11,8 @@ import tkinter as tk
 def Descargar_GIC():   
 
     #    Inicializa el navegador Edge con las opciones configuradas
-    #edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
-    #driver = webdriver.Edge(executable_path=edge_driver_path)
-
-    options = webdriver.EdgeOptions()
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Edge(options=options)
+    edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
+    driver = webdriver.Edge(executable_path=edge_driver_path)
 
     #driver = webdriver.Edge()
 
@@ -29,7 +25,12 @@ def Descargar_GIC():
     
     # wait for the download
     #time.sleep(30)
-    time.sleep(2)
+
+    #   En teoria deberia permitir la descarga del archivo "corrupto"
+    time.sleep(20)
+    alert = driver.switch_to.alert
+    alert.accept()
+    time.sleep(5)
 
     #   Ejecutar buscar el Path del Archivo del GIC (Class)
     root = tk.Tk()
