@@ -11,11 +11,22 @@ import pywinauto
 
 def Descargar_GIC():   
 
-    #    Inicializa el navegador Edge con las opciones configuradas
+    print("========================================================================================================================")
+    print("====INICIALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
+    print("========================================================================================================================\n")
+
+
+
+    # ----Inicializa el navegador Edge con las opciones configuradas (Genera error -Abre sin el usuario-)
     edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
     driver = webdriver.Edge(executable_path=edge_driver_path)
 
+    # ----Inicia el navegador Edge (-Abre sin el usuario-) Alternatuiva 2
     #driver = webdriver.Edge()
+
+    print("========================================================================")
+    print("----Inicio del Navegador Edge")
+    print("========================================================================\n")
 
     # Direccionamiento a la Pagina de GIC y descarga el archivo de GIC
     driver.get('http://dataq-prod.int.net.nokia.com:7780/')
@@ -23,6 +34,10 @@ def Descargar_GIC():
     driver.switch_to.frame(0)
     driver.find_element(By.CSS_SELECTOR, "td:nth-child(2) tr:nth-child(3) span").click()
     driver.find_element(By.LINK_TEXT, "Export Excel").click()
+
+    print("========================================================================")
+    print("----Descargando Archivo GIC")
+    print("========================================================================\n")
     
     # wait for the download
     time.sleep(15)
@@ -41,6 +56,11 @@ def Descargar_GIC():
 
     # close the browser
     driver.quit()
+
+    print("========================================================================================================================")
+    print("====FINALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
+    print("========================================================================================================================\n")
+
 
 #  Ejecutar Descarga_GIC junto a Buscar Archivo del GIC
 if __name__ == '__main__':
