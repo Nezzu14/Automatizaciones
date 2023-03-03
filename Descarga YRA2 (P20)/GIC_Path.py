@@ -54,7 +54,7 @@ class Archivo_GIC:
 
 
         #SE EJECUTA MOVER EL GIC
-        GIC_Mover.Mover_GIC(Path, Nombre_GIC)
+        GIC_Mover.Mover_GIC(Nombre_GIC)
 
 
         # Save the login information

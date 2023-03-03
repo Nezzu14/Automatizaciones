@@ -11,8 +11,12 @@ import tkinter as tk
 def Descargar_GIC():   
 
     #    Inicializa el navegador Edge con las opciones configuradas
-    edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
-    driver = webdriver.Edge(executable_path=edge_driver_path)
+    #edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
+    #driver = webdriver.Edge(executable_path=edge_driver_path)
+
+    options = webdriver.EdgeOptions()
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Edge(options=options)
 
     #driver = webdriver.Edge()
 
