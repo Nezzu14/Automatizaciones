@@ -20,7 +20,7 @@ def descargar(session, variante, username):
         # Indicativo de la fecha actual
         fecha= "{:%Y_%m_%d}".format(datetime.now())
 
-        print("DESCARGAR ===========")
+        print("======================================= ENTRANDO A YRA2 =======================================")
         directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
         try:
            os.stat(directorio)
@@ -38,6 +38,8 @@ def descargar(session, variante, username):
         session.findById("wnd[1]/usr/txtAENAME-LOW").caretPosition = 8
         session.findById("wnd[1]/tbar[0]/btn[8]").press()
         session.findById("wnd[0]/tbar[1]/btn[8]").press()
+    
+        print("======================================= ENTRANDO A YRA2 =======================================")
     
         #   Se empezara a descargar el Archivo de GIC
         GIC.Descargar_GIC()
@@ -61,6 +63,7 @@ def descargar(session, variante, username):
 # This function will Login to SAP from the SAP Logon window
 
 def saplogin(variante, username, password):
+
     try:
         path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
         subprocess.Popen(path)

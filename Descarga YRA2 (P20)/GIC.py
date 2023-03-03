@@ -24,15 +24,15 @@ def Descargar_GIC():
     driver.find_element(By.LINK_TEXT, "Export Excel").click()
     
     # wait for the download
-    #time.sleep(30)
+    time.sleep(25)
 
     #   En teoria deberia permitir la descarga del archivo "corrupto"
-    time.sleep(20)
-    alert = driver.switch_to.alert
-    alert.accept()
-    time.sleep(5)
+    # time.sleep(20)
+    # alert = driver.switch_to.alert
+    # alert.accept()
+    # time.sleep(5)
 
-    #   Ejecutar buscar el Path del Archivo del GIC (Class)
+    #   Ejecutar buscar el Path del Archivo del GIC (Class) es decir Ejecuta el archivo py. GIC_Path
     root = tk.Tk()
     root.iconbitmap(r"C:\Users\migumart\OneDrive - Nokia\Archivos personales\Automatizacion Python\Descarga YRA2 (P20)\nokia.ico")
     input_form = Archivo_GIC(root)

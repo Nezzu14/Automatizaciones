@@ -8,12 +8,8 @@ import GIC_Mover
 class Archivo_GIC:
     def __init__(self, master):
         
-        #   Increase window size
-        #self.master_width = 1500
-        #self.master_height = 700
-        
         self.master = master
-        #master.configure(width=self.master_width, height=self.master_height)
+
         master.title('Path del Archivo de GIC') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # Load saved Path if they exist
@@ -52,6 +48,9 @@ class Archivo_GIC:
         print(Path) 
         print(Nombre_GIC)
 
+        #   Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
+        self.master.destroy()
+
 
         #SE EJECUTA MOVER EL GIC
         GIC_Mover.Mover_GIC(Nombre_GIC)
@@ -63,6 +62,9 @@ class Archivo_GIC:
        
         with open('Path_GIC.bin', 'wb') as f:
             pickle.dump(self.Path_GIC, f)
+
+        #   Esto permte que se cierre la ventana emergente con self.master.destroy() pero que las variables no se borren
+        return
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
 #if __name__ == '__main__':

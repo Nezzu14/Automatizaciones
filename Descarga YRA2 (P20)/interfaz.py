@@ -2,8 +2,6 @@ import tkinter as tk
 import open_sap
 import pickle
 
-print("Hola mundo")
-
 class InputForm:
     def __init__(self, master):
         self.master = master
@@ -46,6 +44,9 @@ class InputForm:
         variante = self.text_input.get()
         print(variante)
 
+        #   Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
+        self.master.destroy()
+        
 
         #SE EJECUTA ABRIR SAP y DESCARGA DE GIC
         open_sap.saplogin(variante,username, password) 
@@ -58,6 +59,10 @@ class InputForm:
        
         with open('login_info.bin', 'wb') as f:
             pickle.dump(self.login_info, f)
+
+
+        #   Esto permte que se cierre la ventana emergente con self.master.destroy() pero que las variables no se borren
+        return
 
 if __name__ == '__main__':
     root = tk.Tk()
