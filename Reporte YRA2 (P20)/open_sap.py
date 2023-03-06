@@ -8,56 +8,7 @@ import os
 from tkinter import *
 import disable
 import win32gui
-import GIC
-
-
-
-def descargar(session, variante, username):
-        
-        print(username)
-        username= username
-
-        # Indicativo de la fecha actual
-        fecha= "{:%Y_%m_%d}".format(datetime.now())
-
-        print("======================================= ENTRANDO A YRA2 =======================================")
-        directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
-        try:
-           os.stat(directorio)
-        except:
-           os.mkdir(directorio)
-        
-        #Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
-        session.findById("wnd[0]").maximize()
-        session.findById("wnd[0]/tbar[0]/okcd").text = "yra2"
-        session.findById("wnd[0]").sendVKey (0)
-        session.findById("wnd[0]/tbar[1]/btn[17]").press()
-        session.findById("wnd[1]/usr/txtENAME-LOW").text = ""
-        session.findById("wnd[1]/usr/txtAENAME-LOW").text = variante
-        session.findById("wnd[1]/usr/txtAENAME-LOW").setFocus()
-        session.findById("wnd[1]/usr/txtAENAME-LOW").caretPosition = 8
-        session.findById("wnd[1]/tbar[0]/btn[8]").press()
-        session.findById("wnd[0]/tbar[1]/btn[8]").press()
-    
-        print("======================================= ENTRANDO A YRA2 =======================================")
-    
-        #   Se empezara a descargar el Archivo de GIC
-        GIC.Descargar_GIC()
-
-        # Path de como descargar el YRA2
-        session.findById("wnd[0]").maximize()
-        session.findById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").select()
-        session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").select()
-        session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").setFocus()
-        session.findById("wnd[1]/tbar[0]/btn[0]").press()
-
-        # Pop up de ingreso de datos de la descarga
-        session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio
-        session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
-        session.findById("wnd[1]/tbar[0]/btn[11]").press()
-        session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
-        session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
-
+import GIC_Descarga
 
 #puede llegar a fallar el codigo cuando por ejemplo, si el archivo ya existe y se trata de sobrescribir 
 # This function will Login to SAP from the SAP Logon window
@@ -174,3 +125,51 @@ def saplogin(variante, username, password):
     
     exit()
        
+
+def descargar(session, variante, username):
+        
+        print(username)
+        username= username
+
+        # Indicativo de la fecha actual
+        fecha= "{:%Y_%m_%d}".format(datetime.now())
+
+        print("======================================= ENTRANDO A YRA2 =======================================")
+        directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
+        try:
+           os.stat(directorio)
+        except:
+           os.mkdir(directorio)
+        
+        #Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
+        session.findById("wnd[0]").maximize()
+        session.findById("wnd[0]/tbar[0]/okcd").text = "yra2"
+        session.findById("wnd[0]").sendVKey (0)
+        session.findById("wnd[0]/tbar[1]/btn[17]").press()
+        session.findById("wnd[1]/usr/txtENAME-LOW").text = ""
+        session.findById("wnd[1]/usr/txtAENAME-LOW").text = variante
+        session.findById("wnd[1]/usr/txtAENAME-LOW").setFocus()
+        session.findById("wnd[1]/usr/txtAENAME-LOW").caretPosition = 8
+        session.findById("wnd[1]/tbar[0]/btn[8]").press()
+        session.findById("wnd[0]/tbar[1]/btn[8]").press()
+    
+        print("======================================= ENTRANDO A YRA2 =======================================")
+    
+        #   Se empezara a descargar el Archivo de GIC
+        GIC_Descarga.Descargar_GIC()
+
+        # Path de como descargar el YRA2
+        session.findById("wnd[0]").maximize()
+        session.findById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").select()
+        session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").select()
+        session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").setFocus()
+        session.findById("wnd[1]/tbar[0]/btn[0]").press()
+
+        # Pop up de ingreso de datos de la descarga
+        session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio
+        session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
+        session.findById("wnd[1]/tbar[0]/btn[11]").press()
+        session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
+        session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
+
+
