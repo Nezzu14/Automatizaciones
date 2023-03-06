@@ -60,10 +60,10 @@ class Archivo_GIC:
         return
 
 #   """"En dado caso que quiera ejecutarlo aca en el archivo:""""
-if __name__ == '__main__':
-   root = tk.Tk()
-   root.iconbitmap(r"C:\Users\migumart\OneDrive - Nokia\Archivos personales\Automatizacion Python\Descarga YRA2 (P20)\nokia.ico")
-   # el "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-   input_form = Archivo_GIC(root)
-   root.mainloop()
+# if __name__ == '__main__':
+#    root = tk.Tk()
+#    root.iconbitmap(r"C:\Users\migumart\OneDrive - Nokia\Archivos personales\Automatizacion Python\Descarga YRA2 (P20)\nokia.ico")
+#    # el "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
+#    input_form = Archivo_GIC(root)
+#    root.mainloop()
 
