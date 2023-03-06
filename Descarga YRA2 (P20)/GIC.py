@@ -15,22 +15,23 @@ def Descargar_GIC():
     print("====INICIALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
     print("========================================================================================================================\n")
 
-
-
     # ----Inicializa el navegador Edge con las opciones configuradas (Genera error -Abre sin el usuario-)
-    edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
-    driver = webdriver.Edge(executable_path=edge_driver_path)
+    #edge_driver_path="C:\Program Files (x86)\Microsoft\Edge\Application\msedgedriver.exe"
+    #driver = webdriver.Edge(executable_path=edge_driver_path)
 
-    # ----Inicia el navegador Edge (-Abre sin el usuario-) Alternatuiva 2
-    #driver = webdriver.Edge()
+    # ----Inicia el navegador Edge (-Abre sin el usuario-) Alternatuiva 2 (Se ejecuta en Edge como Codigo de prueba ?)
+    driver = webdriver.Edge()
 
     print("========================================================================")
     print("----Inicio del Navegador Edge")
     print("========================================================================\n")
 
+    # ----Minimizar la ventana de Edge (Solo funciona para el inicio)
+    driver.minimize_window()
+
     # Direccionamiento a la Pagina de GIC y descarga el archivo de GIC
     driver.get('http://dataq-prod.int.net.nokia.com:7780/')
-    driver.set_window_size(1296, 696)
+    driver.set_window_size(1500, 700)
     driver.switch_to.frame(0)
     driver.find_element(By.CSS_SELECTOR, "td:nth-child(2) tr:nth-child(3) span").click()
     driver.find_element(By.LINK_TEXT, "Export Excel").click()
