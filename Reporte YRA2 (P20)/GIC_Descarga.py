@@ -11,7 +11,7 @@ def Descargar_GIC():
     print("==============================================================================================================\n")
 
     # ----Define la variable url que contiene la dirección URL del archivo que se va a descargar
-    url = "http://dataq-prod.int.net.nokia.com:7780/pls/apex/f?p=115:8:4397957325663150:PRINT_SIG:NO:"
+    url = "http://dataq-prod.int.net.nokia.com:7780/pls/apex/f?p=115:8::CSV::::"    
 
     print("========================================================================")
     print("----Descargando Archivo GIC")
@@ -20,7 +20,7 @@ def Descargar_GIC():
     fecha= "{:%Y_%m_%d}".format(datetime.now())
     
     # ----Define la variable filename que contiene el nombre que se le dará al archivo descargado en el sistema local.
-    filename_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List_" + fecha + ".slk"
+    filename_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".slk"
     filename = "F&C GIC - SIG PC List_" + fecha + ".slk"
     print(filename)
     response = requests.get(url)
