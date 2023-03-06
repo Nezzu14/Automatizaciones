@@ -10,13 +10,18 @@ import disable
 import win32gui
 import GIC_Descarga
 
-#puede llegar a fallar el codigo cuando por ejemplo, si el archivo ya existe y se trata de sobrescribir 
-# This function will Login to SAP from the SAP Logon window
-
+# ----This function will Login to SAP from the SAP Logon window
 def saplogin(variante, username, password):
 
+    print("==============================================================================================================")
+    print("====INICIALIZACION DE -SAP LOGIN-")
+    print("==============================================================================================================\n")
+
     try:
+
+        # ----Path del ejecutable de SAP
         path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
+
         subprocess.Popen(path)
         hwnd = 0
         start_time = time.time()
@@ -38,11 +43,12 @@ def saplogin(variante, username, password):
         if application.Connections.Count==0 : 
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
             session = connection.Sessions(0)
+            # ----Ingreso de Usuario y Contraseña
             session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
             session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
             session.findById("wnd[0]").sendVKey(0)
         else: 
-            if application.Connections.Count<2:
+            if application.Connections.Count<8:
                   connection= application.Connections(0)
                   session = connection.Sessions(0)
                   session.CreateSession()
@@ -54,8 +60,6 @@ def saplogin(variante, username, password):
             application = None
             SapGuiAuto = None
             return
-      
-
   
         if not type(session) == win32com.client.CDispatch:
             connection = None
@@ -63,9 +67,12 @@ def saplogin(variante, username, password):
             SapGuiAuto = None
             return
          
-         
         username= username
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
         descargar(session, variante, username)
+        #--------------------------------------------------------------------------------------------------------------------
+
          
         disable.Deshabiiltar_error()
 
@@ -76,13 +83,15 @@ def saplogin(variante, username, password):
 
         win.attributes('-topmost', True)
         #Set the geometry of frame
-        win.geometry("600x250")
-        
+        win.geometry("400x140")
+        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.title("DATOS INCORRECTOS")
+
         def close_win():
            win.destroy()
         
         #Create a text label
-        Label(win,text=sys.exc_info(), font=('Helvetica',10)).pack(pady=20)
+        Label(win,text='Usuario y/o Contraseña incorrecta\nDarle a Quit dos veces y volver a iniciar el programa', font=('Helvetica',10)).pack(pady=20)
 
         #Create Entry Widget for password
         
@@ -100,15 +109,15 @@ def saplogin(variante, username, password):
 
         win.attributes('-topmost', True)
         #Set the geometry of frame
-        win.geometry("600x250")
-        
+        win.geometry("400x120")
+        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.title("FIN DESCARGA YRA2")
+
         def close_win():
            win.destroy()
         
         #Create a text label
         Label(win,text="Proceso Terminado", font=('Helvetica',10)).pack(pady=20)
-
-        #Create Entry Widget for password
         
         #Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
@@ -122,6 +131,9 @@ def saplogin(variante, username, password):
         application = None
         SapGuiAuto = None
      
+    print("==============================================================================================================")
+    print("====FINALIZACION DE -SAP LOGIN-")
+    print("==============================================================================================================\n")    
     
     exit()
        

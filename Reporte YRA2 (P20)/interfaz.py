@@ -16,7 +16,7 @@ class InputForm:
 
         # ----Genera el titulo de la pantalla emergente
         self.master = master
-        master.title('DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
+        master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # ----Load saved username and password if they exist
         try:
@@ -74,7 +74,7 @@ class InputForm:
             pickle.dump(self.login_info, f)
 
         #--------------------------------------------------------------------------------------------------------------------
-        # <<<<<<<<<SE EJECUTA ABRIR SAP y DESCARGA DE GIC
+        # <<<<<<<<<SE EJECUTA LA APERTURA DE SAP
         open_sap.saplogin(variante, username, password) 
         #--------------------------------------------------------------------------------------------------------------------
 
