@@ -97,7 +97,7 @@ def saplogin(variante, username, password):
 
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
-        win.geometry("440x270")
+        win.geometry("450x270")
         win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -105,11 +105,17 @@ def saplogin(variante, username, password):
            win.destroy()
         
         # ----Create a text label
-        Label(win,text='Se ha producido un error por una de estas dos opciones: \n \n1. Usuario y/o Contraseña incorrecta\n   -Vuelva a ingresarlas correctamente y ejecute el programa nuevamente \n \n2. Tiene seis sesiones abiertas, el cual es el maximo para SAP\n   -Cierre una de esas seis sesiones y vuelva a ejecutar el programa \n \n--> Para volver a ejecutar el programa: \n   -Darle a "Quit" dos veces y volver a iniciar el programa', font=('Helvetica',10)).pack(pady=20)
+        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS DOS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+        Label(win,text='1. Usuario y/o Contraseña incorrecta', font=('Helvetica',10,'bold')).pack(pady=1)
+        Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
+        Label(win,text='= Cierre una de esas seis sesiones y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+        Label(win,text='* Darle a "Quit" dos veces y volver a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
  
         # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
-        10),command=close_win).pack(pady=20, side="top")
+        10),command=close_win).pack(pady=10, side="top")
         
         win.mainloop()
 
@@ -133,7 +139,7 @@ def saplogin(variante, username, password):
 
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
-        win.geometry("400x120")
+        win.geometry("400x70")
         win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - FIN DESCARGA YRA2")
 
@@ -141,11 +147,11 @@ def saplogin(variante, username, password):
            win.destroy()
         
         # ----Create a text label
-        Label(win,text="Proceso Terminado", font=('Helvetica',10)).pack(pady=20)
+        Label(win,text="Proceso Terminado", font=('Helvetica',10,'bold')).pack(pady=5)
         
         # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
-        10),command=close_win).pack(pady=20, side="top")
+        10),command=close_win).pack(pady=5, side="top")
         
         win.mainloop()
 

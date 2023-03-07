@@ -5,7 +5,7 @@ import os
 import re
 
 
-def clasificacion(df):
+def xlookup(df):
     
     directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
 
