@@ -1,5 +1,5 @@
 import tkinter as tk
-import open_sap
+import _2_Open_sap
 import pickle
 
 class InputForm:
@@ -75,7 +75,7 @@ class InputForm:
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA LA APERTURA DE SAP
-        open_sap.saplogin(variante, username, password) 
+        _2_Open_sap.saplogin(variante, username, password) 
         #--------------------------------------------------------------------------------------------------------------------
 
         print("==============================================================================================================")

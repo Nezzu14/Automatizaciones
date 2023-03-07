@@ -6,9 +6,9 @@ import time
 from datetime import datetime
 import os
 from tkinter import *
-import disable
+import _3_Correccion_formato
 import win32gui
-import GIC_Descarga
+import _4_GIC_Descarga
 
 # ----This function will Login to SAP from the SAP Logon window
 def saplogin(variante, username, password):
@@ -41,6 +41,7 @@ def saplogin(variante, username, password):
             SapGuiAuto = None
             return
         
+        # ----Si no hay sesiones abiertas se ejecuta SAP de cero
         if application.Connections.Count==0 : 
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
             session = connection.Sessions(0)
@@ -49,6 +50,8 @@ def saplogin(variante, username, password):
             session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
             session.findById("wnd[0]").sendVKey(0)
         else: 
+            # ----Si ya hay sesiones abiertas con el acceso del usuario entonces se abrira una sesion aparte y se empezara a ejecitar el proceso de descarga de YRA2
+            # ----Se abrira solo hasta el maximo de 6 sesiones, si ya hay 6 sesiones abiertas entonces arrojara un error, el cual es el de "except"
             if application.Connections.Count<6:
                   connection= application.Connections(0)
                   session = connection.Sessions(0)
@@ -56,42 +59,6 @@ def saplogin(variante, username, password):
                   session=connection.Sessions(connection.Sessions.Count -1)
             else:
                 print("Couldn't connect to application because sap reach the maximum number of sessions")
-
-                print("==============================================================================================================")
-                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -TOPE DE SESIONES DE SAP ABIERTAS-")
-                print("==============================================================================================================\n")
-        
-                print("========================================================================")
-                print("----Couldn't connect to application because sap reach the maximum number of sessions")
-                print("========================================================================\n")
-        
-                print(sys.exc_info())
-                
-                win= Tk()
-        
-                win.attributes('-topmost', True)
-                #Set the geometry of frame
-                win.geometry("400x140")
-                win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-                win.title("TOPE DE SESIONES DE SAP ABIERTAS")
-        
-                def close_win():
-                   win.destroy()
-                
-                #Create a text label
-                Label(win,text="Couldn't connect to application because sap reach the maximum number of sessions", font=('Helvetica',10)).pack(pady=20)
-        
-                #Create Entry Widget for password
-                
-                #Create a button to close the window
-                Button(win, text="Quit", font=('Helvetica bold',
-                10),command=close_win).pack(pady=20, side="top")
-                
-                win.mainloop()
-        
-                print("==============================================================================================================")
-                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -TOPE DE SESIONES DE SAP ABIERTAS-")
-                print("==============================================================================================================\n")
 
         if not type(connection) == win32com.client.CDispatch:
             application = None
@@ -104,19 +71,20 @@ def saplogin(variante, username, password):
             SapGuiAuto = None
             return
          
+        print("==============================================================================================================")
+        print("====FINALIZACION DE -SAP LOGIN-")
+        print("==============================================================================================================\n") 
+
         username= username
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
-        descargar(session, variante, username)
+        Path_YRA2_SAP(session, variante, username)
         #--------------------------------------------------------------------------------------------------------------------
-
-         
-        disable.Deshabiiltar_error()
-
+        
     except:
 
         print("==============================================================================================================")
-        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
         print("==============================================================================================================\n")
 
         print("========================================================================")
@@ -128,20 +96,18 @@ def saplogin(variante, username, password):
         win= Tk()
 
         win.attributes('-topmost', True)
-        #Set the geometry of frame
-        win.geometry("400x140")
+        # ----Set the geometry of frame
+        win.geometry("440x270")
         win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-        win.title("DATOS INCORRECTOS")
+        win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
         def close_win():
            win.destroy()
         
-        #Create a text label
-        Label(win,text='Usuario y/o Contraseña incorrecta\nDarle a Quit dos veces y volver a iniciar el programa', font=('Helvetica',10)).pack(pady=20)
-
-        #Create Entry Widget for password
-        
-        #Create a button to close the window
+        # ----Create a text label
+        Label(win,text='Se ha producido un error por una de estas dos opciones: \n \n1. Usuario y/o Contraseña incorrecta\n   -Vuelva a ingresarlas correctamente y ejecute el programa nuevamente \n \n2. Tiene seis sesiones abiertas, el cual es el maximo para SAP\n   -Cierre una de esas seis sesiones y vuelva a ejecutar el programa \n \n--> Para volver a ejecutar el programa: \n   -Darle a "Quit" dos veces y volver a iniciar el programa', font=('Helvetica',10)).pack(pady=20)
+ 
+        # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
         10),command=close_win).pack(pady=20, side="top")
         
@@ -154,7 +120,7 @@ def saplogin(variante, username, password):
     finally:
 
         print("==============================================================================================================")
-        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -FIN DESCARGA YRA2-")
+        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2 - FIN DESCARGA YRA2-")
         print("==============================================================================================================\n")
         
         print("========================================================================")
@@ -166,18 +132,18 @@ def saplogin(variante, username, password):
         win= Tk()
 
         win.attributes('-topmost', True)
-        #Set the geometry of frame
+        # ----Set the geometry of frame
         win.geometry("400x120")
         win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-        win.title("FIN DESCARGA YRA2")
+        win.title("REPORTE YRA2 - FIN DESCARGA YRA2")
 
         def close_win():
            win.destroy()
         
-        #Create a text label
+        # ----Create a text label
         Label(win,text="Proceso Terminado", font=('Helvetica',10)).pack(pady=20)
         
-        #Create a button to close the window
+        # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
         10),command=close_win).pack(pady=20, side="top")
         
@@ -191,30 +157,41 @@ def saplogin(variante, username, password):
         connection = None
         application = None
         SapGuiAuto = None
-     
-    print("==============================================================================================================")
-    print("====FINALIZACION DE -SAP LOGIN-")
-    print("==============================================================================================================\n")    
     
+    # ----Sale de SAP
     exit()
+
+    #==============================================================================================================
+    #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
+    #==============================================================================================================    
+
+
        
 
-def descargar(session, variante, username):
+def Path_YRA2_SAP(session, variante, username):
         
+        print("==============================================================================================================")
+        print("====INICIALIZACION DE -PATH YRA2 SAP-")
+        print("==============================================================================================================\n")  
+
         print(username)
         username= username
 
-        # Indicativo de la fecha actual
+        # ----Indicativo de la fecha actual
         fecha= "{:%Y_%m_%d}".format(datetime.now())
 
-        print("======================================= ENTRANDO A YRA2 =======================================")
+        print("========================================================================")
+        print("----Entrando a YRA2 en SAP")
+        print("========================================================================\n")
+
+        # ----Check if file already exists
         directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
         try:
            os.stat(directorio)
         except:
            os.mkdir(directorio)
         
-        #Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
+        # ----Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
         session.findById("wnd[0]").maximize()
         session.findById("wnd[0]/tbar[0]/okcd").text = "yra2"
         session.findById("wnd[0]").sendVKey (0)
@@ -225,24 +202,51 @@ def descargar(session, variante, username):
         session.findById("wnd[1]/usr/txtAENAME-LOW").caretPosition = 8
         session.findById("wnd[1]/tbar[0]/btn[8]").press()
         session.findById("wnd[0]/tbar[1]/btn[8]").press()
-    
-        print("======================================= ENTRANDO A YRA2 =======================================")
-    
-        #   Se empezara a descargar el Archivo de GIC
-        GIC_Descarga.Descargar_GIC()
 
-        # Path de como descargar el YRA2
+        print("========================================================================")
+        print("----Cargo el reporte YRA2 en SAP")
+        print("========================================================================\n")
+
+        print("========================================================================")
+        print("----Inicia el proceso de descarga del reporte YRA2")
+        print("========================================================================\n")
+
+        # ----Path de como descargar el YRA2
         session.findById("wnd[0]").maximize()
         session.findById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").select()
         session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").select()
         session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").setFocus()
         session.findById("wnd[1]/tbar[0]/btn[0]").press()
 
-        # Pop up de ingreso de datos de la descarga
+        # ----Pop up de ingreso de datos de la descarga
         session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio
         session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
         session.findById("wnd[1]/tbar[0]/btn[11]").press()
         session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
         session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
 
+        print("==============================================================================================================")
+        print("====FINALIZACION DE -PATH YRA2 SAP-")
+        print("==============================================================================================================\n")  
 
+        print("========================================================================")
+        print("----Una vez guardado el reporte YRA2 en .xls, se corregira en .xlsx con -Correccion_formato.Deshabiiltar_error()-")
+        print("========================================================================\n")
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE CORREGIRA EL FORMATO DEL REPORTE YRA2
+        _3_Correccion_formato.Deshabiiltar_error()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        print("========================================================================")
+        print("----Una vez guardado correctamente el reporte YRA2, se empieza a ejecutar como segundo proceso -Descargar GIC-")
+        print("========================================================================\n")
+    
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EMPEZARA A DESCARGAR EL ARCHIVO GIC
+        _4_GIC_Descarga.Descargar_GIC()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        #==============================================================================================================
+        #====FINALIZACION DE -PATH YRA2 SAP- \\\\CODIGO
+        #==============================================================================================================  

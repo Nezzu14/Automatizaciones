@@ -10,11 +10,15 @@ def Descargar_GIC():
     print("====INICIALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
     print("==============================================================================================================\n")
 
+    print("========================================================================")
+    print("----Descargando Archivo GIC")
+    print("========================================================================\n")
+
     # ----Define la variable url que contiene la dirección URL del archivo que se va a descargar
     url = "http://dataq-prod.int.net.nokia.com:7780/pls/apex/f?p=115:8::CSV::::"    
 
     print("========================================================================")
-    print("----Descargando Archivo GIC")
+    print("----Archivo GIC descargado en la Carpeta YRA2 del Escritorio")
     print("========================================================================\n")
 
     fecha= "{:%Y_%m_%d}".format(datetime.now())
