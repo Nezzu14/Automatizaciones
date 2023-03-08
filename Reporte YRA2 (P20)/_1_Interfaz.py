@@ -1,10 +1,12 @@
 import tkinter as tk
 import pickle
+import os
 import _2_Open_sap
 import _3_Correccion_formato_xlsx
 import _4_GIC_Descarga
 import _5_Correccion_formato_csv
 import _6_Clasificador
+import _7_Fin_del_programa
 
 
 class InputForm:
@@ -23,9 +25,12 @@ class InputForm:
         self.master = master
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
+        # ----El directorio de los datos incriptados del usuario y password
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + 'login_info.bin'
+
         # ----Load saved username and password if they exist
         try:
-            with open('login_info.bin', 'rb') as f:
+            with open(directorio_login_bin, 'rb') as f:
                 self.login_info = pickle.load(f)
         except:
             self.login_info = {'username': '', 'password': ''}
@@ -76,7 +81,9 @@ class InputForm:
         self.login_info['username'] = username
         self.login_info['password'] = password
        
-        with open('login_info.bin', 'wb') as f:
+        # ----El directorio de los datos incriptados del usuario y password
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + 'login_info.bin'
+        with open(directorio_login_bin, 'wb') as f:
             pickle.dump(self.login_info, f)
 
         #--------------------------------------------------------------------------------------------------------------------
@@ -103,7 +110,7 @@ class InputForm:
         #--------------------------------------------------------------------------------------------------------------------
 
         print("========================================================================")
-        print("----Una vez descargado el archivo GIC, se empieza a corregir el formato del archivo .csv -_4_GIC_Descarga.Descargar GIC-")
+        print("----Una vez descargado el archivo GIC, se empieza a corregir el formato del archivo .csv -_5_GIC_Descarga.Descargar GIC-")
         print("========================================================================\n")
     
         #--------------------------------------------------------------------------------------------------------------------
@@ -112,7 +119,7 @@ class InputForm:
         #--------------------------------------------------------------------------------------------------------------------
 
         print("========================================================================")
-        print("----Una vez guardado correctamente el reporte YRA2 y el archivo GIC, se empieza a ejecutar el Vlookup entre ambos archivos -_5_Clasificador.vlookup-")
+        print("----Una vez guardado correctamente el reporte YRA2 y el archivo GIC, se empieza a ejecutar el Vlookup entre ambos archivos -_6_Clasificador.vlookup-")
         print("========================================================================\n")
 
         #--------------------------------------------------------------------------------------------------------------------
@@ -124,8 +131,18 @@ class InputForm:
         print("====FINALIZACION DE -REPORTE YRA2-")
         print("==============================================================================================================\n")
 
+        print("========================================================================")
+        print("----Una vez finalizado el proceso del Reporte YRA2 se terminara el programa -_7_Fin_del_programa.terminar_programa-")
+        print("========================================================================\n")
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTARA EL VLOOKUP ENTRE EL ARCHIVO .CSV A .XLSX
+        _7_Fin_del_programa.terminar_programa()
+        #-------------------------------------------------------------------------------------------------------------------- 
+
         # ----Esto permite que se cierre la ventana emergente con self.master.destroy() pero que las variables no se borren
         return
+
 
 
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente

@@ -111,7 +111,7 @@ def saplogin(variante, username, password):
         Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
         Label(win,text='= Cierre una de esas seis sesiones y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-        Label(win,text='* Darle a "Quit" dos veces y volver a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='* Darle a "Quit" volver a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
  
         # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
@@ -123,53 +123,12 @@ def saplogin(variante, username, password):
         print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
         print("==============================================================================================================\n")
 
-    finally:
+                # ----Sale de ejecutar el PROGRAMA
+        exit()
 
-        print("==============================================================================================================")
-        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2 - FIN DESCARGA YRA2-")
-        print("==============================================================================================================\n")
-        
-        print("========================================================================")
-        print("----Se termino la descarga del reporte YRA2 ejecutado en SAP")
-        print("========================================================================\n")
-
-        print(sys.exc_info())
-        
-        win= Tk()
-
-        win.attributes('-topmost', True)
-        # ----Set the geometry of frame
-        win.geometry("400x70")
-        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-        win.title("REPORTE YRA2 - FIN DESCARGA YRA2")
-
-        def close_win():
-           win.destroy()
-        
-        # ----Create a text label
-        Label(win,text="Proceso Terminado", font=('Helvetica',10,'bold')).pack(pady=5)
-        
-        # ----Create a button to close the window
-        Button(win, text="Quit", font=('Helvetica bold',
-        10),command=close_win).pack(pady=5, side="top")
-        
-        win.mainloop()
-
-        session = None
-        connection = None
-        application = None
-        SapGuiAuto = None
-    
-    print("==============================================================================================================")
-    print("====FINALIZACION DE LA VENTANA EMERGENTE DE -FIN DESCARGA YRA2-")
-    print("==============================================================================================================\n")
-    
-    # ----Sale de SAP
-    exit()
-
-    #==============================================================================================================
-    #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
-    #==============================================================================================================    
+        #==============================================================================================================
+        #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
+        #==============================================================================================================    
 
 
 def Path_YRA2_SAP(session, variante, username):
