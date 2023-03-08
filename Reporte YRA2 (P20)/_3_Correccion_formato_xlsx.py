@@ -54,10 +54,9 @@ def Deshabiiltar_error():
         print("====FINALIZACION DE -DESHABILITAR ERROR-")
         print("==============================================================================================================\n") 
 
-        username= username
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA LA CORRECCION DENTRO DE LOS ARCHIVOS DE REPORTE YRA2 Y DEL ARCHIVO GIC
-        correciones_lineas_xlsx(fecha, modified_file_path)
+        correciones_lineas_xlsx(fecha)
         #--------------------------------------------------------------------------------------------------------------------
 
 
@@ -80,6 +79,7 @@ def correciones_lineas_xlsx(fecha):
         sheet['AK3'] = 'GIC'
 
         # ----Eliminar una fila de datos de la hoja de trabajo
+        sheet.delete_rows(4, 1) # Elimina la fila 2
         sheet.delete_rows(2, 1) # Elimina la fila 2
         sheet.delete_rows(1, 1) # Elimina la fila 1
 

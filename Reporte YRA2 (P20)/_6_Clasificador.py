@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime
 
+
 def vlookup():
 
     print("==============================================================================================================")
@@ -12,17 +13,23 @@ def vlookup():
     fecha= "{:%Y_%m_%d}".format(datetime.now())
     
     # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
-    xlsx_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\YRA2_TMOBILE_" + fecha + ".xlsx"
-    csv_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
-    #csv_file_path = "C:\\Users\\migumart\\Desktop\\YRA2\\F&C GIC - SIG PC List - 2023_03_08.csv"
+    YRA2_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\YRA2_TMOBILE_" + fecha + ".xlsx"
+    GIC_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
 
     # ----Se define el nombre y path del documento final
-    doc_final_xlsx_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\Prueba_Final" + fecha + ".xlsx"
+    doc_final_REPORTE_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2','Reporte final') + "\\ Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
+
+    # ----Check if file already exists
+    directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final')
+    try:
+       os.stat(directorio)
+    except:
+       os.mkdir(directorio)
 
     print("========================================================================")
-    print("Archivo xlsx = " + xlsx_file_path)
-    print("Archivo csv = " + csv_file_path)
-    print("Archivo final = " + doc_final_xlsx_path)
+    print("Archivo xlsx = " + YRA2_file_path)
+    print("Archivo csv = " + GIC_file_path)
+    print("Archivo final = " + doc_final_REPORTE_path)
     print("========================================================================\n")
 
     print("========================================================================")
@@ -30,14 +37,24 @@ def vlookup():
     print("========================================================================\n")
 
     # ----Define first DataFrame
-    xlsx = pd.read_excel(xlsx_file_path)
+    excel_YRA2 = pd.read_excel(YRA2_file_path)
 
     # ----Define second DataFrame
-    csv = pd.read_csv(csv_file_path, encoding="latin")
-    print(csv)
+    excel_GIC = pd.read_excel(GIC_file_path)
 
-    vlookup_df = pd.merge(xlsx,
-                         csv[['GIC', 'PC Business Group']],
+    excel_YRA2.columns = excel_YRA2.columns.str.strip()
+    excel_YRA2 = excel_YRA2.dropna(how='all')
+    excel_YRA2 = excel_YRA2.dropna(axis=1, how='all')
+
+    excel_GIC.columns = excel_GIC.columns.str.strip()
+    excel_GIC = excel_GIC.dropna(how='all')
+    excel_GIC = excel_GIC.dropna(axis=1, how='all')    
+
+    excel_YRA2['GIC']=excel_YRA2['GIC'].astype(str)
+    excel_GIC[['GIC', 'PC Business Group']]=excel_GIC[['GIC', 'PC Business Group']].astype(str)
+
+    vlookup_df = pd.merge(excel_YRA2,
+                         excel_GIC[['GIC', 'PC Business Group']],
                          on ='GIC',
                          how ='left')
 
@@ -45,7 +62,7 @@ def vlookup():
     print(vlookup_df)
 
     # ----Save vlookup_df to Excel file
-    vlookup_df.to_excel(doc_final_xlsx_path, index=False)
+    vlookup_df.to_excel(doc_final_REPORTE_path, index=False)
 
     print("========================================================================")
     print("----Fin del vlookup entre reporte YRA2 y archivo GIC")
@@ -58,4 +75,4 @@ def vlookup():
 
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
-vlookup()
+#vlookup()

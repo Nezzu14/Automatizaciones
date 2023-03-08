@@ -75,6 +75,7 @@ def saplogin(variante, username, password):
         print("==============================================================================================================\n") 
 
         username= username
+        
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
         Path_YRA2_SAP(session, variante, username)
