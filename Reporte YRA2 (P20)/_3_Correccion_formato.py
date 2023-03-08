@@ -1,7 +1,7 @@
 import win32com.client as win32
 import os
 from datetime import datetime
-import formato
+
 
 def Deshabiiltar_error():
 
@@ -11,6 +11,7 @@ def Deshabiiltar_error():
 
         # ----Directorio de destino
         fecha= "{:%Y_%m_%d}".format(datetime.now())
+        print(fecha)
         directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
 
         # ----Se definen los paths de los archivos, el archivo original y el archivo al que se quiere convertir
@@ -47,6 +48,8 @@ def Deshabiiltar_error():
         print("==============================================================================================================")
         print("====FINALIZACION DE -DESHABILITAR ERROR-")
         print("==============================================================================================================\n")  
+
+
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
 #Deshabiiltar_error()

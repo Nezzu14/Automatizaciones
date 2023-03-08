@@ -1,6 +1,10 @@
 import tkinter as tk
-import _2_Open_sap
 import pickle
+import _2_Open_sap
+import _3_Correccion_formato
+import _4_GIC_Descarga
+import _5_Clasificador
+
 
 class InputForm:
 
@@ -77,6 +81,33 @@ class InputForm:
         # <<<<<<<<<SE EJECUTA LA APERTURA DE SAP
         _2_Open_sap.saplogin(variante, username, password) 
         #--------------------------------------------------------------------------------------------------------------------
+
+        print("========================================================================")
+        print("----Una vez guardado el reporte YRA2 en .xls, se corregira en .xlsx con -Correccion_formato._3_Deshabiiltar_error()-")
+        print("========================================================================\n")
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE CORREGIRA EL FORMATO DEL REPORTE YRA2
+        _3_Correccion_formato.Deshabiiltar_error()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        print("========================================================================")
+        print("----Una vez guardado correctamente el reporte YRA2, se empieza a ejecutar como segundo proceso -_4_GIC_Descarga.Descargar GIC-")
+        print("========================================================================\n")
+    
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EMPEZARA A DESCARGAR EL ARCHIVO GIC
+        _4_GIC_Descarga.Descargar_GIC()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        print("========================================================================")
+        print("----Una vez guardado correctamente el reporte YRA2 y el archivo GIC, se empieza a ejecutar el Vlookup entre ambos archivos -_5_Clasificador.vlookup-")
+        print("========================================================================\n")
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTARA EL VLOOKUP ENTRE EL ARCHIVO .CSV A .XLSX
+        _5_Clasificador.vlookup()
+        #-------------------------------------------------------------------------------------------------------------------- 
 
         print("==============================================================================================================")
         print("====FINALIZACION DE -REPORTE YRA2-")
