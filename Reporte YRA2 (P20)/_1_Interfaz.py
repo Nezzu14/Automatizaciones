@@ -1,9 +1,10 @@
 import tkinter as tk
 import pickle
 import _2_Open_sap
-import _3_Correccion_formato
+import _3_Correccion_formato_xlsx
 import _4_GIC_Descarga
-import _5_Clasificador
+import _5_Correccion_formato_csv
+import _6_Clasificador
 
 
 class InputForm:
@@ -51,6 +52,7 @@ class InputForm:
         self.submit_button = tk.Button(master, text='Submit', command=self.submit)
         self.submit_button.grid(row=3, column=1, padx=5, pady=5)
 
+
     def submit(self):
 
         print("========================================================================")
@@ -88,7 +90,7 @@ class InputForm:
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE CORREGIRA EL FORMATO DEL REPORTE YRA2
-        _3_Correccion_formato.Deshabiiltar_error()
+        _3_Correccion_formato_xlsx.Deshabiiltar_error()
         #--------------------------------------------------------------------------------------------------------------------
 
         print("========================================================================")
@@ -101,12 +103,21 @@ class InputForm:
         #--------------------------------------------------------------------------------------------------------------------
 
         print("========================================================================")
+        print("----Una vez descargado el archivo GIC, se empieza a corregir el formato del archivo .csv -_4_GIC_Descarga.Descargar GIC-")
+        print("========================================================================\n")
+    
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EMPEZARA A CORREGIR EL ARCHIVO GIC
+        _5_Correccion_formato_csv.cambio_formato_csv()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        print("========================================================================")
         print("----Una vez guardado correctamente el reporte YRA2 y el archivo GIC, se empieza a ejecutar el Vlookup entre ambos archivos -_5_Clasificador.vlookup-")
         print("========================================================================\n")
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTARA EL VLOOKUP ENTRE EL ARCHIVO .CSV A .XLSX
-        _5_Clasificador.vlookup()
+        _6_Clasificador.vlookup()
         #-------------------------------------------------------------------------------------------------------------------- 
 
         print("==============================================================================================================")
@@ -115,6 +126,7 @@ class InputForm:
 
         # ----Esto permite que se cierre la ventana emergente con self.master.destroy() pero que las variables no se borren
         return
+
 
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente
 if __name__ == '__main__':

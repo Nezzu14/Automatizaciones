@@ -1,16 +1,19 @@
 import win32com.client as win32
 import os
 from datetime import datetime
+import openpyxl
 
 
 def Deshabiiltar_error():
-
+        
         print("==============================================================================================================")
         print("====INICIALIZACION DE -DESHABILITAR ERROR-")
         print("==============================================================================================================\n")  
 
-        # ----Directorio de destino
+        # ----Toma la fecha actual de hoy
         fecha= "{:%Y_%m_%d}".format(datetime.now())
+
+        # ----Directorio de destino
         print(fecha)
         directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
 
@@ -36,6 +39,7 @@ def Deshabiiltar_error():
 
         print("========================================================================")
         print("----Modificacion terminada y archivo .xlsx guardado")
+        print("Archivo xlsx = " + modified_file_path)
         print("========================================================================\n")
 
         # ----Delete the original file
@@ -43,13 +47,57 @@ def Deshabiiltar_error():
 
         print("========================================================================")
         print("----Archivo .xls antiguo eliminado")
+        print("Archivo xls = " + original_file_path)
         print("========================================================================\n")
 
         print("==============================================================================================================")
         print("====FINALIZACION DE -DESHABILITAR ERROR-")
+        print("==============================================================================================================\n") 
+
+        username= username
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTA LA CORRECCION DENTRO DE LOS ARCHIVOS DE REPORTE YRA2 Y DEL ARCHIVO GIC
+        correciones_lineas_xlsx(fecha, modified_file_path)
+        #--------------------------------------------------------------------------------------------------------------------
+
+
+def correciones_lineas_xlsx(fecha):
+
+        print("==============================================================================================================")
+        print("====INICIALIZACION DE -CORRECIONES LINEAS .XLSX-")
+        print("==============================================================================================================\n")  
+
+        # ----Se definen los paths de los archivos, el archivo .xlsx
+        xlsx_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\YRA2_TMOBILE_" + fecha + ".xlsx"
+
+        # ----Cargar el archivo Excel
+        workbook = openpyxl.load_workbook(xlsx_file_path)
+
+        # ----Seleccionar la hoja que deseas modificar
+        sheet = workbook["YRA2_TMOBILE_" + fecha]
+
+        # ----Modificar el valor de una celda
+        sheet['AK3'] = 'GIC'
+
+        # ----Eliminar una fila de datos de la hoja de trabajo
+        sheet.delete_rows(2, 1) # Elimina la fila 2
+        sheet.delete_rows(1, 1) # Elimina la fila 1
+
+        # ----Guardar los cambios en el archivo
+        workbook.save(xlsx_file_path)
+
+        print("========================================================================")
+        print("Archivo xlsx = " + xlsx_file_path)
+        print("----Nombre de la Celda _AK3_ se cambio de -GIC code- a -GIC-")
+        print("----Se elimino las filas 1 y 2")
+        print("========================================================================\n")
+
+        print("==============================================================================================================")
+        print("====FINALIZACION DE -CORRECIONES LINEAS .XLSX-")
         print("==============================================================================================================\n")  
 
 
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
 #Deshabiiltar_error()
+#correciones_lineas_xlsx()

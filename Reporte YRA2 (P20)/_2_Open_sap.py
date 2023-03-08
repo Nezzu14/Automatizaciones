@@ -154,14 +154,14 @@ def saplogin(variante, username, password):
         
         win.mainloop()
 
-        print("==============================================================================================================")
-        print("====FINALIZACION DE LA VENTANA EMERGENTE DE -FIN DESCARGA YRA2-")
-        print("==============================================================================================================\n")
-
         session = None
         connection = None
         application = None
         SapGuiAuto = None
+    
+    print("==============================================================================================================")
+    print("====FINALIZACION DE LA VENTANA EMERGENTE DE -FIN DESCARGA YRA2-")
+    print("==============================================================================================================\n")
     
     # ----Sale de SAP
     exit()

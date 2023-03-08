@@ -8,10 +8,9 @@ df2 = pd.read_excel("df2.xlsx")
 
 
 vlookup_df = pd.merge(df1,
-                     df2,
+                     df2[['Jugador', 'Trabajo']],
                      on ='Jugador',
                      how ='left')
 
 #view df1
 print(vlookup_df)
-print(vlookup_df[["Jugador", "Equipo",  "Trabajo"]])
