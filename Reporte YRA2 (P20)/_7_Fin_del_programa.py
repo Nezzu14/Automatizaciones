@@ -4,6 +4,7 @@ from tkinter import *
 
         
 def terminar_programa():
+        
         print("==============================================================================================================")
         print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -TERMINAR PROGRAMA-")
         print("==============================================================================================================\n")
@@ -45,3 +46,8 @@ def terminar_programa():
 
         # ----Sale de ejecutar el PROGRAMA
         exit()
+
+
+
+#       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
+#terminar_programa()
