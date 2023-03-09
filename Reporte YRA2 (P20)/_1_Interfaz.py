@@ -26,7 +26,7 @@ class InputForm:
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + 'login_info.bin'
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
 
         # ----Load saved username and password if they exist
         try:
@@ -82,7 +82,7 @@ class InputForm:
         self.login_info['password'] = password
        
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + 'login_info.bin'
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
         with open(directorio_login_bin, 'wb') as f:
             pickle.dump(self.login_info, f)
 

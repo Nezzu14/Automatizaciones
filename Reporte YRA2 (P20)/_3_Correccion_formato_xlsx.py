@@ -60,11 +60,14 @@ def Deshabiiltar_error():
         #--------------------------------------------------------------------------------------------------------------------
 
 
-def correciones_lineas_xlsx(fecha):
+def correciones_lineas_xlsx():
 
         print("==============================================================================================================")
         print("====INICIALIZACION DE -CORRECIONES LINEAS .XLSX-")
         print("==============================================================================================================\n")  
+
+        # ----Toma la fecha actual de hoy
+        fecha= "{:%Y_%m_%d}".format(datetime.now())
 
         # ----Se definen los paths de los archivos, el archivo .xlsx
         xlsx_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\YRA2_TMOBILE_" + fecha + ".xlsx"
@@ -75,13 +78,12 @@ def correciones_lineas_xlsx(fecha):
         # ----Seleccionar la hoja que deseas modificar
         sheet = workbook["YRA2_TMOBILE_" + fecha]
 
-        # ----Modificar el valor de una celda
-        sheet['AK3'] = 'GIC'
-
         # ----Eliminar una fila de datos de la hoja de trabajo
-        sheet.delete_rows(4, 1) # Elimina la fila 2
-        sheet.delete_rows(2, 1) # Elimina la fila 2
-        sheet.delete_rows(1, 1) # Elimina la fila 1
+        sheet.delete_rows(4) # Elimina la fila 4
+        sheet.delete_rows(1,1) # Elimina la fila 1
+
+        # ----Modificar el valor de una celda
+        #sheet['A1'] = 'Data up to posting date' + fecha
 
         # ----Guardar los cambios en el archivo
         workbook.save(xlsx_file_path)
@@ -89,7 +91,7 @@ def correciones_lineas_xlsx(fecha):
         print("========================================================================")
         print("Archivo xlsx = " + xlsx_file_path)
         print("----Nombre de la Celda _AK3_ se cambio de -GIC code- a -GIC-")
-        print("----Se elimino las filas 1 y 2")
+        print("----Se elimino las filas 1, 2  y 4 (En blanco)")
         print("========================================================================\n")
 
         print("==============================================================================================================")
