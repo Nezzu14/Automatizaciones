@@ -111,7 +111,7 @@ def saplogin(variante, username, password):
         Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
         Label(win,text='= Cierre una de esas seis sesiones y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-        Label(win,text='* Darle a "Quit" volver a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
  
         # ----Create a button to close the window
         Button(win, text="Quit", font=('Helvetica bold',
@@ -126,9 +126,9 @@ def saplogin(variante, username, password):
                 # ----Sale de ejecutar el PROGRAMA
         exit()
 
-        #==============================================================================================================
-        #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
-        #==============================================================================================================    
+    #==============================================================================================================
+    #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
+    #==============================================================================================================    
 
 
 def Path_YRA2_SAP(session, variante, username):
