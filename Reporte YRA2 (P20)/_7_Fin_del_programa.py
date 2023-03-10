@@ -12,8 +12,6 @@ def terminar_programa():
         print("========================================================================")
         print("----Se termino la automatizacion del Reporte YRA2 -FIN DEL PROGRAMA-")
         print("========================================================================\n")
-
-        print(sys.exc_info())
         
         win= Tk()
 
@@ -35,10 +33,10 @@ def terminar_programa():
         
         win.mainloop()
 
-        session = None
-        connection = None
-        application = None
-        SapGuiAuto = None
+        #session = None
+        #connection = None
+        #application = None
+        #SapGuiAuto = None
     
         print("==============================================================================================================")
         print("====FINALIZACION DE LA VENTANA EMERGENTE DE -TERMINAR PROGRAMA-")

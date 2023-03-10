@@ -127,6 +127,12 @@ def saplogin(variante, username, password):
 
                 # ----Sale de ejecutar el PROGRAMA
         exit()
+    
+    finally:
+        session = None
+        connection = None
+        application = None
+        SapGuiAuto = None
 
     #==============================================================================================================
     #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
