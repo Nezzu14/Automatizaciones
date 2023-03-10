@@ -68,8 +68,9 @@ class InputForm:
         username = self.username_input.get()
         password = self.password_input.get()
         variante = self.variante_input.get()
-        print(variante)
-
+        print("========================================================================")
+        print("Variante = " + variante)
+        print("========================================================================\n")
         # ----Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
         self.master.destroy()
         

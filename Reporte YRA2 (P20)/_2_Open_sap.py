@@ -97,7 +97,7 @@ def saplogin(variante, username, password):
 
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
-        win.geometry("450x270")
+        win.geometry("500x350")
         win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -110,6 +110,8 @@ def saplogin(variante, username, password):
         Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
         Label(win,text='= Cierre una de esas seis sesiones y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='3. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
+        Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
         Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
  
@@ -137,7 +139,10 @@ def Path_YRA2_SAP(session, variante, username):
         print("====INICIALIZACION DE -PATH YRA2 SAP-")
         print("==============================================================================================================\n")  
 
+        print("========================================================================")
         print(username)
+        print("========================================================================\n")
+
         username= username
 
         # ----Indicativo de la fecha actual
