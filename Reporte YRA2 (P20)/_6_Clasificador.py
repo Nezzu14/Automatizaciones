@@ -36,7 +36,7 @@ def vlookup():
    print("========================================================================\n")
 
    print("========================================================================")
-   print("----Inicio del vlookup entre reporte YRA2 y archivo GIC")
+   print("----Lectura de los archivos de Reporte YRA2 y GIC como DataFrame de dtype = String")
    print("========================================================================\n")
 
    # ----Define first DataFrame, especificando que el encabezado empieza en le fila 2 ya que en el codigo de columna la fila 1 es 0 entonces la 3 es 2
@@ -54,40 +54,46 @@ def vlookup():
    excel_YRA2.columns = excel_YRA2.columns.str.strip()
    excel_YRA2 = excel_YRA2.dropna(how='all')
    excel_YRA2 = excel_YRA2.dropna(axis=1, how='all')
-
    # ----No toma las columnas que estan en blanco
-   #excel_GIC.columns = excel_GIC.columns.str.strip()
-   #excel_GIC = excel_GIC.dropna(how='all')
-   #excel_GIC = excel_GIC.dropna(axis=1, how='all')    
+   excel_GIC.columns = excel_GIC.columns.str.strip()
+   excel_GIC = excel_GIC.dropna(how='all')
+   excel_GIC = excel_GIC.dropna(axis=1, how='all')    
 
    print("-------------------------------------------------------------------------")
+   print('Columnas del Reporte YRA como DataFrame:\n')
    print(excel_YRA2.columns)
    print("-------------------------------------------------------------------------\n")
    
    # ----Esto convierte los datos de las columnas [['...']] en int (Enteros)
    #excel_YRA2['GIC']=excel_YRA2['GIC'].astype(int)
-
    # print("--------------------------------")
    # print("Se ejecuto en type str ____ corrigiendo el '.0' a vacio ''")
    # print("--------------------------------\n")
    # ----Esto convierte los datos de las columnas [['...']] en string y en dado caso que tengan '.0' se cambiara por vacio ''
    #excel_YRA2['GIC']=excel_YRA2['GIC'].str.replace(r'\.0+$', '')
-   
-   excel_GIC[['GIC', 'PC Business Group']]=excel_GIC[['GIC', 'PC Business Group']].astype(str)
+   #excel_GIC[['GIC', 'PC Business Group']]=excel_GIC[['GIC', 'PC Business Group']].astype(str)
+
+   print("========================================================================")
+   print("----Inicio del vlookup entre reporte YRA2 y archivo GIC")
+   print("========================================================================\n")
 
    print("-------------------------------------------------------------------------")
+   print("Datos GIC del Reporte YRA2:\n") 
    print(excel_YRA2['GIC'])
-   print("\n-------------------------------------------------------------------------\n")
-   print(excel_GIC[['GIC', 'PC Business Group']])
    print("-------------------------------------------------------------------------")
+   print("Datos GIC y PC Business Group del Archivo GIC:\n")
+   print(excel_GIC[['GIC', 'PC Business Group']])
+   print("-------------------------------------------------------------------------\n")
 
    vlookup_df = pd.merge(excel_YRA2,  
-                           excel_GIC[['GIC', 'PC Business Group']], 
+                           excel_GIC[['GIC', 'PC Business Group', 'PC Business Unit', 'PC Business Line']], 
                            on ='GIC', 
                            how ='left')
 
-   # ----View df1
-   print(vlookup_df)
+   # ----View vlookup 
+   print("-------------------------------------------------------------------------")
+   print("Datos del Vlookup entre el Reporte YRA2 y el archivo GIC:\n" + vlookup_df)
+   print("-------------------------------------------------------------------------\n")
 
    # ----Check if file already exists
    if os.path.isdir(doc_final_REPORTE_path):
@@ -126,4 +132,4 @@ def vlookup():
 
 
 #       """""""""En dado caso que quiera ejecutarlo aca en el archivo:""""""""""
-#vlookup()
+vlookup()
