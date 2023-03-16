@@ -26,7 +26,9 @@ class InputForm:
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
+        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+            # ----Si se quiere ejecutar en el computador  
+        #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
 
         # ----Load saved username and password if they exist
         try:
@@ -83,7 +85,10 @@ class InputForm:
         self.login_info['password'] = password
        
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
+        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+            # ----Si se quiere ejecutar en el computador        
+        #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
+        
         with open(directorio_login_bin, 'wb') as f:
             pickle.dump(self.login_info, f)
 
@@ -152,7 +157,9 @@ if __name__ == '__main__':
     root = tk.Tk()
     
     # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-    root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+    root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+    # ----Si se quiere ejecutar en el computador
+    #root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
     
     input_form = InputForm(root)
     
