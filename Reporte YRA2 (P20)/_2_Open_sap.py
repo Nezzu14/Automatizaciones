@@ -98,7 +98,9 @@ def saplogin(variante, username, password):
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
         win.geometry("500x350")
-        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+        # ----Si se quiere ejecutar en el computador
+        #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
         def close_win():
@@ -206,3 +208,5 @@ def Path_YRA2_SAP(session, variante, username):
         #==============================================================================================================
         #====FINALIZACION DE -PATH YRA2 SAP- \\\\CODIGO
         #==============================================================================================================  
+
+        
