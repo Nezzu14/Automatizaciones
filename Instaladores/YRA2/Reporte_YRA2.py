@@ -31,7 +31,7 @@ class InputForm:
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
             # ----Si se quiere ejecutar en el computador  
         #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
 
@@ -76,6 +76,8 @@ class InputForm:
         password = self.password_input.get()
         variante = self.variante_input.get()
         print("========================================================================")
+        print("Username = " + username)
+        print("Password = " + password)
         print("Variante = " + variante)
         print("========================================================================\n")
         # ----Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
@@ -90,7 +92,7 @@ class InputForm:
         self.login_info['password'] = password
        
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
             # ----Si se quiere ejecutar en el computador        
         #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
         
@@ -245,7 +247,7 @@ def saplogin(variante, username, password):
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
         win.geometry("500x350")
-        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
         # ----Si se quiere ejecutar en el computador
         #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -679,7 +681,10 @@ def terminar_programa():
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
         win.geometry("400x70")
-        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+
+        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+        #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - FIN DEL PROGRAMA")
 
         def close_win():
@@ -713,7 +718,7 @@ if __name__ == '__main__':
     root = tk.Tk()
     
     # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-    root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\_1_Interfaz\nokia.ico")
+    root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
     # ----Si se quiere ejecutar en el computador
     #root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
     
