@@ -73,25 +73,25 @@ class InputForm:
 
         self.radate_label = tk.Label(master, text='RA Date:')
         self.radate_label.grid(row=3, column=0, padx=5, pady=5)
-        self.radate_input = tk.Text(master, height=1, width=12,)
+        self.radate_input = tk.Entry(master, width=16)
         self.radate_input.grid(row=3, column=1, padx=5, pady=5)
-        self.radate_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.radate_input.get()[:10]))
+        self.radate_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.radate_input.get()))
 
         self.createdon_label = tk.Label(master, text='Created on:')
         self.createdon_label.grid(row=4, column=0, padx=5, pady=5)
-        self.createdon_input = tk.Text(master, height=1, width=12)
+        self.createdon_input = tk.Entry(master, width=16)
         self.createdon_input.grid(row=4, column=1, padx=5, pady=5)
         self.createdon_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
         self.to_label = tk.Label(master, text='To:')
         self.to_label.grid(row=4, column=2, padx=5, pady=5)
-        self.to_input = tk.Text(master, height=1, width=12)
+        self.to_input = tk.Entry(master, width=16)
         self.to_input.grid(row=4, column=3, padx=5, pady=5)
         self.to_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.to_input.get()))
 
-        self.wbs_label = tk.Label(master, text='WBS\n(Separar por "Saltos de Linea"):')
+        self.wbs_label = tk.Label(master, text='WBS\n(Separar por\n"Saltos de Linea"):')
         self.wbs_label.grid(row=5, column=0, padx=5, pady=5)
-        self.wbs_input = tk.Text(master, height=5, width=12)
+        self.wbs_input = tk.Text(master,height=5, width=12)
         self.wbs_input.grid(row=5, column=1, padx=5, pady=5)
 
         # ----Create submit button
@@ -177,7 +177,7 @@ def saplogin(username, password, radate, createdon, to, wbs):
              hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
              if time.time() - start_time > 30:
                 return  # Si se supera el tiempo máximo de espera, se sale de la función
-             time.sleep(0.5) 
+             time.sleep(0.5)
 
         # ----Detecta la ventana de SAP
         SapGuiAuto = win32.GetObject('SAPGUI')
@@ -188,11 +188,12 @@ def saplogin(username, password, radate, createdon, to, wbs):
         if not type(application) == win32.CDispatch:
             SapGuiAuto = None
             return
-        
+
         # ----Si no hay sesiones abiertas se ejecuta SAP de cero
         if application.Connections.Count==0 : 
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
             session = connection.Sessions(0)
+
             # ----Ingreso de Usuario y Contraseña
             session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
             session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
@@ -200,13 +201,39 @@ def saplogin(username, password, radate, createdon, to, wbs):
         else: 
             # ----Si ya hay sesiones abiertas con el acceso del usuario entonces se abrira una sesion aparte y se empezara a ejecitar el proceso de descarga de YRA2
             # ----Se abrira solo hasta el maximo de 6 sesiones, si ya hay 6 sesiones abiertas entonces arrojara un error, el cual es el de "except"
-            if application.Connections.Count<6:
-                  connection= application.Connections(0)
-                  session = connection.Sessions(0)
-                  session.CreateSession()
-                  session=connection.Sessions(connection.Sessions.Count -1)
-            else:
-                print("Couldn't connect to application because sap reach the maximum number of sessions")
+            print(str(application.Connections.Count))
+            if application.Connections.Count<2:
+                connection= application.Connections(0)
+                session = connection.Sessions(0)
+                session.CreateSession()
+                session = connection.Sessions(connection.Sessions.Count - 1)
+
+                # Create an empty dictionary to store the number of windows per connection
+                windows_per_connection = {}
+
+                # Loop through all connections
+                for i in range(application.Connections.Count):
+                    connection = application.Children(i)
+
+                    # Loop through all sessions in each connection
+                    total_windows = 0
+                    for j in range(connection.Children.Count):
+                        session = connection.Children(j)
+
+                        # Count the number of open windows in each session
+                        windows = session.Children
+                        num_windows = windows.Count
+
+                        # Add the number of windows in the session to the total for the connection
+                        total_windows += num_windows
+
+                    # Store the total number of windows for this connection in the dictionary
+                    windows_per_connection[connection.Name] = total_windows
+
+                # Print the total number of windows for each connection
+                for connection_name, num_windows in windows_per_connection.items():
+                    print("Number of open windows in connection", connection_name, ":", num_windows)
+
 
         if not type(connection) == win32.CDispatch:
             application = None
@@ -222,13 +249,6 @@ def saplogin(username, password, radate, createdon, to, wbs):
         print("==============================================================================================================")
         print("====FINALIZACION DE -SAP LOGIN-")
         print("==============================================================================================================\n") 
-
-        username= username
-        
-        #--------------------------------------------------------------------------------------------------------------------
-        # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
-        Path_YRA2_SAP(session, username, radate, createdon, to, wbs)
-        #--------------------------------------------------------------------------------------------------------------------
         
     except:
 
@@ -256,7 +276,7 @@ def saplogin(username, password, radate, createdon, to, wbs):
            win.destroy()
         
         # ----Create a text label
-        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS DOS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
         Label(win,text='1. Usuario, Contraseña y/o demas datos incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
         Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
@@ -280,6 +300,12 @@ def saplogin(username, password, radate, createdon, to, wbs):
         exit()
     
     finally:
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
+        Path_YRA2_SAP(session, username, radate, createdon, to, wbs, connection)
+        #--------------------------------------------------------------------------------------------------------------------
+        
         session = None
         connection = None
         application = None
@@ -289,7 +315,7 @@ def saplogin(username, password, radate, createdon, to, wbs):
     #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
     #==============================================================================================================    
 
-def Path_YRA2_SAP(session, username, radate, createdon, to, wbs):
+def Path_YRA2_SAP(session, username, radate, createdon, to, wbs, connection):
         
         print("==============================================================================================================")
         print("====INICIALIZACION DE -PATH YRA2 SAP-")
@@ -303,8 +329,6 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs):
         print(wbs)
         print("========================================================================\n")
 
-        username= username
-
         # ----Indicativo de la fecha actual
         fecha= "{:%Y_%m_%d}".format(datetime.now())
 
@@ -312,24 +336,481 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs):
         print("----Entrando a YRA2 en SAP")
         print("========================================================================\n")
 
+        # ------------------------------------ Inicio Try
         # ----Check if file already exists
         directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
         try:
            os.stat(directorio)
         except:
            os.mkdir(directorio)
-        
-        # ----Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
-        session.findById("wnd[0]").maximize()
-        session.findById("wnd[0]/tbar[0]/okcd").text = "yra2"
-        session.findById("wnd[0]").sendVKey (0)
-        #session.findById("wnd[0]/tbar[1]/btn[17]").press()
+        # ------------------------------------ Fin Try
 
-        session.findById("wnd[0]/usr/ctxtS_PSPID-LOW").text = "G-0609A3EZ1" # ----Top WBS por defecto para que deje abrir la ventana emergente y pegar todas las WBS
-        session.findById("wnd[0]/usr/ctxtP_DATUM").text = radate # ----RA Date
-        session.findById("wnd[0]/usr/ctxtP_DATUM").caretPosition = 10
-        session.findById("wnd[0]/usr/btn%_S_PSPID_%_APP_%-VALU_PUSH").press()
-        session.findById("wnd[1]/tbar[0]/btn[16]").press()
+
+        # ------------------------------------ Inicio Try
+        # ----Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
+        try:
+            time.sleep(1)
+
+            session.findById("wnd[0]").maximize()
+            session.findById("wnd[0]/tbar[0]/okcd").text = "yra2"
+            session.findById("wnd[0]").sendVKey (0)
+            session.findById("wnd[0]/tbar[1]/btn[17]").press()
+
+            session.findById("wnd[0]/usr/ctxtS_PSPID-LOW").text = "G-0609A3EZ1" # ----Top WBS por defecto para que deje abrir la ventana emergente y pegar todas las WBS
+            session.findById("wnd[0]/usr/ctxtP_DATUM").text = radate # ----RA Date
+            session.findById("wnd[0]/usr/ctxtP_DATUM").caretPosition = 10
+            session.findById("wnd[0]/usr/btn%_S_PSPID_%_APP_%-VALU_PUSH").press()
+            session.findById("wnd[1]/tbar[0]/btn[16]").press()
+
+            # ----Esto hace que en el portapapeles se peguen los WBS y puedan ser ingresados en la funcion de SAP de pegar el portapapeles
+            pyperclip.copy(wbs)
+            print("========================================================================")
+            print(pyperclip)
+            print("========================================================================")
+
+            session.findById("wnd[1]/tbar[0]/btn[24]").press() # ----Este press es el que pega el portapapeles de los WBS
+            session.findById("wnd[1]/tbar[0]/btn[8]").press()
+            session.findById("wnd[0]/usr/btnB_EXPDOC").press()
+            session.findById("wnd[0]/usr/ctxtS_CPUDT-LOW").text = createdon # ----Created on
+            session.findById("wnd[0]/usr/ctxtS_CPUDT-HIGH").text = to # ----To
+            session.findById("wnd[0]/usr/ctxtS_CPUDT-HIGH").setFocus()
+            session.findById("wnd[0]/usr/ctxtS_CPUDT-HIGH").caretPosition = 10
+            session.findById("wnd[0]/tbar[1]/btn[8]").press()
+
+            print("========================================================================")
+            print("----Cargo el reporte YRA2 en SAP")
+            print("========================================================================\n")
+
+            print("========================================================================")
+            print("----Inicia el proceso de descarga del reporte YRA2")
+            print("========================================================================\n")
+
+            # ----Path de como descargar el YRA2
+            session.findById("wnd[0]").maximize()
+            session.findById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").select()
+            session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").select()
+            session.findById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").setFocus()
+            session.findById("wnd[1]/tbar[0]/btn[0]").press()
+
+            # ----Pop up de ingreso de datos de la descarga
+            session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio
+            session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
+            session.findById("wnd[1]/tbar[0]/btn[11]").press()
+            session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
+            session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
+
+            print("==============================================================================================================")
+            print("====FINALIZACION DE -PATH YRA2 SAP-")
+            print("==============================================================================================================\n")
+        except:
+            print("==============================================================================================================")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
+            print("==============================================================================================================\n")
+
+            print("========================================================================")
+            print("----Se ingresaron los datos de YRA2")
+            print("========================================================================\n")
+
+            print(sys.exc_info())
+
+            win= Tk()
+
+            win.attributes('-topmost', True)
+            # ----Set the geometry of frame
+            win.geometry("540x280")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+
+            def close_win():
+               win.destroy()
+
+            # ----Create a text label
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='1. Fechas incorrectas o formato de fechas incorrectas', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Ejecute el programa de nuevo e ingrese las fechas correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='2. WBS mal ingresadas o WBS inexistente', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Revise las WBS, luego vuelva a ejecutar el programa e ingrese las WBS correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+    
+            # ----Create a button to close the window
+            Button(win, text="Quit", font=('Helvetica bold',
+            10),command=close_win).pack(pady=1, side="top")
+
+            win.mainloop()
+
+            print("==============================================================================================================")
+            print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+            print("==============================================================================================================\n")
+            
+            # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
+            connection.CloseConnection()
+           
+            # ----Sale de ejecutar el PROGRAMA
+            exit()
+        # ------------------------------------ Fin Try
+
+        #==============================================================================================================
+        #====FINALIZACION DE -PATH YRA2 SAP- \\\\CODIGO
+        #==============================================================================================================  
+
+
+#---------------------------------------- Parte 3 _ Correccion Formato .XLSX ----------------------------------------
+def Deshabiiltar_error():
+        
+        print("==============================================================================================================")
+        print("====INICIALIZACION DE -DESHABILITAR ERROR-")
+        print("==============================================================================================================\n")  
+
+        # ----Toma la fecha actual de hoy
+        fecha= "{:%Y_%m_%d}".format(datetime.now())
+
+        # ----Directorio de destino
+        print(fecha)
+        directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
+
+        # ----Se definen los paths de los archivos, el archivo original y el archivo al que se quiere convertir
+        original_file_path = directorio + "\YRA2_TMOBILE_" + fecha + ".xls"
+        modified_file_path = directorio + "\YRA2_TMOBILE_" + fecha + ".xlsx"
+
+        print("========================================================================")
+        print("----Modificacion de archivo .xls a .xlsx en proceso")
+        print("========================================================================\n")
+
+        # ----Create an instance of the Excel application object and open the original file
+        excel = win32.Dispatch("Excel.Application")
+        wb = excel.Workbooks.Open(original_file_path)
+        excel.DisplayAlerts = False
+
+        # ----Save the modified workbook as an XLSX file
+        wb.SaveAs(modified_file_path, FileFormat=51) 
+
+        # ----Close the workbook
+        wb.Close()
+
+        # ----Exit the Excel application
+        #excel.Quit()
+
+        print("========================================================================")
+        print("----Modificacion terminada y archivo .xlsx guardado")
+        print("Archivo xlsx = " + modified_file_path)
+        print("========================================================================\n")
+
+        # ----Delete the original file
+        os.remove(original_file_path)
+
+        print("========================================================================")
+        print("----Archivo .xls antiguo eliminado")
+        print("Archivo xls = " + original_file_path)
+        print("========================================================================\n")
+
+        print("==============================================================================================================")
+        print("====FINALIZACION DE -DESHABILITAR ERROR-")
+        print("==============================================================================================================\n") 
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTA LA CORRECCION DENTRO DE LOS ARCHIVOS DE REPORTE YRA2 Y DEL ARCHIVO GIC
+        #correciones_lineas_xlsx()
+        #--------------------------------------------------------------------------------------------------------------------
+
+        #--------------------------------------------------------------------------------------------------------------------
+        # <<<<<<<<<SE EJECUTA LA CORRECCION DENTRO DE LOS ARCHIVOS DE REPORTE YRA2 Y DEL ARCHIVO GIC
+        #correciones_lineas_win32()
+        #--------------------------------------------------------------------------------------------------------------------
+
+
+#---------------------------------------- Parte 4 _ GIC Descarga ----------------------------------------
+def Descargar_GIC(): 
+
+    print("==============================================================================================================")
+    print("====INICIALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
+    print("==============================================================================================================\n")
+
+    print("========================================================================")
+    print("----Descargando Archivo GIC")
+    print("========================================================================\n")
+
+    # ----Define la variable url que contiene la dirección URL del archivo que se va a descargar
+    url = "http://dataq-prod.int.net.nokia.com:7780/pls/apex/f?p=115:8::CSV::::"    
+
+    fecha= "{:%Y_%m_%d}".format(datetime.now())
+    
+    # ----Define la variable filename que contiene el nombre que se le dará al archivo descargado en el sistema local.
+    filename_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
+    filename = "F&C GIC - SIG PC List_" + fecha + ".csv"
+
+    # ----Te avisa si ya descargo el archivo
+    response = requests.get(url)
+
+    print("========================================================================")
+    print("----Archivo GIC descargado en la Carpeta YRA2 del Escritorio")
+    print("----"+filename)
+    print("========================================================================\n")
+
+    # ----Verifica si la carpeta "mi_carpeta" existe en el sistema de archivos utilizando la función "os.path.exists()". Si la carpeta no existe, se crea utilizando la función "os.makedirs()".
+    directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"\\YRA2"
+    try:
+       os.stat(directorio)
+    except:
+       os.mkdir(directorio)
+
+    # ----Check if file already exists
+    if os.path.isdir(filename_path):
+        print("========================================================================")
+        print('----'+filename, '____ Exists in the destination path!')
+        print("========================================================================\n")
+        shutil.rmtree(filename_path)
+    
+    elif os.path.isfile(filename_path):
+        os.remove(filename_path)
+        print("========================================================================")
+        print('----'+filename, '____ Deleted in', 'YRA2', 'becuase is duplicate')
+        print("========================================================================\n")
+
+    with open(filename_path, "wb") as f:
+        f.write(response.content)
+
+    print("==============================================================================================================")
+    print("====FINALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
+    print("==============================================================================================================\n")
+
+
+#---------------------------------------- Parte 5 _ Correccion Formato .CSV ----------------------------------------
+def cambio_formato_csv():
+
+    print("==============================================================================================================")
+    print("====INICIALIZACION DE -CAMBIO FORMATO-")
+    print("==============================================================================================================\n")
+
+    # ----Indicativo la fecha actual de hoy
+    fecha= "{:%Y_%m_%d}".format(datetime.now())
+    
+    # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
+    csv_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
+    xlsx_file_corregido_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
+    filename_xlsx_corregido = "F&C GIC - SIG PC List - " + fecha + ".xlsx"
+
+    print("========================================================================")
+    print("Archivo csv = " + csv_file_path)
+    print("========================================================================\n")
+
+    print("========================================================================")
+    print("----Modificacion de archivo .csv a .xlsx en proceso")
+    print("========================================================================\n")
+
+    # Leer el archivo CSV
+    #csv = pd.read_csv(csv_file_path, encoding="cp1252")
+    #csv = pd.read_csv(csv_file_path, encoding="ISO-8859-1")
+    csv = pd.read_csv(csv_file_path, encoding="latin")
+    #csv["GIC"] = csv["GIC"].astype(object)
+    
+    # ----Check if file already exists
+    if os.path.isdir(xlsx_file_corregido_path):
+        print("========================================================================")
+        print('----'+filename_xlsx_corregido, '____ Exists in the destination path!')
+        print("========================================================================\n")
+        shutil.rmtree(xlsx_file_corregido_path)
+    
+    elif os.path.isfile(xlsx_file_corregido_path):
+        os.remove(xlsx_file_corregido_path)
+        print("========================================================================")
+        print('----'+filename_xlsx_corregido, '____ Deleted in', 'YRA2', 'becuase is duplicate')
+        print("========================================================================\n")
+
+    # Escribir el archivo xlsx
+    csv.to_excel(xlsx_file_corregido_path, index=False)
+
+    print("========================================================================")
+    print("----Modificacion terminada y archivo .xlsx guardado")
+    print("----Archivo xlsx = " + xlsx_file_corregido_path)
+    print("========================================================================\n")
+
+    # ----Delete the original file
+    os.remove(csv_file_path)
+
+    print("========================================================================")
+    print("----Archivo .xls antiguo eliminado")
+    print("----Archivo xls = " + csv_file_path)
+    print("========================================================================\n")
+
+    print("==============================================================================================================")
+    print("====FINALIZACION DE -CAMBIO FORMATO-")
+    print("==============================================================================================================\n")
+
+
+#---------------------------------------- Parte 6 _ Clasificador ----------------------------------------
+def vlookup():
+
+   print("==============================================================================================================")
+   print("====INICIALIZACION DE -VLOOKUP-")
+   print("==============================================================================================================\n")
+
+   # ----Toma la fecha actual de hoy
+   fecha= "{:%Y_%m_%d}".format(datetime.now())
+
+   # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
+   YRA2_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\YRA2_TMOBILE_" + fecha + ".xlsx"
+   GIC_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
+
+   # ----Se define el nombre y path del documento final
+   doc_final_REPORTE_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2','Reporte final') + "\\ Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
+   filename_doc_final_REPORTE_path = "Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
+
+   # ----Check if file already exists
+   directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final')
+   try:
+      os.stat(directorio)
+   except:
+      os.mkdir(directorio)
+
+   print("========================================================================")
+   print("Archivo xlsx = " + YRA2_file_path)
+   print("Archivo csv = " + GIC_file_path)
+   print("Archivo final = " + doc_final_REPORTE_path)
+   print("========================================================================\n")
+
+   print("========================================================================")
+   print("----Lectura de los archivos de Reporte YRA2 y GIC como DataFrame de dtype = String")
+   print("========================================================================\n")
+
+   # ----Define first DataFrame, especificando que el encabezado empieza en le fila 2 ya que en el codigo de columna la fila 1 es 0 entonces la 3 es 2
+   excel_YRA2 = pd.read_excel(YRA2_file_path, header=2, dtype=str) # ----lo que hace es tomar todos los datos en forma de String desde el principio y no arrojaria error ya que va a coincidir con los datos del otro DataFrame
+   # ----Define second DataFrame
+   excel_GIC = pd.read_excel(GIC_file_path, dtype=str)
+
+   # ----Se renombra el encabezado de la columna AK1=GIC code a AK1=GIC
+   excel_YRA2 = excel_YRA2.rename(columns={'GIC code': 'GIC'})
+   
+   # Escribir en la celda de la fila 0 y la columna 'A'
+   #excel_YRA2.at[3, 'GIC'] = 'Eliminar esta Fila'
+
+   # ----No toma las columnas que estan en blanco
+   excel_YRA2.columns = excel_YRA2.columns.str.strip()
+   excel_YRA2 = excel_YRA2.dropna(how='all')
+   excel_YRA2 = excel_YRA2.dropna(axis=1, how='all')
+   # ----No toma las columnas que estan en blanco
+   excel_GIC.columns = excel_GIC.columns.str.strip()
+   excel_GIC = excel_GIC.dropna(how='all')
+   excel_GIC = excel_GIC.dropna(axis=1, how='all')    
+
+   print("-------------------------------------------------------------------------")
+   print('Columnas del Reporte YRA como DataFrame:\n')
+   print(excel_YRA2.columns)
+   print("-------------------------------------------------------------------------\n")
+   
+   # ----Esto convierte los datos de las columnas [['...']] en int (Enteros)
+   #excel_YRA2['GIC']=excel_YRA2['GIC'].astype(int)
+   # print("--------------------------------")
+   # print("Se ejecuto en type str ____ corrigiendo el '.0' a vacio ''")
+   # print("--------------------------------\n")
+   # ----Esto convierte los datos de las columnas [['...']] en string y en dado caso que tengan '.0' se cambiara por vacio ''
+   #excel_YRA2['GIC']=excel_YRA2['GIC'].str.replace(r'\.0+$', '')
+   #excel_GIC[['GIC', 'PC Business Group']]=excel_GIC[['GIC', 'PC Business Group']].astype(str)
+
+   print("========================================================================")
+   print("----Inicio del vlookup entre reporte YRA2 y archivo GIC")
+   print("========================================================================\n")
+
+   print("-------------------------------------------------------------------------")
+   print("Datos GIC del Reporte YRA2:\n") 
+   print(excel_YRA2['GIC'])
+   print("-------------------------------------------------------------------------")
+   print("Datos GIC y PC Business Group del Archivo GIC:\n")
+   print(excel_GIC[['GIC', 'PC Business Group']])
+   print("-------------------------------------------------------------------------\n")
+
+   vlookup_df = pd.merge(excel_YRA2,  
+                           excel_GIC[['GIC', 'PC Business Group', 'PC Business Unit', 'PC Business Line']], 
+                           on ='GIC', 
+                           how ='left')
+
+   # ----View vlookup 
+   print("-------------------------------------------------------------------------")
+   print("Datos del Vlookup entre el Reporte YRA2 y el archivo GIC:\n" + vlookup_df)
+   print("-------------------------------------------------------------------------\n")
+
+   # ----Check if file already exists
+   if os.path.isdir(doc_final_REPORTE_path):
+         print("========================================================================")
+         print('----'+filename_doc_final_REPORTE_path, '____ Exists in the destination path!')
+         print("========================================================================\n")
+         shutil.rmtree(doc_final_REPORTE_path)
+
+   elif os.path.isfile(doc_final_REPORTE_path):
+         os.remove(doc_final_REPORTE_path)
+         print("========================================================================")
+         print('----'+filename_doc_final_REPORTE_path, '____ Deleted in', 'YRA2', 'becuase is duplicate')
+         print("========================================================================\n")
+
+   print("========================================================================")
+   print("----Fin del vlookup entre reporte YRA2 y archivo GIC")
+   print("========================================================================\n")
+
+   print("========================================================================")
+   print("----Inicio de guardado del DataFrame en archivo .XLSX")
+   print("----Archivo xlsx final =" + doc_final_REPORTE_path)
+   print("========================================================================\n")
+
+   # ----Save vlookup_df to Excel file
+   vlookup_df.to_excel(doc_final_REPORTE_path, index=False)
+
+   print("========================================================================")
+   print("----Fin de guardado del DataFrame en archivo .XLSX")
+   print("----Archivo xlsx final = " + doc_final_REPORTE_path)
+   print("========================================================================\n")
+
+   print("==============================================================================================================")
+   print("====FINALIZACION DE -VLOOKUP-")
+   print("==============================================================================================================\n")
+
+
+#---------------------------------------- Parte 7 _ Fin del Programa ----------------------------------------
+def terminar_programa():
+        
+        print("==============================================================================================================")
+        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -TERMINAR PROGRAMA-")
+        print("==============================================================================================================\n")
+        
+        print("========================================================================")
+        print("----Se termino la automatizacion del Reporte YRA2 -FIN DEL PROGRAMA-")
+        print("========================================================================\n")
+        
+        win= Tk()
+
+        win.attributes('-topmost', True)
+        # ----Set the geometry of frame
+        win.geometry("400x70")
+
+        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.title("REPORTE YRA2 - FIN DEL PROGRAMA")
+
+        def close_win():
+           win.destroy()
+        
+        # ----Create a text label
+        Label(win,text="Proceso de Reporte YRA2 Terminado", font=('Helvetica',10,'bold')).pack(pady=5)
+        
+        # ----Create a button to close the window
+        Button(win, text="Quit", font=('Helvetica bold',
+        10),command=close_win).pack(pady=5, side="top")
+        
+        win.mainloop()
+
+        #session = None
+        #connection = None
+        #application = None
+        #SapGuiAuto = None
+    
+        print("==============================================================================================================")
+        print("====FINALIZACION DE LA VENTANA EMERGENTE DE -TERMINAR PROGRAMA-")
+        print("==============================================================================================================\n")
+
+        # ----Sale de ejecutar el PROGRAMA
+        exit()
 
 
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente y en su defecto el resto del programa
