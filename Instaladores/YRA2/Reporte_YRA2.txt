@@ -1,0 +1,10 @@
+============================================
+
+Si no funciona se debe a estas razones:
+
+1- No se esta ejecutando como Administrador el programa "Reporte YRA2"
+2- Se instalo en una direccion diferente de carpeta a "C:\Program Files (x86)"
+
+De lo contrario desinstale y vuelva a instalar
+
+============================================
