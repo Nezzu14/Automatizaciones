@@ -460,12 +460,22 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
 
             session.findById("wnd[0]/usr/btn%_S_PSPID_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios WBS
             for i, element in enumerate(wbs_list):
-                session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + str(i) + "]").text = str(element)
+                if i == 0:
+                    session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + "0" + "]").text = str(element)
+                
+                else:
+                    session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + "1" + "]").text = str(element)
+                    session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE").verticalScrollbar.position = str(i)
+                
                 print("========================================================================")
                 print("Linea en la columna y WBS de linea en la columna: ", i, element)
+                print("Posicion del Scrollbar:", str(i))
                 print("========================================================================")
+            
             session.findById("wnd[1]/tbar[0]/btn[8]").press() # ----Completa la pestaña de varias WBS
             
+            print("LLEGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+
             session.findById("wnd[0]/tbar[1]/btn[8]").press() # ----Ejecuta la carga del reporte YRA2
 
             print("========================================================================")
@@ -489,6 +499,58 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             session.findById("wnd[1]/tbar[0]/btn[11]").press()
             session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
             session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
+        except pywintypes.com_error as e_sap:
+            print("==============================================================================================================")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -UNA SESION YA EJECUTADA-")
+            print("==============================================================================================================\n")
+
+            print("========================================================================")
+            print("----Una sesion ya esta iniciada y genera conflicto con el codigo")
+            print(sys.exc_info())
+            print("========================================================================\n")
+
+            win= Tk()
+
+            win.attributes('-topmost', True)
+            # ----Set the geometry of frame
+            win.geometry("540x240")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+
+            def close_win():
+               win.destroy()
+
+            # ----Create a text label
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='1. Una sesion ya esta iniciada y genera conflicto con el codigo', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Presione el boton de "Quit" y ejecute el programa de nuevo\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+    
+            # ----Create a button to close the window
+            Button(win, text="Quit", font=('Helvetica bold',
+            10),command=close_win).pack(pady=1, side="top")
+
+            win.mainloop()
+
+            print("==============================================================================================================")
+            print("====FINALIZACION DE LA VENTANA EMERGENTE DE --DATOS INGRESADOS INCORRECTOS EN YRA2--")
+            print("==============================================================================================================\n")
+
+            print("========================================================================")
+            print("----Se cerro la conexion de SAP")
+            # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
+            connection.CloseConnection()
+            print("----Se cerro la Pestaña de SAP Logon 770")
+            # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+            print("========================================================================\n")
+
+           
+            # ----Sale de ejecutar el PROGRAMA
+            exit()
         except:
             print("==============================================================================================================")
             print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DATOS INGRESADOS INCORRECTOS EN YRA2-")
@@ -794,6 +856,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             #--------------------------------------------------------------------------------------------------------------------
         except:
             print("==============================================================================================================")
+            print(sys.exc_info())
             print("xd no se que pudo haber pasado en este punto")
             print("==============================================================================================================")
         #--------------------------------------------------------------------------------------------------------------------
