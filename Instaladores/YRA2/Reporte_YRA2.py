@@ -160,8 +160,9 @@ class InputForm:
 
 
 # ======================================== Parte 2 _ Ejecucion SAP y el resto de Procesos ========================================
-# Definir la función de callback para EnumWindows
+
 def callback(hwnd, hwnds):
+    # ----Definir la función de callback para EnumWindows de SAP LOGON 770
     if 'SAP Logon' in win32gui.GetWindowText(hwnd):
         hwnds.append(hwnd)
 
@@ -215,7 +216,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
             print("========================================================================")
             print("----Error de SAP: ")
-            #Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
+            # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
             print(sys.exc_info())
             print("========================================================================\n")
 
@@ -223,7 +224,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
-            win.geometry("500x280")
+            win.geometry("510x230")
             #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
@@ -233,11 +234,9 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
                 win.destroy()
 
             # ----Create a text label
-            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
             Label(win,text='1. Error de SAP', font=('Helvetica',10,'bold')).pack(pady=1)
             Label(win,text='= Una vez cerrada la ventana de error de SAP y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
-            Label(win,text='2. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
-            Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
             Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
             Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
 
@@ -247,11 +246,11 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
             win.mainloop()
 
-            print("========================================================================")
-            print("----Se cerro la Pestaña de SAP Logon 770")
-            # Envía un mensaje WM_CLOSE a la ventana para cerrarla
-            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-            print("========================================================================\n")
+            #print("========================================================================")
+            #print("----Se cerro la Pestaña de SAP Logon 770")
+            # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
+            #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+            #print("========================================================================\n")
 
             print("==============================================================================================================")
             print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
@@ -288,8 +287,57 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
         try:
             # ----Se ejecuta la Connection del ERP de SAP P20 de cero
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
+        except pywintypes.com_error as e:
+            print("==============================================================================================================")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE SAP-")
+            print("==============================================================================================================\n")
+    
+            print("========================================================================")
+            print("----Error de SAP: ")
+            # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
+            print(sys.exc_info())
+            print("========================================================================\n")
+    
+            win= Tk()
+    
+            win.attributes('-topmost', True)
+            # ----Set the geometry of frame
+            win.geometry("510x230")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+    
+            def close_win():
+                win.destroy()
+    
+            # ----Create a text label
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='1. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+    
+            # ----Create a button to close the window
+            Button(win, text="Quit", font=('Helvetica bold',
+            10),command=close_win).pack(pady=10, side="top")
+    
+            win.mainloop()
+    
+            print("========================================================================")
+            print("----Se cerro la Pestaña de SAP Logon 770")
+            # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
+            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+            print("========================================================================\n")
+    
+            print("==============================================================================================================")
+            print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+            print("==============================================================================================================\n")
+    
+            # ----Sale de ejecutar el PROGRAMA PYTHON
+            exit()
 
-
+        try:
             # num_sessions = SapGuiAuto.GetScriptingEngine().GetSessions()
             # cantidad_sessions = len(num_sessions)
             # print("La cantidad de sesiones abiertas en SAP es: ", cantidad_sessions)
@@ -307,14 +355,14 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
             session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
             session.findById("wnd[1]/tbar[0]/btn[0]").press()
 
-            # Obtener información de la sesión
+            # ----Obtener información de la sesión
             session_info = session.Info
             usuario=str(session_info.User)
             print("------------------------")
             print("----Lenght Usuario:",str(len(usuario)))
             print("------------------------\n")
 
-            # Verificar si el inicio de sesión fue exitoso
+            # ----Verificar si el inicio de sesión fue exitoso
             if len(usuario) == 0:
                 print("==============================================================================================================")
                 print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
@@ -355,7 +403,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
                 # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
                 connection.CloseConnection()
                 #print("----Se cerro la Pestaña de SAP Logon 770")
-                # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+                # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
                 #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
                 print("========================================================================\n")
 
@@ -375,14 +423,14 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
             print("====FINALIZACION DE -SAP LOGIN-")
             print("==============================================================================================================\n")  
         except pywintypes.com_error:
-            # Obtener información de la sesión
+            # ----Obtener información de la sesión
             session_info = session.Info
             usuario=str(session_info.User)
             print("------------------------")
             print("----Lenght Usuario:",str(len(usuario)))
             print("------------------------\n")
 
-            # Verificar si el inicio de sesión fue exitoso
+            # ----Verificar si el inicio de sesión fue exitoso
             if len(usuario) == 0:
                 print("==============================================================================================================")
                 print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
@@ -423,7 +471,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
                 # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
                 connection.CloseConnection()
                 #print("----Se cerro la Pestaña de SAP Logon 770")
-                # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+                # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
                 #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
                 print("========================================================================\n")
 
@@ -449,7 +497,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
         print("========================================================================")
         print("----Error de SAP LOGON 770: ")
-        #Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
+        # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
         print(sys.exc_info())
         print("========================================================================\n")
 
@@ -467,7 +515,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
             win.destroy()
 
         # ----Create a text label
-        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
         Label(win,text='1. Dos o mas ventanas SAP LOGON 770 abiertas', font=('Helvetica',10,'bold')).pack(pady=1)
         Label(win,text='= Una vez cerradas las ventanas de SAP LOGON 770 y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
@@ -641,7 +689,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
             connection.CloseConnection()
             #print("----Se cerro la Pestaña de SAP Logon 770")
-            # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+            # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
             #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
             print("========================================================================\n")
 
