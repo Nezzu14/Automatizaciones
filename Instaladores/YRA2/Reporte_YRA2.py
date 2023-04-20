@@ -338,12 +338,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
             exit()
 
         try:
-            # num_sessions = SapGuiAuto.GetScriptingEngine().GetSessions()
-            # cantidad_sessions = len(num_sessions)
-            # print("La cantidad de sesiones abiertas en SAP es: ", cantidad_sessions)
-
-            # print(str(len(connection.Sessions.count)))
-
+            # ----Se define la "session" de la "connection" para poder interactuar con la pagina de SAP
             session = connection.Sessions(0)
 
             # ----Ingreso de Usuario y Contraseña
