@@ -47,9 +47,9 @@ class InputForm:
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
 
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
+        #directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
             # ----Si se quiere ejecutar en el computador  
-        #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
 
         # ----Load saved username and password if they exist
         try:
@@ -141,9 +141,9 @@ class InputForm:
         self.login_info['password'] = password
        
         # ----El directorio de los datos incriptados del usuario y password
-        directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
+        #directorio_login_bin = (r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\login_info.bin")
             # ----Si se quiere ejecutar en el computador        
-        #directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
+        directorio_login_bin = os.path.join(os.path.join(os.environ['USERPROFILE']), 'OneDrive - Nokia', 'Archivos personales', 'Automatizacion Python', 'Reporte YRA2 (P20)') + '\\login_info.bin'
         
         with open(directorio_login_bin, 'wb') as f:
             pickle.dump(self.login_info, f)
@@ -160,131 +160,167 @@ class InputForm:
 
 
 # ======================================== Parte 2 _ Ejecucion SAP y el resto de Procesos ========================================
+# Definir la función de callback para EnumWindows
+def callback(hwnd, hwnds):
+    if 'SAP Logon' in win32gui.GetWindowText(hwnd):
+        hwnds.append(hwnd)
+
 def saplogin(username, password, radate, createdon, to, wbs_list):
 
-    try:
-        # ----This function will Login to SAP from the SAP Logon window
-        print("==============================================================================================================")
-        print("====INICIALIZACION DE -SAP LOGIN-")
-        print("==============================================================================================================\n")
+    # ----Crear una lista para almacenar los identificadores de ventana
+    hwnds = []
+    # ----Llamar a EnumWindows para enumerar todas las ventanas y agregar los identificadores de ventana a la lista
+    win32gui.EnumWindows(callback, hwnds)
+    # ----Obtener la cantidad de ventanas hijas
+    n_windows = len(hwnds)
+    # ----Imprimir la cantidad de ventanas hijas
+    
+    print("------------------------")
+    print("SAP LOGON Antes de if == 0: ", n_windows)
+    print("------------------------\n")
 
-        # ----Path del ejecutable de SAP
-        path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
+    if n_windows == 0:
+        try:
+            # ----This function will Login to SAP from the SAP Logon window
+            print("==============================================================================================================")
+            print("====INICIALIZACION DE -SAP LOGIN-")
+            print("==============================================================================================================\n")
 
-        # ----Esperar a que abra la pestaña de Log in de SAP para los ERP's 
-        subprocess.Popen(path)
-        hwnd = 0
-        start_time = time.time()
-        while not hwnd:
-            hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
-            if time.time() - start_time > 30:
-                return  # Si se supera el tiempo máximo de espera, se sale de la función
-            time.sleep(0.5) 
+            # ----Path del ejecutable de SAP
+            path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
+
+            # ----Esperar a que abra la pestaña de Log in de SAP para los ERP's 
+            subprocess.Popen(path)
+            hwnd = 0
+            start_time = time.time()
+            while not hwnd:
+                hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
+                if time.time() - start_time > 30:
+                    return  # Si se supera el tiempo máximo de espera, se sale de la función
+                time.sleep(0.5) 
+
+            # ----Detecta la ventana de SAP
+            SapGuiAuto = win32com.client.GetObject('SAPGUI')
+            if not type(SapGuiAuto) == win32com.client.CDispatch:
+                return
+
+            application = SapGuiAuto.GetScriptingEngine
+            if not type(application) == win32com.client.CDispatch:
+                SapGuiAuto = None
+                return
+        except:
+            print("==============================================================================================================")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE SAP-")
+            print("==============================================================================================================\n")
+
+            print("========================================================================")
+            print("----Error de SAP: ")
+            #Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
+            print(sys.exc_info())
+            print("========================================================================\n")
+
+            win= Tk()
+
+            win.attributes('-topmost', True)
+            # ----Set the geometry of frame
+            win.geometry("500x280")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            # ----Si se quiere ejecutar en el computador
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+
+            def close_win():
+                win.destroy()
+
+            # ----Create a text label
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='1. Error de SAP', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Una vez cerrada la ventana de error de SAP y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='2. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+
+            # ----Create a button to close the window
+            Button(win, text="Quit", font=('Helvetica bold',
+            10),command=close_win).pack(pady=10, side="top")
+
+            win.mainloop()
+
+            print("========================================================================")
+            print("----Se cerro la Pestaña de SAP Logon 770")
+            # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+            print("========================================================================\n")
+
+            print("==============================================================================================================")
+            print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+            print("==============================================================================================================\n")
+
+            # ----Sale de ejecutar el PROGRAMA PYTHON
+            exit()
+
+    # ----Crear una lista para almacenar los identificadores de ventana
+    hwnds = []
+    # ----Llamar a EnumWindows para enumerar todas las ventanas y agregar los identificadores de ventana a la lista
+    win32gui.EnumWindows(callback, hwnds)
+    # ----Obtener la cantidad de ventanas hijas
+    n_windows = len(hwnds)
+    # ----Imprimir la cantidad de ventanas hijas
+
+    print("------------------------")
+    print("SAP LOGON Antes de if == 1: ", n_windows)
+    print("------------------------\n")
+
+    if n_windows == 1:
+        hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
 
         # ----Detecta la ventana de SAP
-        SapGuiAuto = win32.GetObject('SAPGUI')
-        if not type(SapGuiAuto) == win32.CDispatch:
+        SapGuiAuto = win32com.client.GetObject('SAPGUI')
+        if not type(SapGuiAuto) == win32com.client.CDispatch:
             return
 
         application = SapGuiAuto.GetScriptingEngine
-        if not type(application) == win32.CDispatch:
+        if not type(application) == win32com.client.CDispatch:
             SapGuiAuto = None
             return
 
-        # ----Si no hay sesiones abiertas se ejecuta SAP de cero
-        if application.Connections.Count==0 : 
+        try:
+            # ----Se ejecuta la Connection del ERP de SAP P20 de cero
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
+
+
+            # num_sessions = SapGuiAuto.GetScriptingEngine().GetSessions()
+            # cantidad_sessions = len(num_sessions)
+            # print("La cantidad de sesiones abiertas en SAP es: ", cantidad_sessions)
+
+            # print(str(len(connection.Sessions.count)))
+
             session = connection.Sessions(0)
 
             # ----Ingreso de Usuario y Contraseña
             session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
             session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
             session.findById("wnd[0]").sendVKey(0)
+ 
+            session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
+            session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
+            session.findById("wnd[1]/tbar[0]/btn[0]").press()
 
             # Obtener información de la sesión
             session_info = session.Info
             usuario=str(session_info.User)
             print("------------------------")
             print("----Lenght Usuario:",str(len(usuario)))
-            print("------------------------")
+            print("------------------------\n")
 
             # Verificar si el inicio de sesión fue exitoso
             if len(usuario) == 0:
-                    print("==============================================================================================================")
-                    print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
-                    print("==============================================================================================================\n")
-
-                    print("========================================================================")
-                    print("----Se ingresaron los datos de usuario y/o contraseña de forma incorrecta")
-                    print("========================================================================\n")
-
-                    win= Tk()
-
-                    win.attributes('-topmost', True)
-                    # ----Set the geometry of frame
-                    win.geometry("500x280")
-                    win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
-                    # ----Si se quiere ejecutar en el computador
-                    #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-                    win.title("REPORTE YRA2 - DATOS INCORRECTOS")
-
-                    def close_win():
-                       win.destroy()
-
-                    # ----Create a text label
-                    Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-                    Label(win,text='1. Usuario, Contraseña y/o demas datos incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
-                    Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
-                    Label(win,text='2. Tiene seis sesiones abiertas, el cual es el maximo para SAP', font=('Helvetica',10,'bold')).pack(pady=1)
-                    Label(win,text='= Cierre una de esas seis sesiones y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
-                    Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-                    Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
-
-                    # ----Create a button to close the window
-                    Button(win, text="Quit", font=('Helvetica bold',
-                    10),command=close_win).pack(pady=10, side="top")
-
-                    win.mainloop()
-
-                    print("========================================================================")
-                    print("----Se cerro la conexion de SAP")
-                    # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
-                    connection.CloseConnection()
-                    print("----Se cerro la Pestaña de SAP Logon 770")
-                    # Envía un mensaje WM_CLOSE a la ventana para cerrarla
-                    win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-                    print("========================================================================\n")
-
-                    print("==============================================================================================================")
-                    print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
-                    print("==============================================================================================================\n")
-
-                    # ----Sale de ejecutar el PROGRAMA PYTHON
-                    exit()
-            else:
-                    print("========================================================================")
-                    print("----" + usuario)
-                    print("----Inicio de sesión exitoso.")
-                    print("========================================================================")            
-
-        else: 
-            # ----Si ya hay sesiones abiertas con el acceso del usuario entonces se abrira una sesion aparte y se empezara a ejecitar el proceso de descarga de YRA2
-            # ----Se abrira solo hasta el maximo de 6 sesiones, si ya hay 6 sesiones abiertas entonces arrojara un error, el cual es el de "except"
-            if application.Connections.Count<2:
-                connection= application.Connections(0)
-                session = connection.Sessions(0)
-                session.CreateSession()
-                #session=connection.Sessions(connection.Sessions.Count -1)
-                print("========================================================================")
-                print("----Ususario ya activo - Se abrio  sesion")
-                print("========================================================================\n")
-            else:
                 print("==============================================================================================================")
-                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -MAS DE DOS VENTAS DE INICIO DE SESION ABIERTAS-")
+                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
                 print("==============================================================================================================\n")
-
                 print("========================================================================")
-                print("----Hay dos o mas conexiones abiertas (Inicios de sesion)")
+                print("----Se ingresaron los datos de usuario y/o contraseña de forma incorrecta")
                 print(sys.exc_info())
                 print("========================================================================\n")
 
@@ -292,70 +328,139 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
                 win.attributes('-topmost', True)
                 # ----Set the geometry of frame
-                win.geometry("540x240")
-                win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                win.geometry("500x240")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
                 # ----Si se quiere ejecutar en el computador
-                #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-                win.title("REPORTE YRA2 - MAS DE DOS VENTAS DE INICIO DE SESION ABIERTAS")
+                win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+                win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
                 def close_win():
-                   win.destroy()
+                    win.destroy()
 
                 # ----Create a text label
-                Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-                Label(win,text='1. Hay dos o mas conexiones abiertas (Inicios de sesion)', font=('Helvetica',10,'bold')).pack(pady=1)
-                Label(win,text='= Cierre las ventanas y ejecute el programa de nuevo\n', font=('Helvetica',10)).pack(pady=0.1)
+                Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+                Label(win,text='1. Usuario y/o Contraseña incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
+                Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
                 Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
                 Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
 
                 # ----Create a button to close the window
                 Button(win, text="Quit", font=('Helvetica bold',
-                10),command=close_win).pack(pady=1, side="top")
+                10),command=close_win).pack(pady=10, side="top")
 
                 win.mainloop()
 
+                print("========================================================================")
+                print("----Se cerro la conexion de SAP")
+                # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
+                connection.CloseConnection()
+                #print("----Se cerro la Pestaña de SAP Logon 770")
+                # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+                #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                print("========================================================================\n")
+
                 print("==============================================================================================================")
-                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -MAS DE DOS VENTAS DE INICIO DE SESION ABIERTAS-")
+                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
                 print("==============================================================================================================\n")
 
-                # ----Sale de ejecutar el PROGRAMA
-                exit()                
+                # ----Sale de ejecutar el PROGRAMA PYTHON
+                exit()
+            else:
+                print("========================================================================")
+                print("----" + usuario)
+                print("----Inicio de sesión exitoso.")
+                print("========================================================================")            
+             
+            print("==============================================================================================================")
+            print("====FINALIZACION DE -SAP LOGIN-")
+            print("==============================================================================================================\n")  
+        except pywintypes.com_error:
+            # Obtener información de la sesión
+            session_info = session.Info
+            usuario=str(session_info.User)
+            print("------------------------")
+            print("----Lenght Usuario:",str(len(usuario)))
+            print("------------------------\n")
 
+            # Verificar si el inicio de sesión fue exitoso
+            if len(usuario) == 0:
+                print("==============================================================================================================")
+                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
+                print("==============================================================================================================\n")
+                print("========================================================================")
+                print("----Se ingresaron los datos de usuario y/o contraseña de forma incorrecta")
+                print(sys.exc_info())
+                print("========================================================================\n")
 
+                win= Tk()
 
-        if not type(connection) == win32.CDispatch:
-            application = None
-            SapGuiAuto = None
-            return
-    
-        if not type(session) == win32.CDispatch:
-            connection = None
-            application = None
-            SapGuiAuto = None
-            return
+                win.attributes('-topmost', True)
+                # ----Set the geometry of frame
+                win.geometry("500x240")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                # ----Si se quiere ejecutar en el computador
+                win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+                win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
+                def close_win():
+                    win.destroy()
+
+                # ----Create a text label
+                Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+                Label(win,text='1. Usuario y/o Contraseña incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
+                Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+                Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+                Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+
+                # ----Create a button to close the window
+                Button(win, text="Quit", font=('Helvetica bold',
+                10),command=close_win).pack(pady=10, side="top")
+
+                win.mainloop()
+
+                print("========================================================================")
+                print("----Se cerro la conexion de SAP")
+                # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
+                connection.CloseConnection()
+                #print("----Se cerro la Pestaña de SAP Logon 770")
+                # Envía un mensaje WM_CLOSE a la ventana para cerrarla
+                #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                print("========================================================================\n")
+
+                print("==============================================================================================================")
+                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+                print("==============================================================================================================\n")
+
+                # ----Sale de ejecutar el PROGRAMA PYTHON
+                exit()
+            else:
+                print("========================================================================")
+                print("----" + usuario)
+                print("----Inicio de sesión exitoso.")
+                print("========================================================================")            
+             
+            print("==============================================================================================================")
+            print("====FINALIZACION DE -SAP LOGIN-")
+            print("==============================================================================================================\n")
+    else:
         print("==============================================================================================================")
-        print("====FINALIZACION DE -SAP LOGIN-")
-        print("==============================================================================================================\n")  
-    except pywintypes.com_error as e_sap:
-        print("==============================================================================================================")
-        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
+        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DOS O MAS LOGON 770 ABIERTOS-")
         print("==============================================================================================================\n")
 
         print("========================================================================")
-        print("----Error de SAP: ")
+        print("----Error de SAP LOGON 770: ")
         #Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
-        print(str(e_sap))
+        print(sys.exc_info())
         print("========================================================================\n")
 
         win= Tk()
 
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
-        win.geometry("500x280")
-        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+        win.geometry("520x220")
+        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
         # ----Si se quiere ejecutar en el computador
-        #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
         def close_win():
@@ -363,10 +468,8 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
         # ----Create a text label
         Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-        Label(win,text='1. Error de SAP', font=('Helvetica',10,'bold')).pack(pady=1)
-        Label(win,text='= Una vez cerrada la ventana de error de SAP y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
-        Label(win,text='2. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
-        Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+        Label(win,text='1. Dos o mas ventanas SAP LOGON 770 abiertas', font=('Helvetica',10,'bold')).pack(pady=1)
+        Label(win,text='= Una vez cerradas las ventanas de SAP LOGON 770 y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
         Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
         Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
 
@@ -376,14 +479,8 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
         win.mainloop()
 
-        print("========================================================================")
-        print("----Se cerro la Pestaña de SAP Logon 770")
-        # Envía un mensaje WM_CLOSE a la ventana para cerrarla
-        win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-        print("========================================================================\n")
-
         print("==============================================================================================================")
-        print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+        print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DOS LOGON 770 ABIERTOS-")
         print("==============================================================================================================\n")
 
         # ----Sale de ejecutar el PROGRAMA PYTHON
@@ -499,64 +596,12 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
         except pywintypes.com_error as e_sap:
             print("==============================================================================================================")
-            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -UNA SESION YA EJECUTADA-")
-            print("==============================================================================================================\n")
-
-            print("========================================================================")
-            print("----Una sesion ya esta iniciada y genera conflicto con el codigo")
-            print(sys.exc_info())
-            print("========================================================================\n")
-
-            win= Tk()
-
-            win.attributes('-topmost', True)
-            # ----Set the geometry of frame
-            win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
-            # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
-            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
-
-            def close_win():
-               win.destroy()
-
-            # ----Create a text label
-            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-            Label(win,text='1. Una sesion ya esta iniciada y genera conflicto con el codigo', font=('Helvetica',10,'bold')).pack(pady=1)
-            Label(win,text='= Presione el boton de "Quit" y ejecute el programa de nuevo\n', font=('Helvetica',10)).pack(pady=0.1)
-            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
-    
-            # ----Create a button to close the window
-            Button(win, text="Quit", font=('Helvetica bold',
-            10),command=close_win).pack(pady=1, side="top")
-
-            win.mainloop()
-
-            print("==============================================================================================================")
-            print("====FINALIZACION DE LA VENTANA EMERGENTE DE --DATOS INGRESADOS INCORRECTOS EN YRA2--")
-            print("==============================================================================================================\n")
-
-            print("========================================================================")
-            print("----Se cerro la conexion de SAP")
-            # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
-            connection.CloseConnection()
-            print("----Se cerro la Pestaña de SAP Logon 770")
-            # Envía un mensaje WM_CLOSE a la ventana para cerrarla
-            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-            print("========================================================================\n")
-
-           
-            # ----Sale de ejecutar el PROGRAMA
-            exit()
-        except:
-            print("==============================================================================================================")
             print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DATOS INGRESADOS INCORRECTOS EN YRA2-")
             print("==============================================================================================================\n")
 
             print("========================================================================")
             print("----Se ingresaron los datos de forma incorrecta de la transaccion YRA2")
-            print(sys.exc_info())
+            print(str(e_sap))
             print("========================================================================\n")
 
             win= Tk()
@@ -564,9 +609,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x280")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
             def close_win():
@@ -595,9 +640,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             print("----Se cerro la conexion de SAP")
             # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
             connection.CloseConnection()
-            print("----Se cerro la Pestaña de SAP Logon 770")
+            #print("----Se cerro la Pestaña de SAP Logon 770")
             # Envía un mensaje WM_CLOSE a la ventana para cerrarla
-            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+            #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
             print("========================================================================\n")
 
            
@@ -643,9 +688,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - NO SE ENCONTRO EL DOC DE YRA2")
 
             def close_win():
@@ -698,9 +743,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
 
             def close_win():
@@ -753,9 +798,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN CAMBIO FORMATO DE GIC")
 
             def close_win():
@@ -812,9 +857,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-            #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+            win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
 
             def close_win():
@@ -1185,9 +1230,9 @@ def terminar_programa(connection, hwnd):
         # ----Set the geometry of frame
         win.geometry("400x70")
 
-        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
-        #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+        win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - FIN DEL PROGRAMA")
 
         def close_win():
@@ -1233,9 +1278,9 @@ if __name__ == '__main__':
     root = tk.Tk()
     
     # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-    root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+    #root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
     # ----Si se quiere ejecutar en el computador
-    #root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
+    root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
     
     input_form = InputForm(root)
     
