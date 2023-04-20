@@ -160,7 +160,7 @@ class InputForm:
 
 
 # ======================================== Parte 2 _ Ejecucion SAP y el resto de Procesos ========================================
-
+#---------------------------------------------------------------------------------------------------------------------------------
 def callback(hwnd, hwnds):
     # ----Definir la función de callback para EnumWindows de SAP LOGON 770
     if 'SAP Logon' in win32gui.GetWindowText(hwnd):
@@ -949,6 +949,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
         
         # ----FIN DEL RESTO DEL PROCESO DE DOCUMENTOS DEL REPORTE YRA2----
         #====================================================================================================================
+#---------------------------------------------------------------------------------------------------------------------------------
 
 
 #---------------------------------------- Sub-Parte 2.1 _ Correccion Formato .XLSX ----------------------------------------
