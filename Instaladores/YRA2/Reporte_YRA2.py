@@ -60,47 +60,75 @@ class InputForm:
 
         # ----Create labels and input fields
 
-        self.username_label = tk.Label(master, text='Fechas = dd.mm.yy', font=('Helvetica', 9, 'bold'))
-        self.username_label.grid(row=0, column=1, padx=5, pady=5)
-        
-        self.username_label = tk.Label(master, text='Username:')
+        self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'))
+        self.ingreso_label.grid(row=0, column=1, padx=5, pady=5)
+
+        self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'), foreground='red')
+        self.obligatorio_label.grid(row=0, column=0, padx=5, pady=5)
+
+        self.username_label = tk.Label(master, text='* Username:', font=('Helvetica', 9, 'bold', 'underline'))
         self.username_label.grid(row=1, column=0, padx=5, pady=5)
         self.username_input = tk.Entry(master, width=16)
         self.username_input.insert(0, self.login_info['username'])
         self.username_input.grid(row=1, column=1, padx=5, pady=5)
 
-        self.password_label = tk.Label(master, text='Password:')
+        self.password_label = tk.Label(master, text='* Password:', font=('Helvetica', 9, 'bold', 'underline'))
         self.password_label.grid(row=2, column=0, padx=5, pady=5)
         self.password_input = tk.Entry(master, show='*', width=16)
         self.password_input.insert(0, self.login_info['password'])
         self.password_input.grid(row=2, column=1, padx=5, pady=5)
 
-        self.radate_label = tk.Label(master, text='RA Date:')
-        self.radate_label.grid(row=3, column=0, padx=5, pady=5)
-        self.radate_input = tk.Entry(master, width=16)
-        self.radate_input.grid(row=3, column=1, padx=5, pady=5)
+        self.fechas_label = tk.Label(master, text='(Fechas = dd.mm.yy)', font=('Helvetica', 9, 'bold'))
+        self.fechas_label.grid(row=3, column=1, padx=5, pady=5)
+
+        self.radate_label = tk.Label(master, text='* RA Date:', font=('Helvetica', 9, 'bold', 'underline'))
+        self.radate_label.grid(row=4, column=0, padx=5, pady=5)
+        self.radate_input = tk.Entry(master, width=11)
+        self.radate_input.grid(row=4, column=1, padx=5, pady=5)
         self.radate_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.radate_input.get()))
 
         self.createdon_label = tk.Label(master, text='Created on:')
-        self.createdon_label.grid(row=4, column=0, padx=5, pady=5)
-        self.createdon_input = tk.Entry(master, width=16)
-        self.createdon_input.grid(row=4, column=1, padx=5, pady=5)
+        self.createdon_label.grid(row=5, column=0, padx=5, pady=5)
+        self.createdon_input = tk.Entry(master, width=11)
+        self.createdon_input.grid(row=5, column=1, padx=5, pady=5)
         self.createdon_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
-        self.to_label = tk.Label(master, text='To:')
-        self.to_label.grid(row=4, column=2, padx=5, pady=5)
-        self.to_input = tk.Entry(master, width=16)
-        self.to_input.grid(row=4, column=3, padx=5, pady=5)
+        self.to_label = tk.Label(master, text='- To:')
+        self.to_label.grid(row=5, column=2, padx=5, pady=5)
+        self.to_input = tk.Entry(master, width=11)
+        self.to_input.grid(row=5, column=3, padx=5, pady=5)
         self.to_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.to_input.get()))
 
-        self.wbs_label = tk.Label(master, text='WBS\n(Separar por\n"Saltos de Linea"):')
-        self.wbs_label.grid(row=5, column=0, padx=5, pady=5)
-        self.wbs_input = tk.Text(master,height=5, width=12)
-        self.wbs_input.grid(row=5, column=1, padx=5, pady=5)
+        self.salto_label = tk.Label(master, text='(Variante RA Items)', font=('Helvetica', 9, 'bold'))
+        self.salto_label.grid(row=6, column=1, padx=5, pady=5)
+
+        self.variante_label = tk.Label(master, text='Variante "RA Items": ')
+        self.variante_label.grid(row=7, column=0, padx=5, pady=5)
+        self.variante_input = tk.Entry(master, width=16)
+        self.variante_input.grid(row=7, column=1, padx=5, pady=5)
+        self.variante_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
+
+        self.salto_label = tk.Label(master, text='(WBS, SD y RAC\nSeparar por\n"Saltos de Linea")', font=('Helvetica', 9, 'bold'))
+        self.salto_label.grid(row=8, column=1, padx=5, pady=5)
+
+        self.wbs_label = tk.Label(master, text='* WBS:', font=('Helvetica', 9, 'bold', 'underline'))
+        self.wbs_label.grid(row=9, column=0, padx=5, pady=5)
+        self.wbs_input = tk.Text(master,height=5, width=11)
+        self.wbs_input.grid(row=9, column=1, padx=5, pady=5)
+
+        self.salesdocument_label = tk.Label(master, text='Sales Document:')
+        self.salesdocument_label.grid(row=10, column=0, padx=5, pady=5)
+        self.salesdocument_input = tk.Text(master,height=3, width=10)
+        self.salesdocument_input.grid(row=10, column=1, padx=5, pady=5)
+
+        self.racategory_label = tk.Label(master, text='RA Category:\n(COS, RRS, RRM,\nREB, AR o RRO)')
+        self.racategory_label.grid(row=11, column=0, padx=5, pady=5)
+        self.racategory_input = tk.Text(master,height=2, width=3)
+        self.racategory_input.grid(row=11, column=1, padx=5, pady=5)
 
         # ----Create submit button
         self.submit_button = tk.Button(master, text='Submit', command=self.submit)
-        self.submit_button.grid(row=6, column=1, padx=5, pady=5)
+        self.submit_button.grid(row=12, column=1, padx=5, pady=5)
 
 
     def submit(self):
@@ -115,10 +143,15 @@ class InputForm:
         radate = self.radate_input.get()
         createdon = self.createdon_input.get()
         to = self.to_input.get()
+        variante = self.variante_input.get()
         wbs = self.wbs_input.get('1.0', 'end-1c')
+        sales_document = self.salesdocument_input.get('1.0', 'end-1c')
+        ra_category = self.racategory_input.get('1.0', 'end-1c')
         
         # ----Esto es para volverlo lista, pero no se debe activar ya que el portapapleles no lee listas para ejecutar
         wbs_list = wbs.split("\n")or(",")or(" ")or(", ")or("  ")
+        sales_document_list = sales_document.split("\n")or(",")or(" ")or(", ")or("  ")
+        ra_category_list = ra_category.split("\n")or(",")or(" ")or(", ")or("  ")
 
         print("========================================================================")
         print("Username = " + username)
@@ -126,8 +159,9 @@ class InputForm:
         print("RA Date = " + radate)
         print("Created on = " + createdon)
         print("To = " + to)
-        print("WBS's = ", wbs)
-        print("WBS's = ", type(wbs))
+        print("WBS's = ", wbs_list)
+        print("Sales Document = ", sales_document_list)
+        print("RA Category = ", ra_category_list)
         print("========================================================================\n")
         # ----Close the window and end the program pero si quieren seguir las varialbles se debe pner return al final del todo
         self.master.destroy()
@@ -150,7 +184,7 @@ class InputForm:
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA LA APERTURA DE SAP
-        saplogin(username, password, radate, createdon, to, wbs_list) 
+        saplogin(username, password, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list) 
         #--------------------------------------------------------------------------------------------------------------------
 
         # ----Esto permite que se cierre la ventana emergente con self.master.destroy() pero que las variables y la ejecucion de los "def" no se borren
@@ -166,7 +200,7 @@ def callback(hwnd, hwnds):
     if 'SAP Logon' in win32gui.GetWindowText(hwnd):
         hwnds.append(hwnd)
 
-def saplogin(username, password, radate, createdon, to, wbs_list):
+def saplogin(username, password, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list):
 
     # ----Crear una lista para almacenar los identificadores de ventana
     hwnds = []
@@ -531,7 +565,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
 
     #--------------------------------------------------------------------------------------------------------------------
     # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
-    Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection, hwnd)
+    Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd)
     #--------------------------------------------------------------------------------------------------------------------
 
     session = None
@@ -543,7 +577,7 @@ def saplogin(username, password, radate, createdon, to, wbs_list):
     #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
     #==============================================================================================================    
 
-def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection, hwnd):
+def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd):
         
         print("==============================================================================================================")
         print("====INICIALIZACION DE -PATH YRA2 SAP-")
@@ -555,6 +589,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
         print("Fecha RA Date:", radate)
         print("Fecha Created On:", createdon)
         print("Fecha To:", to)
+        print("Variante:", variante)
         print("========================================================================\n")
 
         # ----Indicativo de la fecha actual
@@ -585,7 +620,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             session.findById("wnd[0]/usr/ctxtS_PSPID-LOW").text = "G-0609A3EZ1" # ----Top WBS por defecto para que deje abrir la ventana emergente y pegar todas las WBS
             session.findById("wnd[0]/usr/ctxtP_DATUM").text = radate # ----RA Date
             session.findById("wnd[0]/usr/ctxtP_DATUM").caretPosition = 10
-            session.findById("wnd[0]/usr/btnB_EXPDOC").press() # ----Presiona el boton para abrir las opciones de las fechas
+            session.findById("wnd[0]/usr/btnB_EXPDOC").press() # ----Presiona el boton para abrir las opciones de las fechas y sales document
             session.findById("wnd[0]/usr/ctxtS_CPUDT-LOW").text = createdon # ----Created on
             session.findById("wnd[0]/usr/ctxtS_CPUDT-HIGH").text = to # ----To
             session.findById("wnd[0]/usr/ctxtS_CPUDT-HIGH").setFocus()
@@ -596,9 +631,14 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             print("========================================================================")
             print("VERIFICACION DE DATOS")
             print("WBS List: ", wbs_list)
+            print("Sales Document List: ", sales_document_list)
+            print("RA Category List: ", ra_category_list)
             print("========================================================================")
 
             session.findById("wnd[0]/usr/btn%_S_PSPID_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios WBS
+            
+            # ---- Inicio de ingreso de WBS
+            print("========================================================================")
             for i, element in enumerate(wbs_list):
                 if i < 5:
                     session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + str(i) + "]").text = str(element)
@@ -607,12 +647,77 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
                     session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + "5" + "]").text = str(element)
                     session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE").verticalScrollbar.position = str(i-4)
                 
-                print("========================================================================")
-                print("Linea en la columna y WBS de linea en la columna: ", i, element)
-                print("Posicion del Scrollbar:", str(i))
-                print("========================================================================")
-            
+                print("Linea en la columna y WBS de la linea: ", i, element)
+            print("========================================================================")
             session.findById("wnd[1]/tbar[0]/btn[8]").press() # ----Completa la pestaña de varias WBS
+
+            # ---- Inicio de ingreso de Sales Document
+            if len(sales_document_list) == 1:
+                for elemento in sales_document_list:
+                    if elemento == "" or elemento is None:
+                        print("========================================================================")
+                        print("NO se ingresaron Sales Document")
+                        print("========================================================================")
+                    else:
+                        session.findById("wnd[0]/usr/btn%_S_VBELN_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios Sales Document
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/txtRSCSEL_255-SLOW_I[1,0]").text = str(elemento)
+                        session.findById("wnd[1]/tbar[0]/btn[8]").press()
+
+                        print("========================================================================")
+                        print("Linea en la columna y Sales Document de la linea:  1 ,", element)
+                        print("========================================================================")
+            else:
+                session.findById("wnd[0]/usr/btn%_S_VBELN_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios Sales Document
+                print("========================================================================")
+                for i, element in enumerate(sales_document_list):
+                    if i < 5:
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/txtRSCSEL_255-SLOW_I[1," + str(i) + "]").text = str(element)
+                    else:
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/txtRSCSEL_255-SLOW_I[1," + "5" + "]").text = str(element)
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE").verticalScrollbar.position = str(i-4)
+
+                    print("Linea en la columna y Sales Document de la linea: ", i,",", element)
+                print("========================================================================")
+                session.findById("wnd[1]/tbar[0]/btn[8]").press() # ----Completa la pestaña de varios Sales Document
+
+            # ---- Inicio de ingreso de RA Category
+            if len(ra_category_list) == 1:
+                for elemento in ra_category_list:
+                    if elemento == "" or elemento is None:
+                        print("========================================================================")
+                        print("NO se ingresaron RA Category")
+                        print("========================================================================")
+                    else:
+                        session.findById("wnd[0]/usr/btnB_EXPACC").press() # ----Presiona el boton para abrir las opciones de RA Category
+                        session.findById("wnd[0]/usr/btn%_S_RACAT_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios RA Category
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").text = str(elemento)
+                        session.findById("wnd[1]/tbar[0]/btn[8]").press()
+
+                        print("========================================================================")
+                        print("Linea en la columna y RA Category de la linea:  1 ,", element)
+                        print("========================================================================")
+            else:
+                session.findById("wnd[0]/usr/btnB_EXPACC").press() # ----Presiona el boton para abrir las opciones de RA Category
+                session.findById("wnd[0]/usr/btn%_S_RACAT_%_APP_%-VALU_PUSH").press() # ----Abre la ventana para que pongan varios RA Category
+                print("========================================================================")
+                for i, element in enumerate(ra_category_list):
+                    if i < 5:
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + str(i) + "]").text = str(element)
+                    else:
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1," + "5" + "]").text = str(element)
+                        session.findById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE").verticalScrollbar.position = str(i-4)
+
+                    print("Linea en la columna y RA Category de la linea: ", i,",", element)
+                print("========================================================================")
+                session.findById("wnd[1]/tbar[0]/btn[8]").press() # ----Completa la pestaña de varios RA Category
+
+            session.findById("wnd[0]/usr/chkP_CUSPO").selected = True # ---- Activar Boton de Customer PO
+            session.findById("wnd[0]/usr/chkP_CUSMNO").selected = True # ---- Activar Boton de Customer Material Number
+            session.findById("wnd[0]/usr/radP_ITEM").select() # ---- Selecciona la opcion del Boton de RA Item Representation
+            session.findById("wnd[0]/usr/chkP_NO0ALL").selected = True # ---- Activar Boton de Suppress Zero Values Rows (SDW)
+
+            session.findById("wnd[0]/usr/ctxtP_VARI").text = variante # ---- Se ingresa la variable de RA items
+            session.findById("wnd[0]").sendVKey (0)
 
             session.findById("wnd[0]/tbar[1]/btn[8]").press() # ----Ejecuta la carga del reporte YRA2
 
@@ -651,7 +756,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
-            win.geometry("540x280")
+            win.geometry("700x400")
             win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
@@ -664,8 +769,12 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, wbs_list, connection
             Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
             Label(win,text='1. Fechas incorrectas o formato de fechas incorrectas', font=('Helvetica',10,'bold')).pack(pady=1)
             Label(win,text='= Ejecute el programa de nuevo e ingrese las fechas correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
-            Label(win,text='2. WBS mal ingresadas o WBS inexistente', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='2. WBS mal ingresadas o WBS inexistentes', font=('Helvetica',10,'bold')).pack(pady=1)
             Label(win,text='= Revise las WBS, luego vuelva a ejecutar el programa e ingrese las WBS correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='3. Sales Document mal ingresados o Sales Document incompatibles con los WBS', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Revise los Sales Document, luego vuelva a ejecutar el programa e ingrese los Sales Document correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='4. RA Category mal ingresados o RA Category inexistentes', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Revise los RA Category, luego vuelva a ejecutar el programa e ingrese los RA Category correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
             Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
             Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
     
