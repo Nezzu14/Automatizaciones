@@ -259,7 +259,11 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("510x230")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -337,7 +341,11 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("510x230")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -406,7 +414,11 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
                 win.attributes('-topmost', True)
                 # ----Set the geometry of frame
                 win.geometry("500x240")
-                win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                
+                # ----Aplicacion
+                win.iconbitmap(r'nokia.ico')
+                # ----Python
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
                 # ----Si se quiere ejecutar en el computador
                 #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
                 win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -474,7 +486,11 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
                 win.attributes('-topmost', True)
                 # ----Set the geometry of frame
                 win.geometry("500x240")
-                win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                
+                # ----Aplicacion
+                win.iconbitmap(r'nokia.ico')
+                # ----Python
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
                 # ----Si se quiere ejecutar en el computador
                 #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
                 win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -535,7 +551,11 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
         win.geometry("520x220")
-        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+        
+        # ----Aplicacion
+        win.iconbitmap(r'nokia.ico')
+        # ----Python
+        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
         # ----Si se quiere ejecutar en el computador
         #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -757,7 +777,11 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("700x400")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - DATOS INCORRECTOS")
@@ -840,7 +864,11 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - NO SE ENCONTRO EL DOC DE YRA2")
@@ -895,7 +923,11 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Pyhton
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
@@ -950,7 +982,11 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN CAMBIO FORMATO DE GIC")
@@ -1009,7 +1045,11 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
             win.geometry("540x240")
-            win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            
+            # ----Aplicacion
+            win.iconbitmap(r'nokia.ico')
+            # ----Python
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             # ----Si se quiere ejecutar en el computador
             #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
             win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
@@ -1383,8 +1423,11 @@ def terminar_programa(connection, hwnd):
         # ----Set the geometry of frame
         win.geometry("400x70")
 
-        win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
-            # ----Si se quiere ejecutar en el computador
+        # ----Aplicacion
+        win.iconbitmap(r'nokia.ico')
+        # ----Python
+        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+        # ----Si se quiere ejecutar en el computador
         #win.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
         win.title("REPORTE YRA2 - FIN DEL PROGRAMA")
 
@@ -1430,8 +1473,10 @@ if __name__ == '__main__':
     
     root = tk.Tk()
     
+    # ----Aplicacion
+    root.iconbitmap(r'nokia.ico')
     # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-    root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+    #root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
     # ----Si se quiere ejecutar en el computador
     #root.iconbitmap(r"C:\\Users\\migumart\\OneDrive - Nokia\Archivos personales\\Automatizacion Python\\Reporte YRA2 (P20)\\nokia.ico")
     
