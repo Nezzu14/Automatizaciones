@@ -66,8 +66,7 @@ class InputForm:
         self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'))
         self.ingreso_label.grid(row=0, column=1, padx=5, pady=5)
 
-        self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'))
-        #foreground='red')
+        self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'), foreground='red')
         self.obligatorio_label.grid(row=0, column=0, padx=5, pady=5)
 
         self.username_label = tk.Label(master, text='* Username:', font=('Helvetica', 9, 'bold', 'underline'))
@@ -133,7 +132,6 @@ class InputForm:
         # ----Create submit button
         self.submit_button = tk.Button(master, text='Submit', command=self.submit)
         self.submit_button.grid(row=12, column=1, padx=5, pady=5)
-
 
     def submit(self):
 
@@ -260,7 +258,9 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             print(sys.exc_info())
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -357,7 +357,7 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
         except pywintypes.com_error as e:
             print("==============================================================================================================")
-            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE SAP-")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE CONECTIVIDAD 1-")
             print("==============================================================================================================\n")
     
             print("========================================================================")
@@ -366,7 +366,7 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             print(sys.exc_info())
             print("========================================================================\n")
     
-            win= Tk()
+            win= ttk.Window(themename="cerculean")
     
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -377,7 +377,7 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             # ----Si se quiere ejecutar en la Aplicacion
             #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
             
-            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+            win.title("REPORTE YRA2 - ERROR DE CONECTIVIDAD")
     
             def close_win():
                 win.destroy()
@@ -455,7 +455,9 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
                 print(sys.exc_info())
                 print("========================================================================\n")
 
-                win= Tk()
+                # ----Formato de la Pantalla Emergente
+                win = ttk.Window(themename="cerculean")
+                #win= Tk()
 
                 win.attributes('-topmost', True)
                 # ----Set the geometry of frame
@@ -508,154 +510,65 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
             print("==============================================================================================================")
             print("====FINALIZACION DE -SAP LOGIN-")
             print("==============================================================================================================\n")    
-    
-    print("------------------------")
-    print("SAP LOGON Antes de if == 2: ", n_windows)
-    print("------------------------\n")
-    
-    if n_windows == 2:
-
-        try:
-            hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
-
-            # ----Detecta la ventana de SAP
-            SapGuiAuto = win32com.client.GetObject('SAPGUI')
-            if not type(SapGuiAuto) == win32com.client.CDispatch:
-                pass
-
-            application = SapGuiAuto.GetScriptingEngine
-            if not type(application) == win32com.client.CDispatch:
-                SapGuiAuto = None
-                pass
-        except:
-            # ----Path del ejecutable de SAP
-            path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
-
-            # ----Esperar a que abra la pestaña de Log in de SAP para los ERP's 
-            subprocess.Popen(path)
-            hwnd = 0
-            start_time = time.time()
-            while not hwnd:
+    else:
+        print("------------------------")
+        print("SAP LOGON Antes de if == 2: ", n_windows)
+        print("------------------------\n")
+        if n_windows == 2:
+            try:
                 hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
-                if time.time() - start_time > 30:
-                    return  # Si se supera el tiempo máximo de espera, se sale de la función
-                time.sleep(0.5)
-            
-            # ----Detecta la ventana de SAP
-            SapGuiAuto = win32com.client.GetObject('SAPGUI')
-            if not type(SapGuiAuto) == win32com.client.CDispatch:
-                pass
-
-            application = SapGuiAuto.GetScriptingEngine
-            if not type(application) == win32com.client.CDispatch:
-                SapGuiAuto = None
-                pass
-
-        try:
-            # ----Se ejecuta la Connection del ERP de SAP P20 de cero
-            connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
-        except pywintypes.com_error as e:
-            print("==============================================================================================================")
-            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE SAP-")
-            print("==============================================================================================================\n")
     
-            print("========================================================================")
-            print("----Error de SAP: ")
-            # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
-            print(sys.exc_info())
-            print("========================================================================\n")
+                # ----Detecta la ventana de SAP
+                SapGuiAuto = win32com.client.GetObject('SAPGUI')
+                if not type(SapGuiAuto) == win32com.client.CDispatch:
+                    pass
+                
+                application = SapGuiAuto.GetScriptingEngine
+                if not type(application) == win32com.client.CDispatch:
+                    SapGuiAuto = None
+                    pass
+            except:
+                # ----Path del ejecutable de SAP
+                path = r"C:\Program Files (x86)\SAP\SAPGUI770\SAPgui\saplogon.exe"
     
-            win= Tk()
-    
-            win.attributes('-topmost', True)
-            # ----Set the geometry of frame
-            win.geometry("800x300")
-            
-            # ----Python
-            win.iconbitmap(r'nokia.ico')
-            # ----Si se quiere ejecutar en la Aplicacion
-            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
-            
-            win.title("REPORTE YRA2 - DATOS INCORRECTOS")
-    
-            def close_win():
-                win.destroy()
-    
-            # ----Create a text label
-            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-            Label(win,text='1. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
-            Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
-            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
-    
-            # ----Create a button to close the window
-            Button(win, text="Quit", font=('Helvetica bold',
-            10),command=close_win).pack(pady=10, side="top")
-    
-            win.mainloop()
-    
-            print("========================================================================")
-            print("----Se cerro la Pestaña de SAP Logon 770")
-            # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
-            win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-            print("========================================================================\n")
-    
-            print("==============================================================================================================")
-            print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
-            print("==============================================================================================================\n")
-    
-            # ----Sale de ejecutar el PROGRAMA PYTHON
-            exit()
-
-        try:
-            # ----Se define la "session" de la "connection" para poder interactuar con la pagina de SAP
-            session = connection.Sessions(0)
-
-            # ----Ingreso de Usuario y Contraseña
-            session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
-            session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
-            session.findById("wnd[0]").sendVKey(0)
- 
-            session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
-            session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
-            session.findById("wnd[1]/tbar[0]/btn[0]").press()
-
-            # ----Obtener información de la sesión
-            session_info = session.Info
-            usuario=str(session_info.User)
-            print("------------------------")
-            print("----Lenght Usuario:",str(len(usuario)))
-            print("------------------------\n")
-
-            # ----Inicio de sesión fue exitoso
-            print("========================================================================")
-            print("----" + usuario)
-            print("----Inicio de sesión exitoso.")
-            print("========================================================================")            
-             
-            print("==============================================================================================================")
-            print("====FINALIZACION DE -SAP LOGIN-")
-            print("==============================================================================================================\n")  
-        except pywintypes.com_error:
-            # ----Verificar si el inicio de sesión fue exitoso y Obtener información de la sesión
-            session_info = session.Info
-            usuario=str(session_info.User)
-            print("------------------------")
-            print("----Lenght Usuario:",str(len(usuario)))
-            print("------------------------\n")
-
-            # ----Verificar si el inicio de sesión fue exitoso
-            if len(usuario) == 0:
+                # ----Esperar a que abra la pestaña de Log in de SAP para los ERP's 
+                subprocess.Popen(path)
+                hwnd = 0
+                start_time = time.time()
+                while not hwnd:
+                    hwnd = win32gui.FindWindow(None, 'SAP Logon 770')
+                    if time.time() - start_time > 30:
+                        return  # Si se supera el tiempo máximo de espera, se sale de la función
+                    time.sleep(0.5)
+                
+                # ----Detecta la ventana de SAP
+                SapGuiAuto = win32com.client.GetObject('SAPGUI')
+                if not type(SapGuiAuto) == win32com.client.CDispatch:
+                    pass
+                
+                application = SapGuiAuto.GetScriptingEngine
+                if not type(application) == win32com.client.CDispatch:
+                    SapGuiAuto = None
+                    pass
+                
+            try:
+                # ----Se ejecuta la Connection del ERP de SAP P20 de cero
+                connection = application.OpenConnection("- P20 Production ERP Logistics and Finance", True)
+            except pywintypes.com_error as e:
                 print("==============================================================================================================")
-                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
+                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -ERROR DE CONECTIVIDAD-")
                 print("==============================================================================================================\n")
+        
                 print("========================================================================")
-                print("----Se ingresaron los datos de usuario y/o contraseña de forma incorrecta")
+                print("----Error de SAP: ")
+                # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
                 print(sys.exc_info())
                 print("========================================================================\n")
-
-                win= Tk()
-
+        
+                # ----Formato de la Pantalla Emergente
+                win = ttk.Window(themename="cerculean")
+                #win= Tk()
+        
                 win.attributes('-topmost', True)
                 # ----Set the geometry of frame
                 win.geometry("800x300")
@@ -665,94 +578,187 @@ def saplogin(username, password, radate, createdon, to, variante, wbs_list, sale
                 # ----Si se quiere ejecutar en la Aplicacion
                 #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
                 
-                win.title("REPORTE YRA2 - DATOS INCORRECTOS")
-
+                win.title("REPORTE YRA2 - ERROR DE CONECTIVIDAD")
+        
                 def close_win():
                     win.destroy()
-
+        
                 # ----Create a text label
                 Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-                Label(win,text='1. Usuario y/o Contraseña incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
-                Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+                Label(win,text='1. No se encuentra conectado a la VPN de CISCO o la red de Nokia', font=('Helvetica',10,'bold')).pack(pady=1)
+                Label(win,text='= Conectese a la VPN de CISCO o la red de Nokia y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
                 Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
                 Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
-
+        
                 # ----Create a button to close the window
                 Button(win, text="Quit", font=('Helvetica bold',
                 10),command=close_win).pack(pady=10, side="top")
-
+        
                 win.mainloop()
-
+        
                 print("========================================================================")
-                print("----Se cerro la conexion de SAP")
-                # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
-                connection.CloseConnection()
-                #print("----Se cerro la Pestaña de SAP Logon 770")
+                print("----Se cerro la Pestaña de SAP Logon 770")
                 # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
-                #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
                 print("========================================================================\n")
-
+        
                 print("==============================================================================================================")
                 print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
                 print("==============================================================================================================\n")
-
+        
                 # ----Sale de ejecutar el PROGRAMA PYTHON
                 exit()
-            else:
+    
+            try:
+                # ----Se define la "session" de la "connection" para poder interactuar con la pagina de SAP
+                session = connection.Sessions(0)
+    
+                # ----Ingreso de Usuario y Contraseña
+                session.findById("wnd[0]/usr/txtRSYST-BNAME").text = username
+                session.findById("wnd[0]/usr/pwdRSYST-BCODE").text = password
+                session.findById("wnd[0]").sendVKey(0)
+    
+                session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").select()
+                session.findById("wnd[1]/usr/radMULTI_LOGON_OPT2").setFocus()
+                session.findById("wnd[1]/tbar[0]/btn[0]").press()
+    
+                # ----Obtener información de la sesión
+                session_info = session.Info
+                usuario=str(session_info.User)
+                print("------------------------")
+                print("----Lenght Usuario:",str(len(usuario)))
+                print("------------------------\n")
+    
+                # ----Inicio de sesión fue exitoso
                 print("========================================================================")
                 print("----" + usuario)
                 print("----Inicio de sesión exitoso.")
                 print("========================================================================")            
-             
+                 
+                print("==============================================================================================================")
+                print("====FINALIZACION DE -SAP LOGIN-")
+                print("==============================================================================================================\n")  
+            except pywintypes.com_error:
+                # ----Verificar si el inicio de sesión fue exitoso y Obtener información de la sesión
+                session_info = session.Info
+                usuario=str(session_info.User)
+                print("------------------------")
+                print("----Lenght Usuario:",str(len(usuario)))
+                print("------------------------\n")
+    
+                # ----Verificar si el inicio de sesión fue exitoso
+                if len(usuario) == 0:
+                    print("==============================================================================================================")
+                    print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -REPORTE YRA2_DATOS INCORRECTOS-")
+                    print("==============================================================================================================\n")
+                    print("========================================================================")
+                    print("----Se ingresaron los datos de usuario y/o contraseña de forma incorrecta")
+                    print(sys.exc_info())
+                    print("========================================================================\n")
+    
+                    # ----Formato de la Pantalla Emergente
+                    win = ttk.Window(themename="cerculean")
+                    #win= Tk()
+    
+                    win.attributes('-topmost', True)
+                    # ----Set the geometry of frame
+                    win.geometry("800x300")
+                    
+                    # ----Python
+                    win.iconbitmap(r'nokia.ico')
+                    # ----Si se quiere ejecutar en la Aplicacion
+                    #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                    
+                    win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+    
+                    def close_win():
+                        win.destroy()
+    
+                    # ----Create a text label
+                    Label(win,text='\nSE HA PRODUCIDO UN ERROR POR UNA DE ESTAS RAZONES:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+                    Label(win,text='1. Usuario y/o Contraseña incorrectos', font=('Helvetica',10,'bold')).pack(pady=1)
+                    Label(win,text='= Ejecute el programa de nuevo e ingrese los datos correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
+                    Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+                    Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+    
+                    # ----Create a button to close the window
+                    Button(win, text="Quit", font=('Helvetica bold',
+                    10),command=close_win).pack(pady=10, side="top")
+    
+                    win.mainloop()
+    
+                    print("========================================================================")
+                    print("----Se cerro la conexion de SAP")
+                    # ----Cierra la pesteña de SAP ejecutada, y solo queda la de Log On
+                    connection.CloseConnection()
+                    #print("----Se cerro la Pestaña de SAP Logon 770")
+                    # ----Envía un mensaje WM_CLOSE a la ventana para cerrarla
+                    #win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                    print("========================================================================\n")
+    
+                    print("==============================================================================================================")
+                    print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DATOS INCORRECTOS-")
+                    print("==============================================================================================================\n")
+    
+                    # ----Sale de ejecutar el PROGRAMA PYTHON
+                    exit()
+                else:
+                    print("========================================================================")
+                    print("----" + usuario)
+                    print("----Inicio de sesión exitoso.")
+                    print("========================================================================")            
+                 
+                print("==============================================================================================================")
+                print("====FINALIZACION DE -SAP LOGIN-")
+                print("==============================================================================================================\n")        
+        else:
             print("==============================================================================================================")
-            print("====FINALIZACION DE -SAP LOGIN-")
-            print("==============================================================================================================\n")        
-    else:
-        print("==============================================================================================================")
-        print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DOS O MAS LOGON 770 ABIERTOS-")
-        print("==============================================================================================================\n")
+            print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DOS O MAS LOGON 770 ABIERTOS-")
+            print("==============================================================================================================\n")
 
-        print("========================================================================")
-        print("----Error de SAP LOGON 770: ")
-        # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
-        print(sys.exc_info())
-        print("========================================================================\n")
+            print("========================================================================")
+            print("----Error de SAP LOGON 770: ")
+            # ----Este print es para que me muestre el Error en especifico si no lo se: print(sys.exc_info()), ya que de esta forma se sabe que el error generado es "pywintypes.com_error"
+            print(sys.exc_info())
+            print("========================================================================\n")
 
-        win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
-        win.attributes('-topmost', True)
-        # ----Set the geometry of frame
-        win.geometry("800x300")
-        
-        # ----Python
-        win.iconbitmap(r'nokia.ico')
-        # ----Si se quiere ejecutar en la Aplicacion
-        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
-        
-        win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+            win.attributes('-topmost', True)
+            # ----Set the geometry of frame
+            win.geometry("800x300")
 
-        def close_win():
-            win.destroy()
+            # ----Python
+            win.iconbitmap(r'nokia.ico')
+            # ----Si se quiere ejecutar en la Aplicacion
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
 
-        # ----Create a text label
-        Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
-        Label(win,text='1. Tres o mas ventanas SAP LOGON 770 abiertas', font=('Helvetica',10,'bold')).pack(pady=1)
-        Label(win,text='= Cierre una de las ventanas de SAP LOGON 770 y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
-        Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
-        Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
+            win.title("REPORTE YRA2 - DOS O MAS LOGON 770 ABIERTOS")
 
-        # ----Create a button to close the window
-        Button(win, text="Quit", font=('Helvetica bold',
-        10),command=close_win).pack(pady=10, side="top")
+            def close_win():
+                win.destroy()
 
-        win.mainloop()
+            # ----Create a text label
+            Label(win,text='\nSE HA PRODUCIDO UN ERROR POR ESTA RAZON:\n', font=('Helvetica',10,'italic')).pack(pady=0.1)
+            Label(win,text='1. Tres o mas ventanas SAP LOGON 770 abiertas', font=('Helvetica',10,'bold')).pack(pady=1)
+            Label(win,text='= Cierre una de las ventanas de SAP LOGON 770 y vuelva a ejecutar el programa\n', font=('Helvetica',10)).pack(pady=0.1)
+            Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
+            Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
 
-        print("==============================================================================================================")
-        print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DOS LOGON 770 ABIERTOS-")
-        print("==============================================================================================================\n")
+            # ----Create a button to close the window
+            Button(win, text="Quit", font=('Helvetica bold',
+            10),command=close_win).pack(pady=10, side="top")
 
-        # ----Sale de ejecutar el PROGRAMA PYTHON
-        exit()
+            win.mainloop()
+
+            print("==============================================================================================================")
+            print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DOS LOGON 770 ABIERTOS-")
+            print("==============================================================================================================\n")
+
+            # ----Sale de ejecutar el PROGRAMA PYTHON
+            exit()
 
     #--------------------------------------------------------------------------------------------------------------------
     # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
@@ -785,20 +791,42 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
         # ----Indicativo de la fecha actual
         fecha= "{:%Y_%m_%d}".format(datetime.now())
+        Mes = "{:%m}".format(datetime.now())
 
         print("========================================================================")
         print("----Entrando a YRA2 en SAP")
         print("========================================================================\n")
 
+        #======================================================= CARPETAS DE YRA2 =======================================================
         # ------------------------------------ Inicio Try
         # ----Check if file already exists
-        directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
+        directorio_YRA2 = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"
         try:
-           os.stat(directorio)
+           os.stat(directorio_YRA2)
         except:
-           os.mkdir(directorio)
+           os.mkdir(directorio_YRA2)
+        # ------------------------------------ Fin Try
+        #================================================================================================================================
+
+        #======================================================= CARPETAS DE YRA2 TMOBILE =======================================================
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_TMOBILE = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/YRA-TMOBILE"
+        try:
+           os.stat(directorio_YRA2_TMOBILE)
+        except:
+           os.mkdir(directorio_YRA2_TMOBILE)
         # ------------------------------------ Fin Try
 
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_TMOBILE_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/YRA-TMOBILE"+ Mes
+        try:
+           os.stat(directorio_YRA2_TMOBILE_Mes)
+        except:
+           os.mkdir(directorio_YRA2_TMOBILE_Mes)
+        # ------------------------------------ Fin Try
+        #========================================================================================================================================
 
         # ------------------------------------ Inicio Try
         # ----Aca inicia el script the SAP hecho por SAP y se ejecuta entrando  a la transaccion de YRA2
@@ -928,7 +956,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             session.findById("wnd[1]/tbar[0]/btn[0]").press()
 
             # ----Pop up de ingreso de datos de la descarga
-            session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio
+            session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio_YRA2_TMOBILE_Mes
             session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
             session.findById("wnd[1]/tbar[0]/btn[11]").press()
             session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
@@ -943,7 +971,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             print(str(e_sap))
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -971,10 +1001,10 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             Label(win,text='= Revise los RA Category, luego vuelva a ejecutar el programa e ingrese los RA Category correctamente\n', font=('Helvetica',10)).pack(pady=0.1)
             Label(win,text='--> Para volver a ejecutar el programa <--', font=('Helvetica',10,'bold','underline')).pack(pady=1)
             Label(win,text='* Darle a "Quit" y vuelva a iniciar el programa *', font=('Helvetica',10)).pack(pady=0.1)
-    
+
             # ----Create a button to close the window
             Button(win, text="Quit", font=('Helvetica bold',
-            10),command=close_win).pack(pady=1, side="top")
+            10),command=close_win).pack(pady=1)
 
             win.mainloop()
 
@@ -1004,6 +1034,46 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
         #====FINALIZACION DE -PATH YRA2 SAP- \\\\CODIGO
         #==============================================================================================================  
 
+        #======================================================= CARPETAS DE GIC =======================================================
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_GIC = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/GIC"
+        try:
+           os.stat(directorio_YRA2_GIC)
+        except:
+           os.mkdir(directorio_YRA2_GIC)
+        # ------------------------------------ Fin Try
+
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_GIC_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/GIC"+ Mes
+        try:
+           os.stat(directorio_YRA2_GIC_Mes)
+        except:
+           os.mkdir(directorio_YRA2_GIC_Mes)
+        # ------------------------------------ Fin Try
+        #===============================================================================================================================
+
+        #======================================================= CARPETAS DE REPORTE FINAL =======================================================
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_Reporte_Final = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final')
+        try:
+           os.stat(directorio_YRA2_Reporte_Final)
+        except:
+           os.mkdir(directorio_YRA2_Reporte_Final)
+        # ------------------------------------ Fin Try
+
+        # ------------------------------------ Inicio Try
+        # ----Check if file already exists
+        directorio_YRA2_Reporte_Final_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final') + Mes
+        try:
+           os.stat(directorio_YRA2_Reporte_Final_Mes)
+        except:
+           os.mkdir(directorio_YRA2_Reporte_Final_Mes)
+        # ------------------------------------ Fin Try
+        #=========================================================================================================================================
+
 
         #====================================================================================================================
         # ----INICIO DEL RESTO DEL PROCESO DE DOCUMENTOS DEL REPORTE YRA2----
@@ -1017,7 +1087,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
             #--------------------------------------------------------------------------------------------------------------------
             # <<<<<<<<<SE CORREGIRA EL FORMATO DEL REPORTE YRA2
-            Deshabiiltar_error()
+            Deshabiiltar_error(directorio_YRA2_TMOBILE_Mes)
             #--------------------------------------------------------------------------------------------------------------------
         except:
             print("==============================================================================================================")
@@ -1029,7 +1099,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             print(sys.exc_info())
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -1075,7 +1147,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
             #--------------------------------------------------------------------------------------------------------------------
             # <<<<<<<<<SE EMPEZARA A DESCARGAR EL ARCHIVO GIC
-            Descargar_GIC()
+            Descargar_GIC(directorio_YRA2_GIC_Mes)
             #--------------------------------------------------------------------------------------------------------------------
         except:
             print("==============================================================================================================")
@@ -1087,7 +1159,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             print(sys.exc_info())
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -1133,7 +1207,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
             #--------------------------------------------------------------------------------------------------------------------
             # <<<<<<<<<SE EMPEZARA A CORREGIR EL ARCHIVO GIC
-            cambio_formato_csv()
+            cambio_formato_csv(directorio_YRA2_GIC_Mes)
             #--------------------------------------------------------------------------------------------------------------------
         except:
             print("==============================================================================================================")
@@ -1145,7 +1219,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             print(sys.exc_info())
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -1191,7 +1267,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
             #--------------------------------------------------------------------------------------------------------------------
             # <<<<<<<<<SE EJECUTARA EL VLOOKUP ENTRE EL ARCHIVO .CSV A .XLSX
-            vlookup()
+            vlookup(directorio_YRA2_TMOBILE_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes)
             #-------------------------------------------------------------------------------------------------------------------- 
 
             print("==============================================================================================================")
@@ -1207,7 +1283,9 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
             print(sys.exc_info())
             print("========================================================================\n")
 
-            win= Tk()
+            # ----Formato de la Pantalla Emergente
+            win = ttk.Window(themename="cerculean")
+            #win= Tk()
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
@@ -1268,7 +1346,7 @@ def Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, 
 
 
 #---------------------------------------- Sub-Parte 2.1 _ Correccion Formato .XLSX ----------------------------------------
-def Deshabiiltar_error():
+def Deshabiiltar_error(directorio_YRA2_TMOBILE_Mes):
         
         print("==============================================================================================================")
         print("====INICIALIZACION DE -DESHABILITAR ERROR-")
@@ -1278,12 +1356,11 @@ def Deshabiiltar_error():
         fecha= "{:%Y_%m_%d}".format(datetime.now())
 
         # ----Directorio de destino
-        print(fecha)
-        directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2')
+        #directorio_YRA2_TMOBILE_Mes
 
         # ----Se definen los paths de los archivos, el archivo original y el archivo al que se quiere convertir
-        original_file_path = directorio + "\YRA2_TMOBILE_" + fecha + ".xls"
-        modified_file_path = directorio + "\YRA2_TMOBILE_" + fecha + ".xlsx"
+        original_file_path = directorio_YRA2_TMOBILE_Mes + "\YRA2_TMOBILE_" + fecha + ".xls"
+        modified_file_path = directorio_YRA2_TMOBILE_Mes + "\YRA2_TMOBILE_" + fecha + ".xlsx"
 
         print("========================================================================")
         print("----Modificacion de archivo .xls a .xlsx en proceso")
@@ -1331,7 +1408,7 @@ def Deshabiiltar_error():
         #--------------------------------------------------------------------------------------------------------------------
 
 #---------------------------------------- Sub-Parte 2.2 _ GIC Descarga ----------------------------------------
-def Descargar_GIC(): 
+def Descargar_GIC(directorio_YRA2_GIC_Mes): 
 
     print("==============================================================================================================")
     print("====INICIALIZACION DE LA DESCARGA DEL ARCHIVO GIC")
@@ -1347,7 +1424,7 @@ def Descargar_GIC():
     fecha= "{:%Y_%m_%d}".format(datetime.now())
     
     # ----Define la variable filename que contiene el nombre que se le dará al archivo descargado en el sistema local.
-    filename_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
+    filename_path = directorio_YRA2_GIC_Mes + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
     filename = "F&C GIC - SIG PC List_" + fecha + ".csv"
 
     # ----Te avisa si ya descargo el archivo
@@ -1357,13 +1434,6 @@ def Descargar_GIC():
     print("----Archivo GIC descargado en la Carpeta YRA2 del Escritorio")
     print("----"+filename)
     print("========================================================================\n")
-
-    # ----Verifica si la carpeta "mi_carpeta" existe en el sistema de archivos utilizando la función "os.path.exists()". Si la carpeta no existe, se crea utilizando la función "os.makedirs()".
-    directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"\\YRA2"
-    try:
-       os.stat(directorio)
-    except:
-       os.mkdir(directorio)
 
     # ----Check if file already exists
     if os.path.isdir(filename_path):
@@ -1386,7 +1456,7 @@ def Descargar_GIC():
     print("==============================================================================================================\n")
 
 #---------------------------------------- Sub-Parte 2.3 _ Correccion Formato .CSV ----------------------------------------
-def cambio_formato_csv():
+def cambio_formato_csv(directorio_YRA2_GIC_Mes):
 
     print("==============================================================================================================")
     print("====INICIALIZACION DE -CAMBIO FORMATO-")
@@ -1396,8 +1466,8 @@ def cambio_formato_csv():
     fecha= "{:%Y_%m_%d}".format(datetime.now())
     
     # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
-    csv_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
-    xlsx_file_corregido_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
+    csv_file_path = directorio_YRA2_GIC_Mes + "\\F&C GIC - SIG PC List - " + fecha + ".csv"
+    xlsx_file_corregido_path = directorio_YRA2_GIC_Mes + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
     filename_xlsx_corregido = "F&C GIC - SIG PC List - " + fecha + ".xlsx"
 
     print("========================================================================")
@@ -1448,7 +1518,7 @@ def cambio_formato_csv():
     print("==============================================================================================================\n")
 
 #---------------------------------------- Sub-Parte 2.4 _ Clasificador ----------------------------------------
-def vlookup():
+def vlookup(directorio_YRA2_TMOBILE_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes):
 
    print("==============================================================================================================")
    print("====INICIALIZACION DE -VLOOKUP-")
@@ -1458,19 +1528,14 @@ def vlookup():
    fecha= "{:%Y_%m_%d}".format(datetime.now())
 
    # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
-   YRA2_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\YRA2_TMOBILE_" + fecha + ".xlsx"
-   GIC_file_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2') + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
+   YRA2_file_path = directorio_YRA2_TMOBILE_Mes + "\\YRA2_TMOBILE_" + fecha + ".xlsx"
+   GIC_file_path = directorio_YRA2_GIC_Mes + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
 
    # ----Se define el nombre y path del documento final
-   doc_final_REPORTE_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'YRA2','Reporte final') + "\\ Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
+   doc_final_REPORTE_path = directorio_YRA2_Reporte_Final_Mes + "\\ Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
    filename_doc_final_REPORTE_path = "Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
 
-   # ----Check if file already exists
-   directorio = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final')
-   try:
-      os.stat(directorio)
-   except:
-      os.mkdir(directorio)
+
 
    print("========================================================================")
    print("Archivo xlsx = " + YRA2_file_path)
@@ -1583,7 +1648,9 @@ def terminar_programa(connection, hwnd):
         print("----Se termino la automatizacion del Reporte YRA2 -FIN DEL PROGRAMA-")
         print("========================================================================\n")
         
-        win= Tk()
+        # ----Formato de la Pantalla Emergente
+        win = ttk.Window(themename="cerculean")
+        #win= Tk()
 
         win.attributes('-topmost', True)
         # ----Set the geometry of frame
@@ -1636,8 +1703,11 @@ def terminar_programa(connection, hwnd):
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente y en su defecto el resto del programa
 if __name__ == '__main__':
     
+    # ----Con Temas
     root = ttk.Window(themename="cerculean")
-    
+    # ----Sin Temas
+    #root = tk.Tk()
+
     # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
     root.iconbitmap(r'nokia.ico')
     # ----Si se quiere ejecutar en la Aplicacion
