@@ -72,10 +72,10 @@ class Reporte_YRA2:
 
         # ----Ajustar la posición del widget de la etiqueta
         imagen_label = tk.Label(master, image=photo)
-        imagen_label.place(x=310, y=5)
+        imagen_label.place(x=300, y=5)
         imagen_label.image = photo
 
-        self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB')
+        self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB', relief="flat")
         self.ingreso_label.grid(row=0, column=1, padx=5, pady=5,)
 
         self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'), foreground='#0E569B', background='#FBFBFB')
