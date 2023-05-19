@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import ttk
-from PIL import ImageTk, Image
-from ttkbootstrap import Style
+import PIL.Image
+import PIL.ImageTk
+#from PIL import Image, ImageTk 
 import pickle
 import os
 import sys
@@ -64,13 +64,16 @@ class Reporte_YRA2:
         except:
             self.login_info = {'username': '', 'password': ''}
 
-        # ----Asignar la imagen al widget para evitar que se borre de la memoria
-        #image = Image.open("nokia.png")
-        #photo = ImageTk.PhotoImage(self.image)
-        #label = tk.Label(master, image=photo)
-        #label.pack()
+        # ----Asignar la imagen
+        logo_nokia = PIL.Image.open(r"n-nokia.ico")
+        new_size = (70, 70)  # Especifica el nuevo tamaño deseado
+        resized_image = logo_nokia.resize(new_size)        
+        photo = PIL.ImageTk.PhotoImage(resized_image)
+
         # ----Ajustar la posición del widget de la etiqueta
-        #label.image = photo
+        imagen_label = tk.Label(master, image=photo)
+        imagen_label.place(x=310, y=5)
+        imagen_label.image = photo
 
         self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB')
         self.ingreso_label.grid(row=0, column=1, padx=5, pady=5,)
@@ -277,9 +280,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB' / 
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -386,9 +389,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - ERROR DE CONECTIVIDAD")
 
@@ -479,9 +482,9 @@ class Reporte_YRA2:
                     win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                     # ----Python
-                    win.iconbitmap(r'nokia.ico')
+                    win.iconbitmap(r'n-nokia.ico')
                     # ----Si se quiere ejecutar en la Aplicacion
-                    #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                    #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                     win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -590,9 +593,9 @@ class Reporte_YRA2:
                     win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                     # ----Python
-                    win.iconbitmap(r'nokia.ico')
+                    win.iconbitmap(r'n-nokia.ico')
                     # ----Si se quiere ejecutar en la Aplicacion
-                    #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                    #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                     win.title("REPORTE YRA2 - ERROR DE CONECTIVIDAD")
 
@@ -682,9 +685,9 @@ class Reporte_YRA2:
                         win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                         # ----Python
-                        win.iconbitmap(r'nokia.ico')
+                        win.iconbitmap(r'n-nokia.ico')
                         # ----Si se quiere ejecutar en la Aplicacion
-                        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                        #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                         win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -749,9 +752,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - DOS O MAS LOGON 770 ABIERTOS")
 
@@ -999,9 +1002,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - DATOS INCORRECTOS")
 
@@ -1128,9 +1131,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - NO SE ENCONTRO EL DOC DE YRA2")
 
@@ -1189,9 +1192,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Pyhton
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
 
@@ -1250,9 +1253,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - ERROR EN CAMBIO FORMATO DE GIC")
 
@@ -1315,9 +1318,9 @@ class Reporte_YRA2:
                 win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
                 # ----Python
-                win.iconbitmap(r'nokia.ico')
+                win.iconbitmap(r'n-nokia.ico')
                 # ----Si se quiere ejecutar en la Aplicacion
-                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+                #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
                 win.title("REPORTE YRA2 - ERROR EN DESCARGA GIC")
 
@@ -1680,9 +1683,9 @@ class Reporte_YRA2:
             win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
 
             # ----Python
-            win.iconbitmap(r'nokia.ico')
+            win.iconbitmap(r'n-nokia.ico')
             # ----Si se quiere ejecutar en la Aplicacion
-            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+            #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
             win.title("REPORTE YRA2 - FIN DEL PROGRAMA")
 
@@ -1729,12 +1732,12 @@ root = tk.Tk()
 # ----Configura el color de fondo
 root.configure(background='#FBFBFB')  # Blanco
 # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
-root.iconbitmap(r'nokia.ico')
+root.iconbitmap(r'n-nokia.ico')
 # ----Si se quiere ejecutar en la Aplicacion
-#root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\nokia.ico")
+#root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
 frame = tk.Frame(root)
-frame.pack(expand=True)
+#frame.pack(expand=True)
 
 # ----Llamar la clase
 Reporte_YRA2(master=root)
