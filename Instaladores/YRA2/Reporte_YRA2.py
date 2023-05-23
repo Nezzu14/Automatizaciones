@@ -1,4 +1,5 @@
 import tkinter as tk
+import ttkbootstrap as ttk
 import PIL.Image
 import PIL.ImageTk
 #from PIL import Image, ImageTk 
@@ -1729,15 +1730,13 @@ class Reporte_YRA2:
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente y en su defecto el resto del programa
 # ----Crear ventana principal
 root = tk.Tk()
+
 # ----Configura el color de fondo
 root.configure(background='#FBFBFB')  # Blanco
 # ----La "r" es para que el path de la imagen no tome como caracteres especiales los slash "\" sino como texto
 root.iconbitmap(r'n-nokia.ico')
 # ----Si se quiere ejecutar en la Aplicacion
 #root.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
-
-frame = tk.Frame(root)
-#frame.pack(expand=True)
 
 # ----Llamar la clase
 Reporte_YRA2(master=root)
