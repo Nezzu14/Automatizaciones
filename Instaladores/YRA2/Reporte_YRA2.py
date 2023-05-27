@@ -1,5 +1,6 @@
 import tkinter as tk
-import ttkbootstrap as ttk
+#from tkinter import ttk
+#import ttkbootstrap as ttk
 import PIL.Image
 import PIL.ImageTk
 #from PIL import Image, ImageTk 
@@ -45,7 +46,7 @@ class Reporte_YRA2:
         print("==============================================================================================================\n")
 
         master.attributes('-topmost', True)
-
+        
         # ----Genera el titulo de la pantalla emergente
         self.master = master
         master.title('INICIO DESCARGA YRA2') #Titulo en el Pop up de ingresar Usuario y contraeña
@@ -65,88 +66,104 @@ class Reporte_YRA2:
         except:
             self.login_info = {'username': '', 'password': ''}
 
+        # # ----Asignar la imagen
+        # logo_nokia = PIL.Image.open(r"n-nokia.ico")
+        # logo_new_size = (70, 70)  # Especifica el nuevo tamaño deseado
+        # logo_resized_image = logo_nokia.resize(logo_new_size)        
+        # logo_nokia_photo = PIL.ImageTk.PhotoImage(logo_resized_image)
+
+        # # ----Ajustar la posición del widget de la etiqueta
+        # logo_label = tk.Label(master, image=logo_nokia_photo)
+        # logo_label.place(x=300, y=5)
+        # logo_label.image = logo_nokia_photo
+
         # ----Asignar la imagen
-        logo_nokia = PIL.Image.open(r"n-nokia.ico")
-        new_size = (70, 70)  # Especifica el nuevo tamaño deseado
-        resized_image = logo_nokia.resize(new_size)        
-        photo = PIL.ImageTk.PhotoImage(resized_image)
+        fondo_nokia = PIL.Image.open(r"nokia 1.jpg")
+        fondo_new_size = (392, 122)  # Especifica el nuevo tamaño deseado
+        fondo_resized_image = fondo_nokia.resize(fondo_new_size)        
+        fondo_nokia_photo = PIL.ImageTk.PhotoImage(fondo_resized_image)
 
         # ----Ajustar la posición del widget de la etiqueta
-        imagen_label = tk.Label(master, image=photo)
-        imagen_label.place(x=300, y=5)
-        imagen_label.image = photo
+        fondo_label = tk.Label(master, image=fondo_nokia_photo)
+        fondo_label.place(x=-2, y=-1)
+        fondo_label.image = fondo_nokia_photo
 
-        self.ingreso_label = tk.Label(master, text='(Datos Inicio de Sesion)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB', relief="flat")
+        self.ingreso_label = tk.Label(master, text='Inicio de Sesion', font=('Helvetica', 9, 'bold'), foreground='#771CEA', background='#FBFBFB')
         self.ingreso_label.grid(row=0, column=1, padx=5, pady=5,)
 
-        self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'), foreground='#0E569B', background='#FBFBFB')
+        self.obligatorio_label = tk.Label(master, text="( ' * ' Obligatorio)", font=('Helvetica', 9, 'bold'), foreground='#771CEA', background='#FBFBFB')
         self.obligatorio_label.grid(row=0, column=0, padx=5, pady=5)
 
-        self.username_label = tk.Label(master, text='* Username:', font=("Helvetica", 9, 'bold', 'underline'), foreground='#0E569B', background='#FBFBFB')
+        self.username_label = tk.Label(master, text='* Username:', font=("Helvetica", 9, 'bold', 'underline'), foreground='#FFFFFF', background='#771CEA')
         self.username_label.grid(row=1, column=0, padx=5, pady=5)
-        self.username_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#0E569B")
+        self.username_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
         self.username_input.insert(0, self.login_info['username'])
         self.username_input.grid(row=1, column=1, padx=5, pady=5)
 
-        self.password_label = tk.Label(master, text='* Password:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#0E569B', background='#FBFBFB')
+        self.password_label = tk.Label(master, text='* Password:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#FFFFFF', background='#771CEA')
         self.password_label.grid(row=2, column=0, padx=5, pady=5)
-        self.password_input = tk.Entry(master, show='*', width=16, relief="flat", highlightthickness=1, highlightbackground="#0E569B")
+        self.password_input = tk.Entry(master, show='*', width=16, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
         self.password_input.insert(0, self.login_info['password'])
         self.password_input.grid(row=2, column=1, padx=5, pady=5)
 
-        self.fechas_label = tk.Label(master, text='(Fechas = dd.mm.yy)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB')
-        self.fechas_label.grid(row=3, column=1, padx=5, pady=5)
+        self.nombre_archivo_label = tk.Label(master, text='* Nombre Archivo:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#FFFFFF', background='#771CEA')
+        self.nombre_archivo_label.grid(row=3, column=0, padx=5, pady=5)
+        self.nombre_archivo_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
+        self.nombre_archivo_input.grid(row=3, column=1, padx=5, pady=5)
+        
+        self.fechas_label = tk.Label(master, text='Fechas = dd.mm.yy', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
+        self.fechas_label.grid(row=4, column=1, padx=5, pady=5)
 
-        self.radate_label = tk.Label(master, text='* RA Date:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#0E569B', background='#FBFBFB')
-        self.radate_label.grid(row=4, column=0, padx=5, pady=5)
-        self.radate_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#0E569B")
-        self.radate_input.grid(row=4, column=1, padx=5, pady=5)
+        self.radate_label = tk.Label(master, text='* RA Date:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#6F19DC', background='#FBFBFB')
+        self.radate_label.grid(row=5, column=0, padx=5, pady=5)
+        self.radate_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
+        self.radate_input.grid(row=5, column=1, padx=5, pady=5)
         self.radate_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.radate_input.get()))
 
-        self.createdon_label = tk.Label(master, text='Created on:', foreground='#3F87CA', background='#FBFBFB')
-        self.createdon_label.grid(row=5, column=0, padx=5, pady=5)
-        self.createdon_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#3F87CA")
-        self.createdon_input.grid(row=5, column=1, padx=5, pady=5)
+        self.createdon_label = tk.Label(master, text='Created on:', foreground='#771CEA', background='#FBFBFB')
+        self.createdon_label.grid(row=6, column=0, padx=5, pady=5)
+        self.createdon_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
+        self.createdon_input.grid(row=6, column=1, padx=5, pady=5)
         self.createdon_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
-        self.to_label = tk.Label(master, text='- To:', foreground='#3F87CA', background='#FBFBFB')
-        self.to_label.grid(row=5, column=2, padx=5, pady=5)
-        self.to_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#3F87CA")
-        self.to_input.grid(row=5, column=3, padx=5, pady=5)
+        self.to_label = tk.Label(master, text='- To:', foreground='#771CEA', background='#FBFBFB')
+        self.to_label.grid(row=6, column=2, padx=5, pady=5)
+        self.to_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
+        self.to_input.grid(row=6, column=3, padx=5, pady=5)
         self.to_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.to_input.get()))
 
-        self.salto_label = tk.Label(master, text='(Variante RA Items)', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB')
-        self.salto_label.grid(row=6, column=1, padx=5, pady=5)
+        self.salto_label = tk.Label(master, text='Variante RA Items', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
+        self.salto_label.grid(row=7, column=1, padx=5, pady=5)
 
-        self.variante_label = tk.Label(master, text='Variante "RA Items": ', foreground='#3F87CA', background='#FBFBFB')
-        self.variante_label.grid(row=7, column=0, padx=5, pady=5)
-        self.variante_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#3F87CA")
-        self.variante_input.grid(row=7, column=1, padx=5, pady=5)
+        self.variante_label = tk.Label(master, text="Variante 'RA Items': \n(Sugerido: //YRA_RC)", foreground='#771CEA', background='#FBFBFB')
+        self.variante_label.grid(row=8, column=0, padx=5, pady=5)
+        self.variante_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
+        self.variante_input.grid(row=8, column=1, padx=5, pady=5)
         self.variante_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
-        self.salto_label = tk.Label(master, text='(WBS, SD y RAC\nSeparar por\n"Saltos de Linea")', font=('Helvetica', 9, 'bold'), foreground='#3F87CA', background='#FBFBFB')
-        self.salto_label.grid(row=8, column=1, padx=5, pady=5)
+        self.salto_label = tk.Label(master, text='WBS, SD y RAC\nSeparar por\n"Saltos de Linea\no Enter"', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#7A2AF6')
+        self.salto_label.grid(row=9, column=1, padx=5, pady=5)
 
-        self.wbs_label = tk.Label(master, text='* WBS:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#0E569B', background='#FBFBFB')
-        self.wbs_label.grid(row=9, column=0, padx=5, pady=5)
-        self.wbs_input = tk.Text(master,height=5, width=11, relief="flat", highlightthickness=1, highlightbackground="#0E569B")
-        self.wbs_input.grid(row=9, column=1, padx=5, pady=5)
+        self.wbs_label = tk.Label(master, text='* WBS:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#6F19DC', background='#FBFBFB')
+        self.wbs_label.grid(row=10, column=0, padx=5, pady=5)
+        self.wbs_input = tk.Text(master,height=5, width=11, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
+        self.wbs_input.grid(row=10, column=1, padx=5, pady=5)
 
-        self.salesdocument_label = tk.Label(master, text='Sales Document:', foreground='#3F87CA', background='#FBFBFB')
-        self.salesdocument_label.grid(row=10, column=0, padx=5, pady=5)
-        self.salesdocument_input = tk.Text(master,height=3, width=10, relief="flat", highlightthickness=1, highlightbackground="#3F87CA")
-        self.salesdocument_input.grid(row=10, column=1, padx=5, pady=5)
+        self.salesdocument_label = tk.Label(master, text='Sales Document:', foreground='#771CEA', background='#FBFBFB')
+        self.salesdocument_label.grid(row=11, column=0, padx=5, pady=5)
+        self.salesdocument_input = tk.Text(master,height=3, width=10, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
+        self.salesdocument_input.grid(row=11, column=1, padx=5, pady=5)
 
-        self.racategory_label = tk.Label(master, text='RA Category:\n(COS, RRS, RRM,\nREB, AR o RRO)', foreground='#3F87CA', background='#FBFBFB')
-        self.racategory_label.grid(row=11, column=0, padx=5, pady=5)
-        self.racategory_input = tk.Text(master,height=2, width=4, relief="flat", highlightthickness=1, highlightbackground="#3F87CA")
-        self.racategory_input.grid(row=11, column=1, padx=5, pady=5)
+        self.racategory_label = tk.Label(master, text='RA Category:\n(COS, RRS, RRM,\nREB, AR o RRO)', foreground='#771CEA', background='#FBFBFB')
+        self.racategory_label.grid(row=12, column=0, padx=5, pady=5)
+        self.racategory_input = tk.Text(master,height=2, width=4, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
+        self.racategory_input.grid(row=12, column=1, padx=5, pady=5)
 
         # ----Create submit button
-        self.submit_button = tk.Button(master, text='Submit', foreground="#FBFBFB", background='#3F87CA', relief="flat", command=self.submit)
+        self.submit_button = tk.Button(master, text='Submit', foreground="#FBFBFB", background='#771CEA', relief="flat", command=self.submit)
         # Establecer el enfoque en el botón
         #self.submit_button.focus_set()
-        self.submit_button.grid(row=12, column=1, padx=5, pady=5)
+        self.submit_button.grid(row=13, column=1, padx=5, pady=5)
 
     def submit(self):
 
@@ -157,6 +174,7 @@ class Reporte_YRA2:
         # ----Get the values of the input fields and do something with them
         username = self.username_input.get()
         password = self.password_input.get()
+        nombre_archivo = self.nombre_archivo_input.get()
         radate = self.radate_input.get()
         createdon = self.createdon_input.get()
         to = self.to_input.get()
@@ -166,9 +184,9 @@ class Reporte_YRA2:
         ra_category = self.racategory_input.get('1.0', 'end-1c')
         
         # ----Esto es para volverlo lista, pero no se debe activar ya que el portapapleles no lee listas para ejecutar
-        wbs_list = wbs.split("\n")or(",")or(" ")or(", ")or("  ")
-        sales_document_list = sales_document.split("\n")or(",")or(" ")or(", ")or("  ")
-        ra_category_list = ra_category.split("\n")or(",")or(" ")or(", ")or("  ")
+        wbs_list = wbs.split("\n")or(",")or(" ")or(", ")or("  ")or("    ")
+        sales_document_list = sales_document.split("\n")or(",")or(" ")or(", ")or("  ")or("    ")
+        ra_category_list = ra_category.split("\n")or(",")or(" ")or(", ")or("  ")or("    ")
 
         print("========================================================================")
         print("Username = " + username)
@@ -203,7 +221,7 @@ class Reporte_YRA2:
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA LA APERTURA DE SAP
-        self.saplogin(username, password, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list) 
+        self.saplogin(username, password, nombre_archivo, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list) 
         #--------------------------------------------------------------------------------------------------------------------
 
         # ----Esto permite que se cierre la ventana emergente con self.master.destroy() pero que las variables y la ejecucion de los "def" no se borren
@@ -216,7 +234,7 @@ class Reporte_YRA2:
         if 'SAP Logon' in win32gui.GetWindowText(hwnd):
             hwnds.append(hwnd)
 
-    def saplogin(self, username, password, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list):
+    def saplogin(self, username, password, nombre_archivo, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list):
 
         # ----Crear una lista para almacenar los identificadores de ventana
         hwnds = []
@@ -285,7 +303,7 @@ class Reporte_YRA2:
                 # ----Si se quiere ejecutar en la Aplicacion
                 #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
-                win.title("REPORTE YRA2 - DATOS INCORRECTOS")
+                win.title("REPORTE YRA2 - ERROR SAP")
 
                 def close_win():
                     win.destroy()
@@ -733,7 +751,7 @@ class Reporte_YRA2:
                     print("==============================================================================================================\n")        
             else:
                 print("==============================================================================================================")
-                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DOS O MAS LOGON 770 ABIERTOS-")
+                print("====INICIALIZACION DE LA VENTANA EMERGENTE DE - MAS DE DOS LOGON 770 ABIERTOS-")
                 print("==============================================================================================================\n")
 
                 print("========================================================================")
@@ -757,7 +775,7 @@ class Reporte_YRA2:
                 # ----Si se quiere ejecutar en la Aplicacion
                 #win.iconbitmap(r"C:\Program Files (x86)\Nokia\Reporte YRA2\Reporte_YRA2\n-nokia.ico")
 
-                win.title("REPORTE YRA2 - DOS O MAS LOGON 770 ABIERTOS")
+                win.title("REPORTE YRA2 - MAS DE DOS LOGON 770 ABIERTOS")
 
                 def close_win():
                     win.destroy()
@@ -775,7 +793,7 @@ class Reporte_YRA2:
                 win.mainloop()
 
                 print("==============================================================================================================")
-                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -DOS LOGON 770 ABIERTOS-")
+                print("====FINALIZACION DE LA VENTANA EMERGENTE DE -MAS DE DOS LOGON 770 ABIERTOS-")
                 print("==============================================================================================================\n")
 
                 # ----Sale de ejecutar el PROGRAMA PYTHON
@@ -783,7 +801,7 @@ class Reporte_YRA2:
 
         #--------------------------------------------------------------------------------------------------------------------
         # <<<<<<<<<SE EJECUTA DESCARGA DEL REPORTE YRA2 Y DEL ARCHIVO GIC
-        self.Path_YRA2_SAP(session, username, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd)
+        self.Path_YRA2_SAP(session, username, nombre_archivo, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd)
         #--------------------------------------------------------------------------------------------------------------------
 
         session = None
@@ -795,7 +813,7 @@ class Reporte_YRA2:
         #====FINALIZACION DE -SAP LOGIN- \\\\CODIGO
         #==============================================================================================================    
 
-    def Path_YRA2_SAP(self, session, username, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd):
+    def Path_YRA2_SAP(self, session, username, nombre_archivo, radate, createdon, to, variante, wbs_list, sales_document_list, ra_category_list, connection, hwnd):
 
             print("==============================================================================================================")
             print("====INICIALIZACION DE -PATH YRA2 SAP-")
@@ -803,7 +821,8 @@ class Reporte_YRA2:
 
             print("========================================================================")
             print("VERIFICACION DE DATOS")
-            print("Username:",username)
+            print("Username:", username)
+            print("Nombre del Archivo:", nombre_archivo)
             print("Fecha RA Date:", radate)
             print("Fecha Created On:", createdon)
             print("Fecha To:", to)
@@ -829,23 +848,23 @@ class Reporte_YRA2:
             # ------------------------------------ Fin Try
             #================================================================================================================================
 
-            #======================================================= CARPETAS DE YRA2 TMOBILE =======================================================
+            #======================================================= CARPETAS DE YRA2 CT's =======================================================
             # ------------------------------------ Inicio Try
             # ----Check if file already exists
-            directorio_YRA2_TMOBILE = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/YRA-TMOBILE"
+            directorio_YRA2_CT = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/"+nombre_archivo
             try:
-               os.stat(directorio_YRA2_TMOBILE)
+               os.stat(directorio_YRA2_CT)
             except:
-               os.mkdir(directorio_YRA2_TMOBILE)
+               os.mkdir(directorio_YRA2_CT)
             # ------------------------------------ Fin Try
 
             # ------------------------------------ Inicio Try
             # ----Check if file already exists
-            directorio_YRA2_TMOBILE_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/YRA-TMOBILE"+ Mes
+            directorio_YRA2_CT_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2/"+ nombre_archivo + "/"+ Mes
             try:
-               os.stat(directorio_YRA2_TMOBILE_Mes)
+               os.stat(directorio_YRA2_CT_Mes)
             except:
-               os.mkdir(directorio_YRA2_TMOBILE_Mes)
+               os.mkdir(directorio_YRA2_CT_Mes)
             # ------------------------------------ Fin Try
             #========================================================================================================================================
 
@@ -969,6 +988,9 @@ class Reporte_YRA2:
                 print("----Inicia el proceso de descarga del reporte YRA2")
                 print("========================================================================\n")
 
+                # ----Columns - Optimize width
+                session.findById("wnd[0]/mbar/menu[3]/menu[6]/menu[0]").select
+
                 # ----Path de como descargar el YRA2
                 session.findById("wnd[0]").maximize()
                 session.findById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").select()
@@ -977,8 +999,8 @@ class Reporte_YRA2:
                 session.findById("wnd[1]/tbar[0]/btn[0]").press()
 
                 # ----Pop up de ingreso de datos de la descarga
-                session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio_YRA2_TMOBILE_Mes
-                session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_TMOBILE_" + fecha + ".xls"
+                session.findById("wnd[1]/usr/ctxtDY_PATH").text = directorio_YRA2_CT_Mes
+                session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = "YRA2_" + nombre_archivo + "_" + fecha + ".xls"
                 session.findById("wnd[1]/tbar[0]/btn[11]").press()
                 session.findById("wnd[0]/mbar/menu[2]/menu[2]").select()
                 session.findById("wnd[0]/mbar/menu[2]/menu[6]").select()
@@ -1068,7 +1090,7 @@ class Reporte_YRA2:
 
             # ------------------------------------ Inicio Try
             # ----Check if file already exists
-            directorio_YRA2_GIC_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/GIC"+ Mes
+            directorio_YRA2_GIC_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+"/YRA2"+"/GIC/"+ Mes
             try:
                os.stat(directorio_YRA2_GIC_Mes)
             except:
@@ -1088,7 +1110,7 @@ class Reporte_YRA2:
 
             # ------------------------------------ Inicio Try
             # ----Check if file already exists
-            directorio_YRA2_Reporte_Final_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final') + Mes
+            directorio_YRA2_Reporte_Final_Mes = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop','YRA2','Reporte final') + "/" + Mes
             try:
                os.stat(directorio_YRA2_Reporte_Final_Mes)
             except:
@@ -1109,7 +1131,7 @@ class Reporte_YRA2:
 
                 #--------------------------------------------------------------------------------------------------------------------
                 # <<<<<<<<<SE CORREGIRA EL FORMATO DEL REPORTE YRA2
-                self.Deshabiiltar_error(directorio_YRA2_TMOBILE_Mes)
+                self.Deshabiiltar_error(directorio_YRA2_CT_Mes, nombre_archivo)
                 #--------------------------------------------------------------------------------------------------------------------
             except:
                 print("==============================================================================================================")
@@ -1292,7 +1314,7 @@ class Reporte_YRA2:
 
                 #--------------------------------------------------------------------------------------------------------------------
                 # <<<<<<<<<SE EJECUTARA EL VLOOKUP ENTRE EL ARCHIVO .CSV A .XLSX
-                self.vlookup(directorio_YRA2_TMOBILE_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes)
+                self.vlookup(directorio_YRA2_CT_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes, nombre_archivo)
                 #-------------------------------------------------------------------------------------------------------------------- 
 
                 print("==============================================================================================================")
@@ -1371,7 +1393,7 @@ class Reporte_YRA2:
     #---------------------------------------------------------------------------------------------------------------------------------
 
     #---------------------------------------- Sub-Parte 2.1 _ Correccion Formato .XLSX ----------------------------------------
-    def Deshabiiltar_error(self, directorio_YRA2_TMOBILE_Mes):
+    def Deshabiiltar_error(self, directorio_YRA2_CT_Mes, nombre_archivo):
 
             print("==============================================================================================================")
             print("====INICIALIZACION DE -DESHABILITAR ERROR-")
@@ -1380,12 +1402,9 @@ class Reporte_YRA2:
             # ----Toma la fecha actual de hoy
             fecha= "{:%Y_%m_%d}".format(datetime.now())
 
-            # ----Directorio de destino
-            #directorio_YRA2_TMOBILE_Mes
-
             # ----Se definen los paths de los archivos, el archivo original y el archivo al que se quiere convertir
-            original_file_path = directorio_YRA2_TMOBILE_Mes + "\YRA2_TMOBILE_" + fecha + ".xls"
-            modified_file_path = directorio_YRA2_TMOBILE_Mes + "\YRA2_TMOBILE_" + fecha + ".xlsx"
+            original_file_path = directorio_YRA2_CT_Mes + "\YRA2_" + nombre_archivo + "_" + fecha + ".xls"
+            modified_file_path = directorio_YRA2_CT_Mes + "\YRA2_" + nombre_archivo + "_" + fecha + ".xlsx"
 
             print("========================================================================")
             print("----Modificacion de archivo .xls a .xlsx en proceso")
@@ -1543,7 +1562,7 @@ class Reporte_YRA2:
         print("==============================================================================================================\n")
 
     #---------------------------------------- Sub-Parte 2.4 _ Clasificador ----------------------------------------
-    def vlookup(self, directorio_YRA2_TMOBILE_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes):
+    def vlookup(self, directorio_YRA2_CT_Mes, directorio_YRA2_GIC_Mes, directorio_YRA2_Reporte_Final_Mes, nombre_archivo):
 
        print("==============================================================================================================")
        print("====INICIALIZACION DE -VLOOKUP-")
@@ -1553,12 +1572,12 @@ class Reporte_YRA2:
        fecha= "{:%Y_%m_%d}".format(datetime.now())
 
        # ----Se definen los paths de los archivos, el archivo .xlsx y el archivo .csv
-       YRA2_file_path = directorio_YRA2_TMOBILE_Mes + "\\YRA2_TMOBILE_" + fecha + ".xlsx"
+       YRA2_file_path = directorio_YRA2_CT_Mes + "\\YRA2_" + nombre_archivo + "_" + fecha + ".xlsx"
        GIC_file_path = directorio_YRA2_GIC_Mes + "\\F&C GIC - SIG PC List - " + fecha + ".xlsx"
 
        # ----Se define el nombre y path del documento final
-       doc_final_REPORTE_path = directorio_YRA2_Reporte_Final_Mes + "\\ Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
-       filename_doc_final_REPORTE_path = "Reporte_YRA2_TMOBILE_" + fecha + ".xlsx"
+       doc_final_REPORTE_path = directorio_YRA2_Reporte_Final_Mes + "\\ Reporte_YRA2_" + nombre_archivo + "_" + fecha + ".xlsx"
+       filename_doc_final_REPORTE_path = "Reporte_YRA2_" + nombre_archivo + "_" + fecha + ".xlsx"
 
 
 
@@ -1678,7 +1697,7 @@ class Reporte_YRA2:
 
             win.attributes('-topmost', True)
             # ----Set the geometry of frame
-            win.geometry("400x700")
+            win.geometry("400x70")
 
             # ----Cambio de color de fondo
             win.configure(background='#FBFBFB')  #Blanco='FBFBFB', Azul Claro='#3F87CA', Azul Oscuro='#0E569B' / , foreground='#3F87CA', background='#FBFBFB'
@@ -1726,7 +1745,7 @@ class Reporte_YRA2:
 
 
 
-# ====================================================== CONFIGURACION PARA LA EJECUCION DEL PROMARAMA ======================================================
+# ====================================================== CONFIGURACION PARA LA EJECUCION DEL PROGRAMA ======================================================
 # ----Da los parametros iniciales de la ejecucion de la libreria para ejecutar la pantalla emergente y en su defecto el resto del programa
 # ----Crear ventana principal
 root = tk.Tk()
@@ -1742,4 +1761,5 @@ root.iconbitmap(r'n-nokia.ico')
 Reporte_YRA2(master=root)
 # ----Iniciar el bucle principal de la interfaz gráfica
 root.mainloop()
+#G-0609A2PZV / 1130533576
 # ===========================================================================================================================================================
