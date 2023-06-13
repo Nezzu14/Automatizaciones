@@ -1,6 +1,8 @@
 import tkinter as tk
 #from tkinter import ttk
 #import ttkbootstrap as ttk
+#import tktooltip.tooltip
+from tktooltip import ToolTip
 import PIL.Image
 import PIL.ImageTk
 #from PIL import Image, ImageTk 
@@ -45,7 +47,7 @@ class Reporte_YRA2:
         print("====INICIALIZACION DE LA VENTANA EMERGENTE DE -DESCARGA YRA2-")
         print("==============================================================================================================\n")
 
-        master.attributes('-topmost', True)
+        #master.attributes('-topmost', True)
         
         # ----Genera el titulo de la pantalla emergente
         self.master = master
@@ -79,7 +81,7 @@ class Reporte_YRA2:
 
         # ----Asignar la imagen
         fondo_nokia = PIL.Image.open(r"nokia 1.jpg")
-        fondo_new_size = (392, 122)  # Especifica el nuevo tamaño deseado
+        fondo_new_size = (406, 122)  # Especifica el nuevo tamaño deseado
         fondo_resized_image = fondo_nokia.resize(fondo_new_size)        
         fondo_nokia_photo = PIL.ImageTk.PhotoImage(fondo_resized_image)
 
@@ -100,19 +102,28 @@ class Reporte_YRA2:
         self.username_input.insert(0, self.login_info['username'])
         self.username_input.grid(row=1, column=1, padx=5, pady=5)
 
+        ToolTip(self.username_input, msg="Ingresar Usuario de P20", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.username_label, msg="Ingresar Usuario de P20", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+
         self.password_label = tk.Label(master, text='* Password:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#FFFFFF', background='#771CEA')
         self.password_label.grid(row=2, column=0, padx=5, pady=5)
         self.password_input = tk.Entry(master, show='*', width=16, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
         self.password_input.insert(0, self.login_info['password'])
         self.password_input.grid(row=2, column=1, padx=5, pady=5)
 
+        ToolTip(self.password_input, msg="Ingresar Contraseña de Usuario de P20", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.password_label, msg="Ingresar Contraseña de Usuario de P20", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+
         self.nombre_archivo_label = tk.Label(master, text='* Nombre Archivo:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#FFFFFF', background='#771CEA')
         self.nombre_archivo_label.grid(row=3, column=0, padx=5, pady=5)
         self.nombre_archivo_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
         self.nombre_archivo_input.grid(row=3, column=1, padx=5, pady=5)
-        
-        self.fechas_label = tk.Label(master, text='Fechas = dd.mm.yy', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
-        self.fechas_label.grid(row=4, column=1, padx=5, pady=5)
+
+        ToolTip(self.nombre_archivo_input, msg="Ingresar el nombre que desea\npara archivo del reporte YRA2", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.nombre_archivo_label, msg="Ingresar el nombre que desea\npara archivo del reporte YRA2", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+
+        #self.fechas_label = tk.Label(master, text="Formato 'dd.mm.yyyy' -\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
+        #self.fechas_label.grid(row=4, column=1, padx=5, pady=5)
 
         self.radate_label = tk.Label(master, text='* RA Date:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#6F19DC', background='#FBFBFB')
         self.radate_label.grid(row=5, column=0, padx=5, pady=5)
@@ -120,50 +131,72 @@ class Reporte_YRA2:
         self.radate_input.grid(row=5, column=1, padx=5, pady=5)
         self.radate_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.radate_input.get()))
 
+        ToolTip(self.radate_input, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.radate_label, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        
+        self.wbs_label = tk.Label(master, text='* WBS:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#6F19DC', background='#FBFBFB')
+        self.wbs_label.grid(row=6, column=0, padx=5, pady=5)
+        self.wbs_input = tk.Text(master,height=5, width=11, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
+        self.wbs_input.grid(row=6, column=1, padx=5, pady=5)
+
+        ToolTip(self.wbs_input, msg='WBS\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.wbs_label, msg='WBS\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+
         self.createdon_label = tk.Label(master, text='Created on:', foreground='#771CEA', background='#FBFBFB')
-        self.createdon_label.grid(row=6, column=0, padx=5, pady=5)
+        self.createdon_label.grid(row=7, column=0, padx=5, pady=5)
         self.createdon_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
-        self.createdon_input.grid(row=6, column=1, padx=5, pady=5)
+        self.createdon_input.grid(row=7, column=1, padx=5, pady=5)
         self.createdon_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
+        ToolTip(self.createdon_input, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.createdon_label, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+
         self.to_label = tk.Label(master, text='- To:', foreground='#771CEA', background='#FBFBFB')
-        self.to_label.grid(row=6, column=2, padx=5, pady=5)
+        self.to_label.grid(row=7, column=2, padx=5, pady=5)
         self.to_input = tk.Entry(master, width=11, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
-        self.to_input.grid(row=6, column=3, padx=5, pady=5)
+        self.to_input.grid(row=7, column=3, padx=5, pady=5)
         self.to_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.to_input.get()))
 
-        self.salto_label = tk.Label(master, text='Variante RA Items', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
-        self.salto_label.grid(row=7, column=1, padx=5, pady=5)
+        ToolTip(self.to_input, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.to_label, msg="Formato 'dd.mm.yyyy' o\n'dd/mm/yyyy' de acuerdo\na configuracion en SAP", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
 
-        self.variante_label = tk.Label(master, text="Variante 'RA Items': \n(Sugerido: //YRA_RC)", foreground='#771CEA', background='#FBFBFB')
-        self.variante_label.grid(row=8, column=0, padx=5, pady=5)
+        #self.salto_label = tk.Label(master, text='Variante RA Items', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#771CEA')
+        #self.salto_label.grid(row=9, column=1, padx=5, pady=5)
+
+        self.variante_label = tk.Label(master, text="Variante 'RA Items' (Layout):", foreground='#771CEA', background='#FBFBFB')
+        self.variante_label.grid(row=10, column=0, padx=5, pady=5)
         self.variante_input = tk.Entry(master, width=16, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
-        self.variante_input.grid(row=8, column=1, padx=5, pady=5)
+        self.variante_input.grid(row=10, column=1, padx=5, pady=5)
         self.variante_input.bind('<KeyRelease>', lambda event: self.on_entry_changed(self.createdon_input.get()))
 
-        self.salto_label = tk.Label(master, text='WBS, SD y RAC\nSeparar por\n"Saltos de Linea\no Enter"', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#7A2AF6')
-        self.salto_label.grid(row=9, column=1, padx=5, pady=5)
+        ToolTip(self.variante_input, msg="Layout Sugerido: //YRA_RC", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.variante_label, msg="Layout Sugerido: //YRA_RC", delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
 
-        self.wbs_label = tk.Label(master, text='* WBS:', font=('Helvetica', 9, 'bold', 'underline'), foreground='#6F19DC', background='#FBFBFB')
-        self.wbs_label.grid(row=10, column=0, padx=5, pady=5)
-        self.wbs_input = tk.Text(master,height=5, width=11, relief="flat", highlightthickness=1, highlightbackground="#6F19DC")
-        self.wbs_input.grid(row=10, column=1, padx=5, pady=5)
+        #self.salto_label = tk.Label(master, text='WBS, SO y CATEGORY\nSeparar por "Saltos\nde Linea o Enter"', font=('Helvetica', 9, 'bold'), foreground='#FFFFFF', background='#7A2AF6')
+        #self.salto_label.grid(row=11, column=1, padx=5, pady=5)
 
         self.salesdocument_label = tk.Label(master, text='Sales Document:', foreground='#771CEA', background='#FBFBFB')
-        self.salesdocument_label.grid(row=11, column=0, padx=5, pady=5)
+        self.salesdocument_label.grid(row=12, column=0, padx=5, pady=5)
         self.salesdocument_input = tk.Text(master,height=3, width=10, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
-        self.salesdocument_input.grid(row=11, column=1, padx=5, pady=5)
+        self.salesdocument_input.grid(row=12, column=1, padx=5, pady=5)
+
+        ToolTip(self.salesdocument_input, msg='Sales Document (SO)\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.salesdocument_label, msg='Sales Document (SO)\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
 
         self.racategory_label = tk.Label(master, text='RA Category:\n(COS, RRS, RRM,\nREB, AR o RRO)', foreground='#771CEA', background='#FBFBFB')
-        self.racategory_label.grid(row=12, column=0, padx=5, pady=5)
+        self.racategory_label.grid(row=13, column=0, padx=5, pady=5)
         self.racategory_input = tk.Text(master,height=2, width=4, relief="flat", highlightthickness=1, highlightbackground="#771CEA")
-        self.racategory_input.grid(row=12, column=1, padx=5, pady=5)
+        self.racategory_input.grid(row=13, column=1, padx=5, pady=5)
+
+        ToolTip(self.racategory_input, msg='RA Category\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
+        ToolTip(self.racategory_label, msg='RA Category\nSeparar por "Saltos\nde Linea o Enter"', delay=0, parent_kwargs={"bg": "black", "padx": 5, "pady": 5}, foreground='#FFFFFF', background='#7A2AF6', padx=10, pady=10)
 
         # ----Create submit button
         self.submit_button = tk.Button(master, text='Submit', foreground="#FBFBFB", background='#771CEA', relief="flat", command=self.submit)
         # Establecer el enfoque en el botón
         #self.submit_button.focus_set()
-        self.submit_button.grid(row=13, column=1, padx=5, pady=5)
+        self.submit_button.grid(row=14, column=1, padx=5, pady=5)
+
 
     def submit(self):
 
